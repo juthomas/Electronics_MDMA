@@ -1,7 +1,7 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0
-DEVICE		= atmega2560
-PROGRAMMER	= wiring
+PORT		= /dev/ttyUSB0 #"ls /dev > test1" then "ls /dev > test2" with controller plugged then "diff test1 test2"
+DEVICE		= atmega2560 #atmega328p for atmega328p
+PROGRAMMER	= wiring #arduino for atmega328p
 BAUD		= 115200
 F_CPU		= 16000000 #16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
@@ -77,3 +77,8 @@ clean:
 	@echo "$(COLOR)Binaries \033[100D\033[40C\0033[1;31m[Removed]\0033[1;37m"
 	@rm -f $(FILENAME).hex
 	@echo "$(COLOR)F̵̥̣͌o̸̘͍̐̓ŕ̸͙b̵̭͑i̶̢̼͒d̵͖̽̚d̶̙̋ē̴̠̤͛ṉ̴̜͘ ̶̪̾̆ķ̷̝̅͝ñ̴̯̚o̷͚͌w̶̼͠ḻ̴͒͝ḛ̵͙̈d̵̪̹̏͝ǵ̴͎̏e̶͔̦͆ \033[100D\033[40C\0033[1;31m[Exortized]\0033[1;37m"
+
+mute:
+	$(eval MUTE=FALSE)
+
+debug: mute coffee
