@@ -3,7 +3,7 @@ PORT		= /dev/tty.wchusbserial410
 DEVICE		= atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= arduino #wiring for atmega2560
 BAUD		= 115200
-F_CPU		= 16000000 #16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
+F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
 
