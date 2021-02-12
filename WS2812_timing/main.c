@@ -2,10 +2,13 @@
 # define __AVR_ATmega328P__
 #endif
 #include "avr/io.h"
+#include "avr/interrupt.h"
 //https://www.codeproject.com/Articles/15971/Using-Inline-Assembly-in-C-C
 //https://developer.arm.com/documentation/100748/0606/Using-Assembly-and-Intrinsics-in-C-or-C---Code/Writing-inline-assembly-code
 //https://stackoverflow.com/questions/36560646/r-vs-r-assembly-clarification
 
+// pour le truc de "I" _SFR_IO_ADDR(PORT)
+//https://www.avrfreaks.net/forum/undefined-reference-pre-pro-symbols-asm
 int main()
 {
 
@@ -13,7 +16,9 @@ int main()
 	uint8_t green = 255;
 	uint8_t blue = 255;
 	uint8_t registerLowMask = 0b00000000;//ancien registre + etat haut pin
-	uint8_t registerHighMask = 0b00000000;//ancien registre + etat bas pin
+	uint8_t registerHighMask = 0b00000001;//ancien registre + etat bas pin
+	uint8_t output = 0;
+	cli();
 	DDRB |= (1 << 0);
 	for (;;)
 	{
@@ -29,18 +34,55 @@ int main()
 		PORTB = 0b00000001;
 		PORTB = 0b00000000;
 
-		asm (
-			"mov %[high], %[low]\n"
+		asm volatile(
+			// ".INCLUDE \"8515def.inc\"\n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
+			"out %[portb], %[low]  \n"
+			"out %[portb], %[high] \n"
 			: :
 			[red] "r" (red),
 			[green] "r" (green),
 			[blue] "r" (blue),
 			[low] "r" (registerLowMask),
-			[high] "r" (registerHighMask)
-			
+			[high] "r" (registerHighMask),
+			[portb] "I" (_SFR_IO_ADDR(PORTB))
 		);
 
 
 	}
+	sei();
 	return (0);
 }
