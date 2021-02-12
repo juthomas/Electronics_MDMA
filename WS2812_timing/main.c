@@ -22,8 +22,8 @@ int main()
 	DDRB |= (1 << 0);
 	for (;;)
 	{
-		PORTB = 0b00000001;
-		PORTB = 0b00000000;
+		PORTB = 0b00000001;//~= 0.33us
+		PORTB = 0b00000000;//~= 0.33us 
 
 		PORTB = 0b00000001;
 		PORTB = 0b00000000;
@@ -36,9 +36,10 @@ int main()
 
 		asm volatile(
 			// ".INCLUDE \"8515def.inc\"\n"
-			"out %[portb], %[low]  \n"
-			"out %[portb], %[high] \n"
-			"out %[portb], %[low]  \n"
+			"out %[portb], %[low]  \n"//
+			"out %[portb], %[high] \n"//~= 0.08333us
+			"out %[portb], %[high] \n"//~= 0.08333us+0.08333us // fait un "bas haut" chelou
+			"out %[portb], %[low]  \n"//~= 0.1666us
 			"out %[portb], %[high] \n"
 			"out %[portb], %[low]  \n"
 			"out %[portb], %[high] \n"
