@@ -28,7 +28,9 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 OBJ_DIRS = $(USELESS_DIR:%=$(OBJ_DIR)/%)
 
-CC	= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
+INC = $(INC_DIR:%=-I ./%)
+
+CC	= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU} $(INC)
 
 
 define auto_set_serial_port =

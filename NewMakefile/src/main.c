@@ -3,12 +3,8 @@
 #endif
 #include "avr/io.h"
 #include "avr/interrupt.h"
-
-void nothing();
-
-
-
-
+#include "../inc/useless.h"
+// void nothing();
 
 //https://www.codeproject.com/Articles/15971/Using-Inline-Assembly-in-C-C
 //https://developer.arm.com/documentation/100748/0606/Using-Assembly-and-Intrinsics-in-C-or-C---Code/Writing-inline-assembly-code
