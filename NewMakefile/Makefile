@@ -14,21 +14,21 @@ OBJ_DIR = obj
 INC_DIR = inc
 
 #defines of directories names
-USELESS_DIR = useless
+PIN_REGISTER_DIR = pin_registers
 
 #defines of files in directories
-USELESS_FT = second_file \
+PIN_REGISTER_FT = pins_manipulation \
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
-	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) 
+	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
-OBJ_DIRS = $(USELESS_DIR:%=$(OBJ_DIR)/%)
+OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 

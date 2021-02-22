@@ -39,9 +39,16 @@ enum e_reg_addr {
 	FT_PINL,
 	FT_DDRL,
 	FT_PORTL,
+};
 
+enum e_modes {
+	FT_INPUT,
+	FT_OUTPUT
+};
 
-
+enum e_states {
+	FT_LOW,
+	FT_HIGH
 };
 
 enum e_pins {
