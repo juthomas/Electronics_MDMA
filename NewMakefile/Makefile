@@ -2,7 +2,7 @@ FILENAME	= main
 PORT		= /dev/tty.usbserial-14410
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
-BAUD		= 115200
+BAUD		= 115200 #can change for old bootloader
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
@@ -13,19 +13,21 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-
+#defines of directories names
 USELESS_DIR = useless
 
+#defines of files in directories
 USELESS_FT = second_file \
 
 SRC_FT = main
 
-
+#defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
+#defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(USELESS_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
@@ -142,3 +144,19 @@ mute:
 	$(eval MUTE=FALSE)
 
 debug: mute coffee
+
+help:
+	@echo "$(COLOR)Options :\0033[1;37m"
+	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10C \033[100D\033[40C\0033[1;31mCreate hex file then flash it \0033[1;37m"
+	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10Chex\033[100D\033[40C\0033[1;31mCreate hex file\0033[1;37m"
+	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10Cflash\033[100D\033[40C\0033[1;31mFlash hex file\0033[1;37m"
+	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10Ccoffee\033[100D\033[40C\0033[1;31mCreate hex file, flash it then clean\0033[1;37m"
+	@echo "\033[100D\033[5C\0033[1;32mmake\033[100D\033[10Cdebug\033[100D\033[40C\0033[1;31mSame as coffee but show verbose\0033[1;37m"
+
+man: help
+
+options: help
+
+option: help
+
+.PHONY: all coffee flash clean mute debug help man options option
