@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0
+PORT		= /dev/tty.usbserial-14330
 DEVICE		= atmega2560
 PROGRAMMER	= wiring
 BAUD		= 115200
