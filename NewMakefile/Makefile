@@ -140,10 +140,10 @@ clean:
 	@rm -f $(FILENAME).hex
 	@echo "$(COLOR)F̵̥̣͌o̸̘͍̐̓ŕ̸͙b̵̭͑i̶̢̼͒d̵͖̽̚d̶̙̋ē̴̠̤͛ṉ̴̜͘ ̶̪̾̆ķ̷̝̅͝ñ̴̯̚o̷͚͌w̶̼͠ḻ̴͒͝ḛ̵͙̈d̵̪̹̏͝ǵ̴͎̏e̶͔̦͆ \033[100D\033[40C\0033[1;31m[Exortized]\0033[1;37m"
 
-mute:
+unmute:
 	$(eval MUTE=FALSE)
 
-debug: mute coffee
+debug: unmute coffee
 
 help:
 	@echo "$(COLOR)Options :\0033[1;37m"
@@ -159,4 +159,4 @@ options: help
 
 option: help
 
-.PHONY: all coffee flash clean mute debug help man options option
+.PHONY: all coffee flash clean unmute debug help man options option
