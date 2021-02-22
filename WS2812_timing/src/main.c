@@ -3,6 +3,9 @@
 #endif
 #include "avr/io.h"
 #include "avr/interrupt.h"
+#include "../inc/useless.h"
+// void nothing();
+
 //https://www.codeproject.com/Articles/15971/Using-Inline-Assembly-in-C-C
 //https://developer.arm.com/documentation/100748/0606/Using-Assembly-and-Intrinsics-in-C-or-C---Code/Writing-inline-assembly-code
 //https://stackoverflow.com/questions/36560646/r-vs-r-assembly-clarification
@@ -11,6 +14,7 @@
 //https://www.avrfreaks.net/forum/undefined-reference-pre-pro-symbols-asm
 int main()
 {
+	nothing();
 
 	volatile uint8_t red = 255;
 	volatile uint8_t green = 255;
