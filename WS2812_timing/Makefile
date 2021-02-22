@@ -1,13 +1,28 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0 #"ls /dev > test1" then "ls /dev > test2" with controller plugged then "diff test1 test2"
-DEVICE		= atmega2560 #atmega328p for atmega328p
-PROGRAMMER	= wiring #arduino for atmega328p
+PORT		= /dev/tty.wchusbserial410
+DEVICE		= atmega328p #atmega2560 for atmega2560
+PROGRAMMER	= arduino #wiring for atmega2560
 BAUD		= 115200
-F_CPU		= 16000000 #16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
-COMPILE		= avr-gcc -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
+F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
+COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
 
-MUTE		= TRUE #FALSE to mute
+MUTE		= TRUE #FALSE to unmute
+
+define auto_set_serial_port =
+ls /dev > test1;
+while [ true ] ; do
+read -t 3 -n 1
+if [ $? = 0 ] ; then
+exit ;
+else
+echo "waiting for the keypress"
+fi
+done
+ls /dev > test2;
+diff test1 test2;
+endef
+
 
 all: hex flash
 
@@ -82,3 +97,4 @@ mute:
 	$(eval MUTE=FALSE)
 
 debug: mute coffee
+
