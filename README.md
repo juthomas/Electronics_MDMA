@@ -22,12 +22,16 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 * Debian Based Linux :  
   * Install avr-gcc :  
   `sudo apt-get install gcc-avr binutils-avr avr-libc`
+  * Install avr-dude :  
+  `sudo apt-get install avrdude`
 * Macos Unix :  
   * Install brew (for noobies) :  
   `rm -rf $HOME/.brew && git clone --depth=1 https://github.com/Homebrew/brew $HOME/.brew && export PATH=$HOME/.brew/bin:$PATH && brew update && echo "export PATH=$HOME/.brew/bin:$PATH" >> ~/.zshrc`
   * Install avr-gcc :  
   `brew tap osx-cross/avr`  
   `brew install avr-gcc`
+  * Install avr-dude :  
+  `brew install avrdude`
 <div id='usage'/>
 
 ### Usage
