@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0 #tty.usbserial-14410
+PORT		= /dev/cu.usbserial-14210
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200 #can change for old bootloader
@@ -15,24 +15,24 @@ INC_DIR = inc
 
 #defines of directories names
 PIN_REGISTER_DIR = pin_registers
-USELESS_DIR = useless
+ILI9341_DIR = ili9341
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
-USELESS_FT = useless
+ILI9341_FT = ili9341_init ili9341_print
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) 
+	  $(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(USELESS_DIR:%=$(OBJ_DIR)/%)
+			$(ILI9341_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 

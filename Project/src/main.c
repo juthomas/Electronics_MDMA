@@ -1,4 +1,5 @@
 #include "../inc/mdma.h"
+#include "../inc/ili9341.h"
 
 #define CPU_CLOCK 2000000
 
@@ -18,37 +19,8 @@ void	custom_delay(uint32_t milli)
 
 int main()
 {
-	ft_pin_mode(FT_D11, FT_OUTPUT);
-	ft_pin_mode(FT_D13, FT_OUTPUT);
-	ft_pin_mode(FT_D14, FT_OUTPUT);
-	ft_pin_mode(FT_D30, FT_OUTPUT);
-	ft_pin_mode(FT_A3, FT_OUTPUT);
-
-	for (;;)	
-	{
-		ft_digital_write(FT_D11, FT_LOW);
-		ft_digital_write(FT_D13, FT_HIGH);
-		ft_digital_write(FT_D14, FT_HIGH);
-		ft_digital_write(FT_D30, FT_LOW);
-		ft_digital_write(FT_A3, FT_LOW);
-		
-		custom_delay(10);
-		ft_digital_write(FT_D11, FT_HIGH);
-		ft_digital_write(FT_D13, FT_LOW);
-		ft_digital_write(FT_D14, FT_LOW);
-		ft_digital_write(FT_D30, FT_HIGH);
-		ft_digital_write(FT_A3, FT_HIGH);
-
-		custom_delay(10);
-		ft_digital_write(FT_D30, FT_LOW);
-		custom_delay(10);
-		ft_digital_write(FT_D30, FT_HIGH);
-		custom_delay(10);
-
-		ft_digital_write(FT_A3, FT_LOW);
-		custom_delay(10);
-		ft_digital_write(FT_A3, FT_HIGH);
-		custom_delay(10);
-	}
+	ili9341_begin();
+	ili9341_fillRect(0, 0, ILI9341_TFTWIDTH, ILI9341_TFTHEIGHT, ILI9341_PINK);
+	for (;;);
 	return (0);
 }
