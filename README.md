@@ -23,6 +23,8 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
   * Install avr-gcc :  
   `sudo apt-get install gcc-avr binutils-avr avr-libc`
 * Macos Unix :  
+  * Install brew (for noobies) :  
+  `rm -rf $HOME/.brew && git clone --depth=1 https://github.com/Homebrew/brew $HOME/.brew && export PATH=$HOME/.brew/bin:$PATH && brew update && echo "export PATH=$HOME/.brew/bin:$PATH" >> ~/.zshrc`
   * Install avr-gcc :  
   `brew tap osx-cross/avr`  
   `brew install avr-gcc`
