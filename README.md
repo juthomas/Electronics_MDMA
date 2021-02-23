@@ -49,8 +49,8 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 * Install C/C++ extension  
 * Configure C/C++ extension for avr:  
   Type `C/C++: Edit Configurations (JSON)` in Command Palette  
-  * Linux  
+  * Linux :  
   Add `"/usr/lib/avr/include/**"` line to includePath  
-  * Macos  
+  * Macos :  
   find "avr/io" file with `find / -name io.h`  
   Add the containing folder to includePath (like Linux method)
