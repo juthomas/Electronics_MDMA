@@ -1,8 +1,8 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0 #tty.usbserial-14410
-DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
-PROGRAMMER	= wiring #arduino #wiring for atmega2560
-BAUD		= 115200 #can change for old bootloader
+PORT		= /dev/tty.usbserial-14430 #tty.usbserial-14410
+DEVICE		= atmega328p # atmega328p #atmega2560 for atmega2560
+PROGRAMMER	= arduino #arduino #wiring for atmega2560
+BAUD		= 57600 #can change for old bootloader
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
