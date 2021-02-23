@@ -61,6 +61,8 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
   Type `C/C++: Edit Configurations (JSON)` in Command Palette  
   * Linux :  
   Add `"/usr/lib/avr/include/**"` line to includePath  
-  * Macos :  
-  find "avr/io.h" file with `find / -name io.h`  
+  * Macos :
+  Add `/System/Volumes/Data/usr/local/Cellar/avr-gcc@9/9.3.0_2/avr/include/**`  
+  to includePath.  
+  If this line doesnt work find "avr/io.h" file with `find / -name io.h`  
   Add the containing folder to includePath (like Linux method)
