@@ -1,5 +1,5 @@
 # MEGA DRINKING MACHINA ADVENTURE
-![GitHub commit activity](https://img.shields.io/github/commit-activity/m/juthomas/Electronics_MDMA)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/w/juthomas/Electronics_MDMA)
 
 
 ![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/Images/MDMA_Board.png)
