@@ -2,6 +2,7 @@
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/juthomas/Electronics_MDMA?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/juthomas/Electronics_MDMA?style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors-anon/juthomas/Electronics_MDMA?style=for-the-badge)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/juthomas/Electronics_MDMA?style=for-the-badge)
 
 <br/>
 ![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/Images/MDMA_Board.png)
