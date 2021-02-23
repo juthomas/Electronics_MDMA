@@ -41,4 +41,4 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
   Add `"/usr/lib/avr/include/**"` line to includePath  
   * Macos  
   find "avr/io" file with `find / -name io.h`  
-  Add the containing to includePath (like Linux method)
+  Add the containing folder to includePath (like Linux method)
