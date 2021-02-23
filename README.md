@@ -1,6 +1,6 @@
 # MEGA DRINKING MACHINA ADVENTURE
 
-![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/images/MDMA_Board.png)
+![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/Images/MDMA_Board.png)
 
 ## Description
 
