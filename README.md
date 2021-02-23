@@ -1,4 +1,5 @@
 # MEGA DRINKING MACHINA ADVENTURE
+![Code Climate issues](https://img.shields.io/codeclimate/issues/juthomas/Electronics_MDMA)
 
 ![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/Images/MDMA_Board.png)
 
