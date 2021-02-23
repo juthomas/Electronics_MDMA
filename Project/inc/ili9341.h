@@ -1,7 +1,7 @@
 #ifndef ILI9341_H
 # define ILI9341_H
 
-# include "avr/io.h"
+# include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "ili9341command.h"
 #include "mdma.h"
@@ -44,6 +44,11 @@
         a = b;              \
         b = t;              \
     }
+
+typedef uint32_t ADAGFX_PORT_t;
+typedef volatile ADAGFX_PORT_t *PORTreg_t;
+
+volatile uint8_t *portSPI;
 
 /* 
 ** Okay here is all commands that we are going to feed our ILI9341 LCD Screen.

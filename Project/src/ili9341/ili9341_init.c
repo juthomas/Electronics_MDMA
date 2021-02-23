@@ -65,8 +65,8 @@ void initSPI(uint32_t freq)
     ft_pin_mode(TFT_DC,FT_OUTPUT);
     ft_digital_write(TFT_DC,FT_HIGH);
 
-    ft_pin_mode(TFT_MOSI,FT_OUTPUT);
-    ft_digital_write(TFT_MOSI,FT_LOW);
+    ft_pin_mode(TFT_MOSI, FT_OUTPUT);
+    ft_digital_write(TFT_MOSI, FT_LOW);
     ft_pin_mode(TFT_CLK,FT_OUTPUT);
     ft_digital_write(TFT_CLK,FT_LOW);
     if (TFT_MISO >= 0)
@@ -87,10 +87,11 @@ void initSPI(uint32_t freq)
 
 void ili9341_begin()
 {
-    uint32_t freq = 800;
+    uint32_t freq = 1;
     initSPI(freq);
 
     uint8_t cmd, x, numArgs;
+    portSPI = (volatile uint8_t*)g_pin_associations[TFT_MOSI].register_port_addr;
     const uint8_t *addr = initcmd;
     while ((cmd = pgm_read_byte(addr++)) > 0)
     {

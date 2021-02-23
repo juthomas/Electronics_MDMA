@@ -1,5 +1,7 @@
 #include "ili9341.h"
 
+#define MISO_WRITE 37
+
 void writeCommand(uint8_t cmd)
 {
     ft_digital_write(TFT_DC,FT_LOW);
@@ -30,21 +32,21 @@ void writeColor(uint16_t color, uint32_t len)
         for (uint8_t bit = 0, x = hi; bit < 8; bit++)
         {
             if (x & 0x80)
-                ft_digital_write(TFT_MOSI,FT_HIGH);
+                *portSPI |= (1 << 2);
             else
-                ft_digital_write(TFT_MOSI,FT_LOW);
-            ft_digital_write(TFT_CLK,FT_HIGH);
-            ft_digital_write(TFT_CLK,FT_LOW);
+                *portSPI &= ~(1 << 2);
+            *portSPI |= (1 << 1);
+            *portSPI &= ~(1 << 1);
             x <<= 1;
         }
         for (uint8_t bit = 0, x = lo; bit < 8; bit++)
         {
             if (x & 0x80)
-                ft_digital_write(TFT_MOSI,FT_HIGH);
+                *portSPI |= (1 << 2);
             else
-                ft_digital_write(TFT_MOSI,FT_LOW);
-            ft_digital_write(TFT_CLK,FT_HIGH);
-            ft_digital_write(TFT_CLK,FT_LOW);
+                *portSPI &= ~(1 << 2);
+            *portSPI |= (1 << 1);
+            *portSPI &= ~(1 << 1);
             x <<= 1;
         }
     }
