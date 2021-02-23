@@ -1,0 +1,4 @@
+void null_test()
+{
+
+}

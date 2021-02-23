@@ -15,20 +15,24 @@ INC_DIR = inc
 
 #defines of directories names
 PIN_REGISTER_DIR = pin_registers
+USELESS_DIR = useless
 
 #defines of files in directories
-PIN_REGISTER_FT = pins_manipulation \
+PIN_REGISTER_FT = pins_manipulation 
+USELESS_FT = useless
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
-	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) 
+	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
+	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
-OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%)
+OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
+			$(USELESS_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 
