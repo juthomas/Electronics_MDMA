@@ -14,6 +14,10 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 * Debian Based Linux :  
   * Install avr-gcc :  
   `sudo apt-get install gcc-avr binutils-avr avr-libc`
+* Macos Unix :  
+  * Install avr-gcc :  
+  `brew tap osx-cross/avr`  
+  `brew install avr-gcc`
 
 ### Usage
 * Setup port :  
@@ -24,7 +28,7 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
   will give you the port  
   paste the given port to the `PORT` variable of the makefile
 
-* Upload to board :
+* Upload to board :  
   `make coffee` for build and upload  
   `make debug` for debuging  
   `make help` for other options
