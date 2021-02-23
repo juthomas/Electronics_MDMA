@@ -12,7 +12,7 @@ __Sommaire__ :
 * [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Visual Studio Code Linter](#visualstudiocodelinter)
+* [Visual Studio Code Linter](#visual-studio-code-linter)
 <div id='description'/>
 
 ## Description
@@ -53,7 +53,7 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
   `make coffee` for build and upload  
   `make debug` for debuging  
   `make help` for other options
-<div id='visualstudiocodelinter'/>
+<div id='visual-studio-code-linter'/>
 
 ### Visual Studio Code Linter
 * Install C/C++ extension  
