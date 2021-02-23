@@ -1,1 +1,1 @@
-![alt text](https://github.com/juthomas/Electronics_MDMA/images/MDMA_Board.png)
+![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/images/MDMA_Board.png)
