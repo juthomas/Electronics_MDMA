@@ -17,13 +17,21 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 
 ### Usage
 Setup port :
+
 `ls /dev/ > /tmp/file1`
+
 then connect board
+
 `ls /dev/ > /tmp/file2`
+
 `diff /tmp/file1 /tmp/file2`
+
 will give you the port
+
 past the given port to the `PORT` variable of the makefile
 
 `make coffee` for build
+
 or
+
 `make debug` for debuging
