@@ -35,5 +35,5 @@ int ft_digital_read(enum e_pins pin)
 	volatile uint8_t *addr;
 
 	addr = (volatile uint8_t*)g_pin_associations[pin].register_pin_addr;
-	return (*addr & g_pin_associations[pin].register_mask);
+	return ((*addr & g_pin_associations[pin].register_mask) ? FT_HIGH : FT_LOW);
 }

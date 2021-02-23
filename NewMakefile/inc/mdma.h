@@ -21,8 +21,8 @@
 */
 
 // pins manipulation
-void ft_pin_mode(enum e_pins pin, enum e_modes mode);
-void ft_digital_write(enum e_pins pin, enum e_states state);
-int ft_digital_read(enum e_pins pin);
+void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
+void	ft_digital_write(enum e_pins pin, enum e_states state);
+int		ft_digital_read(enum e_pins pin);
 
 #endif
