@@ -11,27 +11,19 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 
 ### Installation
 
-* Debian Based Linux
-  Install avr-gcc :
+* Debian Based Linux  
+  Install avr-gcc :  
   `sudo apt-get install gcc-avr binutils-avr avr-libc`
 
 ### Usage
-Setup port :
-
-`ls /dev/ > /tmp/file1`
-
-then connect board
-
-`ls /dev/ > /tmp/file2`
-
-`diff /tmp/file1 /tmp/file2`
-
-will give you the port
-
+Setup port :  
+`ls /dev/ > /tmp/file1`  
+then connect board  
+`ls /dev/ > /tmp/file2`  
+`diff /tmp/file1 /tmp/file2`  
+will give you the port  
 past the given port to the `PORT` variable of the makefile
 
-`make coffee` for build
-
-or
-
-`make debug` for debuging
+`make coffee` for build  
+or  
+`make debug` for debuging  
