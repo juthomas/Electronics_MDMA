@@ -47,7 +47,7 @@ enum e_modes {
 };
 
 enum e_states {
-	FT_LOW,
+	FT_LOW = 0,
 	FT_HIGH
 };
 
