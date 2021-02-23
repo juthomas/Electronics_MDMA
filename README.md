@@ -12,4 +12,5 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
 ### Installation
 
 * Debian Based Linux
+
   `sudo apt-get install avr-gcc`
