@@ -32,3 +32,13 @@ A travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre 
   `make coffee` for build and upload  
   `make debug` for debuging  
   `make help` for other options
+
+### Visual Studio Code Linter
+* Install C/C++ extension  
+* Configure C/C++ extension for avr:  
+  Type `C/C++: Edit Configurations (JSON)` in Command Palette  
+  * Linux  
+  Add `"/usr/lib/avr/include/**"` line to includePath  
+  * Macos  
+  find "avr/io" file with `find / -name io.h`  
+  Add the containing to includePath (like Linux method)
