@@ -4,7 +4,6 @@
 ![GitHub contributors](https://img.shields.io/github/contributors-anon/juthomas/Electronics_MDMA?style=for-the-badge)
 
 <br/>
-
 ![alt text](https://github.com/juthomas/Electronics_MDMA/blob/master/Images/MDMA_Board.png)
 
 __Sommaire__ :
