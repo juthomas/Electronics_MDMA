@@ -3,8 +3,8 @@
 
 # include <avr/io.h>
 #include <avr/pgmspace.h>
-#include "ili9341command.h"
-#include "mdma.h"
+#include "./ili9341command.h"
+#include "./ili9341_font.h"
 
 #define ILI9341_TFTWIDTH 240  ///< ILI9341 max TFT width
 #define ILI9341_TFTHEIGHT 320 ///< ILI9341 max TFT height
@@ -55,8 +55,8 @@ uint16_t textcolor;
 uint16_t textbgcolor;
 uint8_t textsize_x;   ///< Desired magnification in X-axis of text to print()
 uint8_t textsize_y;
-uint8_t cp437 = 0;
-uint8_t wrap = 1;
+uint8_t cp437;
+uint8_t wrap;
 
 /* 
 ** Okay here is all commands that we are going to feed our ILI9341 LCD Screen.

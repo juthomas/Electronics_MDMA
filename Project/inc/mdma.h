@@ -2,9 +2,15 @@
 # define MDMA_H
 # ifndef __AVR_ATmega2560__
 #  define __AVR_ATmega2560__
+#  define F_CPU 16000000
 # endif
-# include "avr/io.h"
-# include "pin_registers.h"
+# include <avr/io.h>
+# include <avr/interrupt.h>
+# include "./pin_registers.h"
+# include "./ili9341.h"
+
+# define CPU_CLOCK 2000000 // 16Mhz -> / 8 2Mhz
+# define SERIAL_8N1 0x06
 
 /*
  *
@@ -25,5 +31,14 @@ void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
 void	ft_digital_write(enum e_pins pin, enum e_states state);
 int		ft_digital_read(enum e_pins pin);
 void	custom_delay(uint32_t milli);
+
+
+int		serial_test();
+void	serial_init();
+void	serial_putnbr(int32_t n);
+void	serial_putstr(const char* str);
+void	serial_putchar(char c);
+
+
 
 #endif

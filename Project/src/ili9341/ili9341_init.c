@@ -1,4 +1,4 @@
-#include "ili9341.h"
+#include "../../inc/mdma.h"
 
 static const uint8_t PROGMEM initcmd[] = {
     0xEF, 3, 0x03, 0x80, 0x02,  //Undocumented but necessary
@@ -104,6 +104,9 @@ void initSPI(uint32_t freq)
 void ili9341_begin()
 {
     uint32_t freq = 1;
+    wrap = 1;
+    cp437 = 0;
+    
     initSPI(freq);
 
     uint8_t cmd, x, numArgs;

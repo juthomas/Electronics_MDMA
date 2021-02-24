@@ -16,23 +16,27 @@ INC_DIR = inc
 #defines of directories names
 PIN_REGISTER_DIR = pin_registers
 ILI9341_DIR = ili9341
+SERIAL_DIR = serial
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_print
+SERIAL_FT = serial_uart
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) 
+	  $(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
+	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(ILI9341_DIR:%=$(OBJ_DIR)/%)
+			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
+			$(SERIAL_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 
@@ -77,7 +81,6 @@ coffee: hex flash clean
 	@echo "\0033[1;32m\033[3C          Take Your Coffee"
 	@echo "\0033[1;32m\033[3C      And Your Microcontroller"
 	@echo "\0033[1;37m"
-	@screen $(PORT) $(BAUD)
 
 $(OBJ_DIRS):
 	@mkdir -p $@
@@ -149,6 +152,26 @@ unmute:
 	$(eval MUTE=FALSE)
 
 debug: unmute coffee
+
+serial: coffee
+	@echo "\0033[1;36mStarting Serial Monitor"
+	@echo "To quit this windows"
+	@echo "Press CTRL+A"
+	@echo "Then type \":quit\""
+	@echo "Starting Screen in 5\0033[1;37m"
+	@sleep 1
+	@echo "\033[1A\033[K\0033[1;36mStarting Screen in 4\0033[1;37m"
+	@sleep 1
+	@echo "\033[1A\033[K\0033[1;36mStarting Screen in 3\0033[1;37m"
+	@sleep 1
+	@echo "\033[1A\033[K\0033[1;36mStarting Screen in 2\0033[1;37m"
+	@sleep 1
+	@echo "\033[1A\033[K\0033[1;36mStarting Screen in 1\0033[1;37m"
+	@sleep 1
+	@screen $(PORT) 9600
+
+monitor: coffee
+	@screen $(PORT) 9600
 
 help:
 	@echo "$(COLOR)Options :\0033[1;37m"

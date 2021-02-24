@@ -1,5 +1,4 @@
-#include "ili9341.h"
-#include "ili9341_font.h"
+#include "../../inc/mdma.h"
 
 void writePixel(int16_t x, int16_t y, uint16_t color) 
 {
