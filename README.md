@@ -62,7 +62,11 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
   * Linux :  
   Add `"/usr/lib/avr/include/**"` line to includePath  
   * Macos :  
-  Add `/System/Volumes/Data/usr/local/Cellar/avr-gcc@9/9.3.0_2/avr/include/**`  
+  Add `"/Users/tmp/.brew/Cellar/avr-gcc@9/9.3.0_2/avr/include/**"`  
+  on labelec macs  
+  or  
+  `/System/Volumes/Data/usr/local/Cellar/avr-gcc@9/9.3.0_2/avr/include/**`  
+  (on real macs)  
   to includePath.  
   If this line doesnt work find "avr/io.h" file with `find / -name io.h`  
   Add the containing folder to includePath (like Linux method)
