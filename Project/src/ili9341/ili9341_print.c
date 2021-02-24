@@ -14,11 +14,11 @@ void SPI_WRITE16(uint16_t w)
     for (uint8_t bit = 0; bit < 16; bit++)
     {
         if (w & 0x8000)
-            ft_digital_write(TFT_MOSI,FT_HIGH);
+            *portSPI |= (1 << 2);
         else
-            ft_digital_write(TFT_MOSI,FT_LOW);
-        ft_digital_write(TFT_CLK,FT_HIGH);
-        ft_digital_write(TFT_CLK,FT_LOW);
+            *portSPI &= ~(1 << 2);
+        *portSPI |= (1 << 1);
+        *portSPI &= ~(1 << 1);
         w <<= 1;
     }
 }
@@ -55,7 +55,7 @@ void writeColor(uint16_t color, uint32_t len)
 void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
 {
     uint16_t x2 = (x1 + w - 1), y2 = (y1 + h - 1);
-    writeCommand(ILI9341_CMD_PAGE_ADDRESS_SET); // Column address set
+    writeCommand(ILI9341_CMD_COLUMN_ADDRESS_SET); // Column address set
     SPI_WRITE16(x1);
     SPI_WRITE16(x2);
     writeCommand(ILI9341_CMD_PAGE_ADDRESS_SET); // Row address set

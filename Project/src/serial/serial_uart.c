@@ -24,6 +24,15 @@ void serial_putchar(char c)
 	UDR0 = c;
 }
 
+void serial_putstrln(const char* str)
+{
+	while (*str)
+	{
+		serial_putchar(*str++);
+	}
+	serial_putstr("\r\n'");
+}
+
 void serial_putstr(const char* str)
 {
 	while (*str)
@@ -39,6 +48,12 @@ char serial_rx(void)
 	while (!(UCSR0A & (1 << RXC0)));
 	/* Get and return received data from buffer */
 	return UDR0;
+}
+
+void	serial_putnbrln(int32_t n)
+{
+	serial_putnbr(n);
+	serial_putstr("\r\n");
 }
 
 void	serial_putnbr(int32_t n)
