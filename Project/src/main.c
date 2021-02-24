@@ -1,7 +1,12 @@
-#include "../inc/mdma.h"
-#include "../inc/ili9341.h"
+#include <avr/io.h>
 
-#define CPU_CLOCK 2000000
+#define BAUDRATE 115200
+#define BAUD_PRESCALLER (((F_CPU / (BAUDRATE * 16UL))) - 1)
+
+//Declaration of our functions
+void USART_init(void);
+unsigned char USART_receive(void);
+void USART_send( unsigned char data);
 
 void	wait_x_cpu_clocks(int32_t cpu_clocks)
 {
@@ -11,41 +16,42 @@ void	wait_x_cpu_clocks(int32_t cpu_clocks)
 	}
 }
 
-void	custom_delay(uint32_t milli)
+void	custom_delay(int32_t milli)
 {
+	//milli = 0,001s
 	milli = milli *	2000;
 	wait_x_cpu_clocks(milli - 5);
 }
 
-// void testText() {
-//   tft.fillScreen(ILI9341_BLACK);
-//   tft.setCursor(0, 0);
-//   tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(1);
-//   tft.println("Hello World!");
-//   tft.setTextColor(ILI9341_YELLOW); tft.setTextSize(2);
-//   tft.println(1234.56);
-//   tft.setTextColor(ILI9341_RED);    tft.setTextSize(3);
-//   tft.println(0xDEADBEEF, HEX);
-//   tft.println();
-//   tft.setTextColor(ILI9341_GREEN);
-//   tft.setTextSize(5);
-//   tft.println("Groop");
-//   tft.setTextSize(2);
-//   tft.println("I implore thee,");
-//   tft.setTextSize(1);
-//   tft.println("my foonting turlingdromes.");
-//   tft.println("And hooptiously drangle me");
-//   tft.println("with crinkly bindlewurdles,");
-//   tft.println("Or I will rend thee");
-//   tft.println("in the gobberwarts");
-//   tft.println("with my blurglecruncheon,");
-//   tft.println("see if I don't!");
-// }
+int main(void){
+USART_init();        //Call the USART initialization code
 
-int main()
-{
-	ili9341_begin();
-	ili9341_fillRect(0, 0, ILI9341_TFTWIDTH, ILI9341_TFTHEIGHT, ILI9341_BLACK);
-	for (;;);
-	return (0);
+while(1){        //Infinite loop
+ USART_send('A');
+ custom_delay(1000);        //Delay for 5 seconds so it will re-send the string every 5 seconds
+ }
+
+return 0;
+}
+
+void USART_init(void){
+
+ UBRR1H = (uint8_t)(BAUD_PRESCALLER>>8);
+ UBRR1L = (uint8_t)(BAUD_PRESCALLER);
+ UCSR1B = (1<<RXEN1)|(1<<TXEN1);
+ UCSR1C = (3<<UCSZ10);
+}
+
+unsigned char USART_receive(void){
+
+ while(!(UCSR1A & (1<<RXC1)));
+ return UDR1;
+
+}
+
+void USART_send( unsigned char data){
+
+ while(!(UCSR1A & (1<<UDRE1)));
+ UDR1 = data;
+
 }

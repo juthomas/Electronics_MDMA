@@ -26,6 +26,22 @@ static const uint8_t PROGMEM initcmd[] = {
     0x00                  // End of list
 };
 
+void ili9341_setCursor(int16_t x, int16_t y)
+{
+    cursor_x = x;
+    cursor_y = y;
+}
+
+void ili9341_setTextColor(uint16_t c) 
+{ 
+    textcolor = textbgcolor = c; 
+}
+
+void ili9341_setTextSize(uint8_t s) {
+  textsize_x = (s > 0) ? s : 1;
+  textsize_y = (s > 0) ? s : 1;
+}
+
 void spiWrite(uint8_t b)
 {
     for (uint8_t bit = 0; bit < 8; bit++)

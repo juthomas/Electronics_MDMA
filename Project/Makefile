@@ -77,6 +77,7 @@ coffee: hex flash clean
 	@echo "\0033[1;32m\033[3C          Take Your Coffee"
 	@echo "\0033[1;32m\033[3C      And Your Microcontroller"
 	@echo "\0033[1;37m"
+	@screen $(PORT) $(BAUD)
 
 $(OBJ_DIRS):
 	@mkdir -p $@
