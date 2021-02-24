@@ -1,5 +1,21 @@
-  #include <stddef.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rfid.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmp <tmp@student.42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
+/*   Updated: 2021/02/24 16:40:56 by tmp              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <stddef.h>
+#define RFID_MOSI   11
+#define RFID_MISO   12
+#define RFID_SS     10
+#define RFID_RST    9
+#define CLK         13
 
   enum PCD_Register {
     // Page 0: Command and status

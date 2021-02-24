@@ -7,6 +7,7 @@
 # include <avr/io.h>
 # include <avr/interrupt.h>
 # include "./pin_registers.h"
+# include "./rfid.h"
 
 # define CPU_CLOCK 2000000 // 16Mhz -> / 8 2Mhz
 # define SERIAL_8N1 0x06
