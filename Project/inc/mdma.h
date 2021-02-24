@@ -4,7 +4,7 @@
 #  define __AVR_ATmega2560__
 # endif
 # include "avr/io.h"
-# include "pin_registers.h"
+# include "./pin_registers.h"
 
 /*
  *
@@ -24,5 +24,6 @@
 void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
 void	ft_digital_write(enum e_pins pin, enum e_states state);
 int		ft_digital_read(enum e_pins pin);
+void	led_send_data();
 
 #endif

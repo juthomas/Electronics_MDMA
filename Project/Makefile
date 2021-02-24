@@ -1,8 +1,8 @@
 FILENAME	= main
-PORT		= /dev/ttyUSB0 #tty.usbserial-14410
-DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
-PROGRAMMER	= wiring #arduino #wiring for atmega2560
-BAUD		= 115200 #can change for old bootloader
+PORT		= /dev/tty.usbserial-14410 #tty.usbserial-14410
+DEVICE		= atmega328p #atmega2560 for atmega2560
+PROGRAMMER	= arduino #wiring for atmega2560
+BAUD		= 57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
@@ -16,23 +16,27 @@ INC_DIR = inc
 #defines of directories names
 PIN_REGISTER_DIR = pin_registers
 USELESS_DIR = useless
+LEDS_MANAGER_DIR = leds_manager
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
+LEDS_MANAGER_FT = low_level_led_addressing
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) 
+	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
+	  $(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(USELESS_DIR:%=$(OBJ_DIR)/%)
+			$(USELESS_DIR:%=$(OBJ_DIR)/%) \
+			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 
