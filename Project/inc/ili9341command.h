@@ -86,3 +86,13 @@
 #define ILI9341_CMD_ENABLE_3_GAMMA_CONTROL		    0xF2
 #define ILI9341_CMD_INTERFACE_CONTROL			    0xF6
 #define ILI9341_CMD_PUMP_RATIO_CONTROL			    0xF7
+
+//Command to change the display 
+
+#define MADCTL_MY 0x80  ///< Bottom to top
+#define MADCTL_MX 0x40  ///< Right to left
+#define MADCTL_MV 0x20  ///< Reverse Mode
+#define MADCTL_ML 0x10  ///< LCD refresh Bottom to top
+#define MADCTL_RGB 0x00 ///< Red-Green-Blue pixel order
+#define MADCTL_BGR 0x08 ///< Blue-Green-Red pixel order
+#define MADCTL_MH 0x04  ///< LCD refresh right to left

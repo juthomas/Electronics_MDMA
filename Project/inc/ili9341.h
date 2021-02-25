@@ -49,6 +49,7 @@ typedef uint32_t ADAGFX_PORT_t;
 typedef volatile ADAGFX_PORT_t *PORTreg_t;
 
 volatile uint8_t *portSPI;
+volatile uint8_t *portPINL;
 int16_t cursor_x;
 int16_t cursor_y;
 uint16_t textcolor;
@@ -57,6 +58,13 @@ uint8_t textsize_x;   ///< Desired magnification in X-axis of text to print()
 uint8_t textsize_y;
 uint8_t cp437;
 uint8_t wrap;
+
+uint8_t rotation;
+
+int16_t width;       ///< Display width as modified by current rotation
+int16_t height;
+
+
 
 /* 
 ** Okay here is all commands that we are going to feed our ILI9341 LCD Screen.
@@ -74,9 +82,11 @@ void spiWrite(uint8_t b);
 void ili9341_setCursor(int16_t x, int16_t y);
 void ili9341_setTextColor(uint16_t c);
 void ili9341_setTextSize(uint8_t s);
-void write(uint8_t c);
-void ili9341_println(char *str);
+void write(uint8_t c, int16_t color, uint8_t size);
+void ili9341_println(char *str, int16_t color, uint8_t size);
 void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
 void SPI_WRITE16(uint16_t w);
+void ili9341_setRotation(uint8_t m);
+void ili9341_fillScreen(uint16_t color);
 
 #endif

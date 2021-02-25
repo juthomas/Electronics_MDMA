@@ -4,9 +4,9 @@
 
 void writeCommand(uint8_t cmd)
 {
-    ft_digital_write(TFT_DC,FT_LOW);
+    ft_digital_write(TFT_DC, FT_LOW);
     spiWrite(cmd);
-    ft_digital_write(TFT_DC,FT_HIGH);
+    ft_digital_write(TFT_DC, FT_HIGH);
 }
 
 void SPI_WRITE16(uint16_t w)
@@ -25,7 +25,6 @@ void SPI_WRITE16(uint16_t w)
 
 void writeColor(uint16_t color, uint32_t len)
 {
-
     uint8_t hi = color >> 8, lo = color;
     while (len--)
     {
@@ -73,14 +72,14 @@ void ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color
             x += w + 1;
             w = -w;
         }
-        if (x < ILI9341_TFTWIDTH)
+        if (x < width)
         {
             if (h < 0)
             {
                 y += h + 1;
                 h = -h;
             }
-            if (y < ILI9341_TFTHEIGHT)
+            if (y < height)
             {
                 int16_t x2 = x + w - 1;
                 if (x2 >= 0)
@@ -98,19 +97,26 @@ void ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color
                             y = 0;
                             h = y2 + 1;
                         }
-                        if (x2 >= ILI9341_TFTWIDTH)
-                            w = ILI9341_TFTWIDTH - x;
-                        if (y2 >= ILI9341_TFTHEIGHT)
-                            h = ILI9341_TFTHEIGHT - y;
+                        if (x2 >= width)
+                            w = width - x;
+                        if (y2 >= height)
+                            h = height - y;
                         if (TFT_CS >= 0)
-                            ft_digital_write(TFT_CS,FT_LOW);
+                            *portSPI &= ~(1 << 0);
+                            //ft_digital_write(TFT_CS, FT_LOW);
                         setAddrWindow(x, y, w, h);
                         writeColor(color, (uint32_t)w * h);
                         if (TFT_CS >= 0)
-                            ft_digital_write(TFT_CS,FT_HIGH);
+                            *portSPI |= (1 << 0);
+                            //ft_digital_write(TFT_CS, FT_HIGH);
                     }
                 }
             }
         }
     }
+}
+
+void ili9341_fillScreen(uint16_t color)
+{
+    ili9341_fillRect(0, 0, width, height, color);
 }

@@ -2,7 +2,7 @@
 
 void writePixel(int16_t x, int16_t y, uint16_t color)
 {
-  if ((x >= 0) && (x < ILI9341_TFTWIDTH) && (y >= 0) && (y < ILI9341_TFTHEIGHT))
+  if ((x >= 0) && (x < width) && (y >= 0) && (y < height))
   {
     setAddrWindow(x, y, 1, 1);
     SPI_WRITE16(color);
@@ -13,8 +13,8 @@ void drawChar(int16_t x, int16_t y, unsigned char c,
               uint16_t color, uint16_t bg, uint8_t size_x,
               uint8_t size_y)
 {
-  if ((x >= ILI9341_TFTWIDTH) ||    // Clip right
-      (y >= ILI9341_TFTHEIGHT) ||   // Clip bottom
+  if ((x >= width) ||    // Clip right
+      (y >= height) ||   // Clip bottom
       ((x + 6 * size_x - 1) < 0) || // Clip left
       ((y + 8 * size_y - 1) < 0))   // Clip top
     return;
@@ -50,30 +50,29 @@ void drawChar(int16_t x, int16_t y, unsigned char c,
     ft_digital_write(TFT_CS,FT_HIGH);
 }
 
-void write(uint8_t c)
+void write(uint8_t c, int16_t color, uint8_t text_size)
 {
   if (c == '\n')
   {                             // Newline?
     cursor_x = 0;               // Reset x to zero,
-    cursor_y += textsize_y * 8; // advance y one line
+    cursor_y += text_size * 8; // advance y one line
   }
   else if (c != '\r')
   { // Ignore carriage returns
-    if (wrap && ((cursor_x + textsize_x * 6) > ILI9341_TFTWIDTH))
+    if (wrap && ((cursor_x + text_size * 6) > width))
     {                             // Off right?
       cursor_x = 0;               // Reset x to zero,
-      cursor_y += textsize_y * 8; // advance y one line
+      cursor_y += text_size * 8; // advance y one line
     }
-    drawChar(cursor_x, cursor_y, c, textcolor, textbgcolor, textsize_x,
-             textsize_y);
-    cursor_x += textsize_x * 6; // Advance x one char
+    drawChar(cursor_x, cursor_y, c, color, textbgcolor, text_size, text_size);
+    cursor_x += text_size * 6; // Advance x one char
   }
 }
 
-void ili9341_println(char *str)
+void ili9341_println(char *str, int16_t color, uint8_t size)
 {
   for (int i = 0; str[i]; i++)
   {
-    write(str[i]);
+    write(str[i], color, size);
   }
 }

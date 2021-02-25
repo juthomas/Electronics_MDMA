@@ -56,14 +56,27 @@ void spiWrite(uint8_t b)
     }
 }
 
-void sendCommand(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numDataBytes)
+void sendCommand(uint8_t commandByte, uint8_t *dataBytes, uint8_t numDataBytes)
 {
     if (TFT_CS >= 0)
         ft_digital_write(TFT_CS,FT_LOW);
 
     ft_digital_write(TFT_DC,FT_LOW);
     spiWrite(commandByte);
+    ft_digital_write(TFT_DC,FT_HIGH);
+    for (int i = 0; i < numDataBytes; i++)
+        spiWrite((*dataBytes)++);
+    if (TFT_CS >= 0)
+        ft_digital_write(TFT_CS,FT_HIGH);
+}
 
+void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numDataBytes)
+{
+    if (TFT_CS >= 0)
+        ft_digital_write(TFT_CS,FT_LOW);
+
+    ft_digital_write(TFT_DC,FT_LOW);
+    spiWrite(commandByte);
     ft_digital_write(TFT_DC,FT_HIGH);
     for (int i = 0; i < numDataBytes; i++)
         spiWrite(pgm_read_byte(dataBytes++));
@@ -100,7 +113,33 @@ void initSPI(uint32_t freq)
         custom_delay(200);
     }
 }
-
+void ili9341_setRotation(uint8_t m) {
+ rotation = m % 4; // can't be higher than 3
+  switch (rotation) {
+  case 0:
+    m = (MADCTL_MX | MADCTL_BGR);
+    width = ILI9341_TFTWIDTH;
+    height = ILI9341_TFTHEIGHT;
+    break;
+  case 1:
+    m = (MADCTL_MV | MADCTL_BGR);
+    width = ILI9341_TFTHEIGHT;
+    height = ILI9341_TFTWIDTH;
+    break;
+  case 2:
+    m = (MADCTL_MY | MADCTL_BGR);
+    width = ILI9341_TFTWIDTH;
+    height = ILI9341_TFTHEIGHT;
+    break;
+  case 3:
+    m = (MADCTL_MX | MADCTL_MY | MADCTL_MV | MADCTL_BGR);
+    width = ILI9341_TFTHEIGHT;
+    height = ILI9341_TFTWIDTH;
+    break;
+  }
+  serial_putnbr((int32_t)m);
+  sendCommand(0x36, &m, 1);
+}
 void ili9341_begin()
 {
     uint32_t freq = 1;
@@ -110,13 +149,16 @@ void ili9341_begin()
     initSPI(freq);
 
     uint8_t cmd, x, numArgs;
+    width = ILI9341_TFTWIDTH;
+    height = ILI9341_TFTHEIGHT;
     portSPI = (volatile uint8_t*)g_pin_associations[TFT_MOSI].register_port_addr;
+    portPINL = (volatile uint8_t*)g_pin_associations[TFT_DC].register_port_addr;
     const uint8_t *addr = initcmd;
     while ((cmd = pgm_read_byte(addr++)) > 0)
     {
         x = pgm_read_byte(addr++);
         numArgs = x & 0x7F;
-        sendCommand(cmd, addr, numArgs);
+        sendCommand_init(cmd, addr, numArgs);
         addr += numArgs;
         if (x & 0x80)
             custom_delay(150);
