@@ -18,7 +18,7 @@
 
 int main()
 {
-	serial_test();
+	led_send_data();
 
 	for (;;)	
 	{
