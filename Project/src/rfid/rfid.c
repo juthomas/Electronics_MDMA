@@ -1,4 +1,45 @@
 #include "../../inc/mdma.h"
+
+/**
+ * Use the CRC coprocessor in the MFRC522 to calculate a CRC_A.
+ */
+uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
+{
+  PCD_WriteRegister(CommandReg, PCD_Idle);      // Stop any active command.
+  PCD_WriteRegister(DivIrqReg, 0x04);           // Clear the CRCIRq interrupt request bit
+  PCD_SetRegisterBits(FIFOLevelReg, 0x80);      // FlushBuffer = 1, FIFO initialization
+  PCD_WriteRegister(FIFODataReg, length, data); // Write data to the FIFO
+  PCD_WriteRegister(CommandReg, PCD_CalcCRC);   // Start the calculation
+ 
+  // Wait for the CRC calculation to complete. Each iteration of the while-loop takes 17.73us.
+  uint16_t i = 5000;
+  uint8_t n;
+  while (1)
+  {
+    n = PCD_ReadRegister(DivIrqReg);  // DivIrqReg[7..0] bits are: Set2 reserved reserved MfinActIRq   reserved CRCIRq reserved reserved
+    if (n & 0x04)
+    {
+      // CRCIRq bit set - calculation done
+      break;
+    }
+    
+    if (--i == 0)
+    {
+      // The emergency break. We will eventually terminate on this one after 89ms.
+      // Communication with the MFRC522 might be down.
+      return STATUS_TIMEOUT;
+    }
+  }
+ 
+  // Stop calculating CRC for new content in the FIFO.
+  PCD_WriteRegister(CommandReg, PCD_Idle);
+ 
+  // Transfer the result from the registers to the result buffer
+  result[0] = PCD_ReadRegister(CRCResultRegL);
+  result[1] = PCD_ReadRegister(CRCResultRegH);
+  return STATUS_OK;
+} // End PCD_CalculateCRC()
+
 /*
  * Transmits SELECT/ANTICOLLISION commands to select a single PICC.
  */
