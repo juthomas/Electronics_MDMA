@@ -6,7 +6,7 @@
 /*   By: tmp <tmp@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
-/*   Updated: 2021/02/25 15:25:55 by tmp              ###   ########.fr       */
+/*   Updated: 2021/02/25 15:58:43 by tmp              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,29 @@
   enum PCD_Register {
     // Page 0: Command and status
     //                0x00        // reserved for future use
-    COMMAND_REG      = 0x01 << 1,  // starts and stops command execution
-    COMIEN_REG       = 0x02 << 1,  // enable and disable interrupt request control bits
-    DIVIEN_REG       = 0x03 << 1,  // enable and disable interrupt request control bits
-    COMIRQ_REG       = 0x04 << 1,  // interrupt request bits
-    DIVIRQ_REG       = 0x05 << 1,  // interrupt request bits
-    ERROR_REG        = 0x06 << 1,  // error bits showing the error status of the last command executed
-    STATUS_REG1      = 0x07 << 1,  // communication status bits
-    STATUS_REG2      = 0x08 << 1,  // receiver and transmitter status bits
-    FIFO_DATA_REG   = 0x09 << 1,  // input and output of 64 byte FIFO buffer
-    FIFO_LVL_REG    = 0x0A << 1,  // number of bytes stored in the FIFO buffer
+    CommadReg      = 0x01 << 1,  // starts and stops command execution
+    ComlEnReg       = 0x02 << 1,  // enable and disable interrupt request control bits
+    DivlEnReg       = 0x03 << 1,  // enable and disable interrupt request control bits
+    ComIrqReg       = 0x04 << 1,  // interrupt request bits
+    DivIrqReg       = 0x05 << 1,  // interrupt request bits
+    ErrorReg        = 0x06 << 1,  // error bits showing the error status of the last command executed
+    Status1Reg      = 0x07 << 1,  // communication status bits
+    Status2Reg      = 0x08 << 1,  // receiver and transmitter status bits
+    FIFODataReg     = 0x09 << 1,  // input and output of 64 byte FIFO buffer
+    FIFOLevelReg    = 0x0A << 1,  // number of bytes stored in the FIFO buffer
     WaterLevelReg   = 0x0B << 1,  // level for FIFO underflow and overflow warning
     ControlReg      = 0x0C << 1,  // miscellaneous control registers
-    BIT_FRAMING_REG = 0x0D << 1,  // adjustments for bit-oriented frames
+    BitFramingReg   = 0x0D << 1,  // adjustments for bit-oriented frames
     CollReg         = 0x0E << 1,  // bit position of the first bit-collision detected on the RF interface
     //                0x0F        // reserved for future use
  
     // Page 1:Command
     //                0x10        // reserved for future use
-    MODE_REG        = 0x11 << 1,  // defines general modes for transmitting and receiving
-    TXMODE_REG      = 0x12 << 1,  // defines transmission data rate and framing
-    RXMODE_REG      = 0x13 << 1,  // defines reception data rate and framing
+    ModeReg         = 0x11 << 1,  // defines general modes for transmitting and receiving
+    TxModeReg       = 0x12 << 1,  // defines transmission data rate and framing
+    RxModeReg       = 0x13 << 1,  // defines reception data rate and framing
     TxControlReg    = 0x14 << 1,  // controls the logical behavior of the antenna driver pins TX1 and TX2
-    TX_ASK_REG      = 0x15 << 1,  // controls the setting of the transmission modulation
+    TxASKReg        = 0x15 << 1,  // controls the setting of the transmission modulation
     TxSelReg        = 0x16 << 1,  // selects the internal sources for the antenna driver
     RxSelReg        = 0x17 << 1,  // selects internal receiver settings
     RxThresholdReg  = 0x18 << 1,  // selects thresholds for the bit decoder
@@ -59,16 +59,16 @@
     CRCResultRegH   = 0x21 << 1,  // shows the MSB and LSB values of the CRC calculation
     CRCResultRegL   = 0x22 << 1,
     //                0x23        // reserved for future use
-    MODEWIDTH_REG   = 0x24 << 1,  // controls the ModWidth setting?
+    ModWidthReg     = 0x24 << 1,  // controls the ModWidth setting?
     //                0x25        // reserved for future use
     RFCfgReg        = 0x26 << 1,  // configures the receiver gain
     GsNReg          = 0x27 << 1,  // selects the conductance of the antenna driver pins TX1 and TX2 for modulation
     CWGsPReg        = 0x28 << 1,  // defines the conductance of the p-driver output during periods of no modulation
     ModGsPReg       = 0x29 << 1,  // defines the conductance of the p-driver output during periods of modulation
-    T_MODE_REG      = 0x2A << 1,  // defines settings for the internal timer
-    T_PRESCALER_REG = 0x2B << 1,  // the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.
-    T_RELOADH_REG   = 0x2C << 1,  // defines the 16-bit timer reload value
-    T_RELOADL_REG   = 0x2D << 1,
+    TModeReg        = 0x2A << 1,  // defines settings for the internal timer
+    TPrescalerReg   = 0x2B << 1,  // the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.
+    TReloadRegH     = 0x2C << 1,  // defines the 16-bit timer reload value
+    TReloadRegL     = 0x2D << 1,
     TCntValueRegH   = 0x2E << 1,  // shows the 16-bit timer value
     TCntValueRegL   = 0x2F << 1,
  
@@ -145,3 +145,5 @@
     // The PICC_CMD_MF_READ and PICC_CMD_MF_WRITE can also be used for MIFARE Ultralight.
     PICC_CMD_UL_WRITE      = 0xA2    // Writes one 4 byte page to the PICC.
   };
+
+  void PCD_ClrRegisterBits(uint8_t reg, uint8_t mask);

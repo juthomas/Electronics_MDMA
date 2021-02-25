@@ -17,11 +17,13 @@ INC_DIR = inc
 PIN_REGISTER_DIR = pin_registers
 USELESS_DIR = useless
 SERIAL_DIR = serial
+RFID_DIR = rfid
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
 SERIAL_FT = serial_uart
+RFID_FT = rfid
 
 SRC_FT = main
 
@@ -29,7 +31,8 @@ SRC_FT = main
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
 	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
-	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c)
+	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
+	  $(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 

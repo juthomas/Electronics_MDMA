@@ -452,6 +452,17 @@ int card_check(void)
   return ((result == STATUS_OK) || (result == STATUS_COLLISION));
 } // End PICC_IsNewCardPresent()
 
+/*=======================================================*/
+
+/*
+ * Simple wrapper around PICC_Select.
+ */
+int PICC_ReadCardSerial(void)
+{
+  uint8_t result = PICC_Select(&uid);
+  return (result == STATUS_OK);
+} // End PICC_ReadCardSerial()
+
 int main()
 {
 	serial_init();
