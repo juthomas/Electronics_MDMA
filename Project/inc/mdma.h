@@ -2,7 +2,7 @@
 # define MDMA_H
 # ifndef __AVR_ATmega2560__
 #  define __AVR_ATmega2560__
-#  define F_CPU 16000000
+//#  define F_CPU 16000000
 # endif
 # include <avr/io.h>
 # include <avr/interrupt.h>

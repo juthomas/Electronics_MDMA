@@ -6,7 +6,7 @@
 /*   By: tmp <tmp@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
-/*   Updated: 2021/02/24 16:40:56 by tmp              ###   ########.fr       */
+/*   Updated: 2021/02/25 15:25:55 by tmp              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@
   enum PCD_Register {
     // Page 0: Command and status
     //                0x00        // reserved for future use
-    COMMQD_REG      = 0x01 << 1,  // starts and stops command execution
+    COMMAND_REG      = 0x01 << 1,  // starts and stops command execution
     COMIEN_REG       = 0x02 << 1,  // enable and disable interrupt request control bits
     DIVIEN_REG       = 0x03 << 1,  // enable and disable interrupt request control bits
     COMIRQ_REG       = 0x04 << 1,  // interrupt request bits
-    DIVIRA_REG       = 0x05 << 1,  // interrupt request bits
+    DIVIRQ_REG       = 0x05 << 1,  // interrupt request bits
     ERROR_REG        = 0x06 << 1,  // error bits showing the error status of the last command executed
     STATUS_REG1      = 0x07 << 1,  // communication status bits
     STATUS_REG2      = 0x08 << 1,  // receiver and transmitter status bits
-    FIFODataReg     = 0x09 << 1,  // input and output of 64 byte FIFO buffer
-    FIFOLevelReg    = 0x0A << 1,  // number of bytes stored in the FIFO buffer
+    FIFO_DATA_REG   = 0x09 << 1,  // input and output of 64 byte FIFO buffer
+    FIFO_LVL_REG    = 0x0A << 1,  // number of bytes stored in the FIFO buffer
     WaterLevelReg   = 0x0B << 1,  // level for FIFO underflow and overflow warning
     ControlReg      = 0x0C << 1,  // miscellaneous control registers
-    BitFramingReg   = 0x0D << 1,  // adjustments for bit-oriented frames
+    BIT_FRAMING_REG = 0x0D << 1,  // adjustments for bit-oriented frames
     CollReg         = 0x0E << 1,  // bit position of the first bit-collision detected on the RF interface
     //                0x0F        // reserved for future use
  
@@ -65,8 +65,8 @@
     GsNReg          = 0x27 << 1,  // selects the conductance of the antenna driver pins TX1 and TX2 for modulation
     CWGsPReg        = 0x28 << 1,  // defines the conductance of the p-driver output during periods of no modulation
     ModGsPReg       = 0x29 << 1,  // defines the conductance of the p-driver output during periods of modulation
-    T_MODE_REG       = 0x2A << 1,  // defines settings for the internal timer
-    T_PRESCALER_REG  = 0x2B << 1,  // the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.
+    T_MODE_REG      = 0x2A << 1,  // defines settings for the internal timer
+    T_PRESCALER_REG = 0x2B << 1,  // the lower 8 bits of the TPrescaler value. The 4 high bits are in TModeReg.
     T_RELOADH_REG   = 0x2C << 1,  // defines the 16-bit timer reload value
     T_RELOADL_REG   = 0x2D << 1,
     TCntValueRegH   = 0x2E << 1,  // shows the 16-bit timer value
@@ -103,6 +103,22 @@
     STATUS_MIFARE_NACK     = 9   // A MIFARE PICC responded with NAK.
   };
  
+  
+  
+  // MFRC522 commands Described in chapter 10 of the datasheet.
+  enum PCD_Command {
+    PCD_Idle               = 0x00,   // no action, cancels current command execution
+    PCD_Mem                = 0x01,   // stores 25 bytes into the internal buffer
+    PCD_GenerateRandomID   = 0x02,   // generates a 10-byte random ID number
+    PCD_CalcCRC            = 0x03,   // activates the CRC coprocessor or performs a self test
+    PCD_Transmit           = 0x04,   // transmits data from the FIFO buffer
+    PCD_NoCmdChange        = 0x07,   // no command change, can be used to modify the CommandReg register bits without affecting the command, for example, the PowerDown bit
+    PCD_Receive            = 0x08,   // activates the receiver circuits
+    PCD_Transceive         = 0x0C,   // transmits data from FIFO buffer to antenna and automatically activates the receiver after transmission
+    PCD_MFAuthent          = 0x0E,   // performs the MIFARE standard authentication as a reader
+    PCD_SoftReset          = 0x0F    // resets the MFRC522
+  };
+  
   enum PICC_Command {
     // The commands used by the PCD to manage communication with several PICCs (ISO 14443-3, Type A, section 6.4)
     PICC_CMD_REQA          = 0x26,   // REQuest command, Type A. Invites PICCs in state IDLE to go to READY and prepare for anticollision or selection. 7 bit frame.
