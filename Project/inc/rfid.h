@@ -6,7 +6,7 @@
 /*   By: tmp <tmp@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
-/*   Updated: 2021/02/25 15:58:43 by tmp              ###   ########.fr       */
+/*   Updated: 2021/02/26 16:45:40 by tmp              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
   enum PCD_Register {
     // Page 0: Command and status
     //                0x00        // reserved for future use
-    CommadReg      = 0x01 << 1,  // starts and stops command execution
+    CommandReg      = 0x01 << 1,  // starts and stops command execution
     ComlEnReg       = 0x02 << 1,  // enable and disable interrupt request control bits
     DivlEnReg       = 0x03 << 1,  // enable and disable interrupt request control bits
-    ComIrqReg       = 0x04 << 1,  // interrupt request bits
+    CommIRqReg       = 0x04 << 1,  // interrupt request bits
     DivIrqReg       = 0x05 << 1,  // interrupt request bits
     ErrorReg        = 0x06 << 1,  // error bits showing the error status of the last command executed
     Status1Reg      = 0x07 << 1,  // communication status bits
@@ -146,4 +146,16 @@
     PICC_CMD_UL_WRITE      = 0xA2    // Writes one 4 byte page to the PICC.
   };
 
+	typedef struct s_uid
+  {
+		uint8_t		size;			// Number of bytes in the UID. 4, 7 or 10.
+		uint8_t		uidByte[10];
+		uint8_t		sak;			// The SAK (Select acknowledge) byte returned from the PICC after successful selection.
+	}             t_uid;
+  
   void PCD_ClrRegisterBits(uint8_t reg, uint8_t mask);
+  void PCD_WriteRegister(uint8_t reg, uint8_t value);
+  uint8_t PCD_TransceiveData(uint8_t *sendData,uint8_t sendLen,uint8_t *backData,uint8_t *backLen,uint8_t *validBits,uint8_t rxAlign,int checkCRC);
+  uint8_t PCD_ReadRegister(uint8_t reg);
+
+  uint8_t PICC_Select(t_uid *uid, uint8_t validBits);

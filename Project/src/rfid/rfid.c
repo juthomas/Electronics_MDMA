@@ -2,7 +2,7 @@
 
 /**
  * Use the CRC coprocessor in the MFRC522 to calculate a CRC_A.
- */
+ 
 uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
 {
   PCD_WriteRegister(CommandReg, PCD_Idle);      // Stop any active command.
@@ -39,15 +39,16 @@ uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
   result[1] = PCD_ReadRegister(CRCResultRegH);
   return STATUS_OK;
 } // End PCD_CalculateCRC()
+*/
 
 /*
  * Transmits SELECT/ANTICOLLISION commands to select a single PICC.
  */
-uint8_t PICC_Select(Uid *uid, uint8_t validBits)
+uint8_t PICC_Select(t_uid *uid, uint8_t validBits)
 {
-  bool uidComplete;
-  bool selectDone;
-  bool useCascadeTag;
+  unsigned int uidComplete;
+  unsigned int selectDone;
+  unsigned int useCascadeTag;
   uint8_t cascadeLevel = 1;
   uint8_t result;
   uint8_t count;
@@ -79,49 +80,51 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
   //     4 bytes    1     uid0  uid1  uid2  uid3
   //     7 bytes    1     CT    uid0  uid1  uid2
   //                2     uid3  uid4  uid5  uid6
-  //    10 bytes    1     CT    uid0  uid1  uid2
+  //    10 bytes    1     CT    uint8_t PICC_Select(t_uid *uid, uint8_t validBits)uid0  uid1  uid2
   //                2     CT    uid3  uid4  uid5
   //                3     uid6  uid7  uid8  uid9
  
   // Sanity checks
-  if (validBits > 80)
+  /*if (validBits > 80)
   {
     return STATUS_INVALID;
-  }
+  }*/
  
   // Prepare MFRC522
   // ValuesAfterColl=1 => Bits received after collision are cleared.
   PCD_ClrRegisterBits(CollReg, 0x80);
  
   // Repeat Cascade Level loop until we have a complete UID.
-  uidComplete = false;
+  uidComplete = 0;
   while ( ! uidComplete)
   {
     // Set the Cascade Level in the SEL byte, find out if we need to use the Cascade Tag in byte 2.
-    switch (cascadeLevel)
+    if (cascadeLevel == 1)
     {
-      case 1:
         buffer[0] = PICC_CMD_SEL_CL1;
         uidIndex = 0;
         useCascadeTag = validBits && (uid->size > 4); // When we know that the UID has more than 4 bytes
         break;
+    }
  
-      case 2:
+    else if (cascadeLevel == 2)
+    {
         buffer[0] = PICC_CMD_SEL_CL2;
         uidIndex = 3;
         useCascadeTag = validBits && (uid->size > 7); // When we know that the UID has more than 7 bytes
         break;
- 
-      case 3:
+    }
+    else if (cascadeLevel == 3)
+    {
         buffer[0] = PICC_CMD_SEL_CL3;
         uidIndex = 6;
-        useCascadeTag = false;            // Never used in CL3.
+        useCascadeTag = 0;            // Never used in CL3.
         break;
- 
-      default:
-        return STATUS_INTERNAL_ERROR;
-        //break;
     }
+
+    else
+      return STATUS_INTERNAL_ERROR;
+        //break;
  
     // How many UID bits are known in this Cascade Level?
     if(validBits > (8 * uidIndex))
@@ -163,7 +166,7 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
     }
  
     // Repeat anti collision loop until we can transmit all UID bits + BCC and receive a SAK - max 32 iterations.
-    selectDone = false;
+    selectDone = 0;
     while ( ! selectDone)
     {
       // Find out how many bits and bytes to send and receive.
@@ -176,12 +179,12 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
         buffer[6] = buffer[2] ^ buffer[3] ^ buffer[4] ^ buffer[5];
  
         // Calculate CRC_A
-        result = PCD_CalculateCRC(buffer, 7, &buffer[7]);
+      /*  result = PCD_CalculateCRC(buffer, 7, &buffer[7]);
         if (result != STATUS_OK)
         {
           return result;
         }
- 
+ */
         txLastBits      = 0; // 0 => All 8 bits are valid.
         bufferUsed      = 9;
  
@@ -208,7 +211,7 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
       PCD_WriteRegister(BitFramingReg, (rxAlign << 4) + txLastBits);  // RxAlign = BitFramingReg[6..4]. TxLastBits = BitFramingReg[2..0]
  
       // Transmit the buffer and receive the response.
-      result = PCD_TransceiveData(buffer, bufferUsed, responseBuffer, &responseLength, &txLastBits, rxAlign);
+      result = PCD_TransceiveData(buffer, bufferUsed, responseBuffer, &responseLength, &txLastBits, rxAlign, 0);
       if (result == STATUS_COLLISION)
       { // More than one PICC in the field => collision.
         result = PCD_ReadRegister(CollReg);     // CollReg[7..0] bits are: ValuesAfterColl reserved CollPosNotValid CollPos[4:0]
@@ -242,7 +245,7 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
       { // STATUS_OK
         if (currentLevelKnownBits >= 32)
         { // This was a SELECT.
-          selectDone = true; // No more anticollision
+          selectDone = 1; // No more anticollision
           // We continue below outside the while.
         }
         else
@@ -271,7 +274,7 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
     }
  
     // Verify CRC_A - do our own calculation and store the control in buffer[2..3] - those bytes are not needed anymore.
-    result = PCD_CalculateCRC(responseBuffer, 1, &buffer[2]);
+    /*result = PCD_CalculateCRC(responseBuffer, 1, &buffer[2]);
     if (result != STATUS_OK)
     {
       return result;
@@ -281,14 +284,14 @@ uint8_t PICC_Select(Uid *uid, uint8_t validBits)
     {
       return STATUS_CRC_WRONG;
     }
- 
+ */
     if (responseBuffer[0] & 0x04)
     { // Cascade bit set - UID not complete yes
       cascadeLevel++;
     }
     else
     {
-      uidComplete = true;
+      uidComplete = 1;
       uid->sak = responseBuffer[0];
     }
   } // End of while ( ! uidComplete)

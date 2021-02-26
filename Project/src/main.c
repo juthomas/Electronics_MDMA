@@ -1,6 +1,7 @@
 #include "../inc/mdma.h"
 
 #define CPU_CLOCK 2000000
+//extern t_uid uid;
 
 //!use the water lvl reg
 //! had watch dog
@@ -42,16 +43,12 @@ int ft_spiWrite(uint8_t b)
 void PCD_WriteRegister2(uint8_t reg, uint8_t count, uint8_t *values)
 {
   ft_digital_write(RFID_SS, FT_LOW); /* Select SPI Chip MFRC522 */
- 
-  //! bit de poids fort (MSB pour Most Significant Bit)
-  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
+
   // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
-  (void) ft_spiWrite(reg & 0x7E);
+  (void) ft_spiWrite(reg & 0x7E); //0x7E = 01111110
   for (uint8_t index = 0; index < count; index++)
-  {
     (void) ft_spiWrite(values[index]);
-  }
- 
+
   ft_digital_write(RFID_RST, FT_HIGH); /* Release SPI Chip MFRC522 */
 } // End PCD_WriteRegister()
 
@@ -107,8 +104,6 @@ void PCD_WriteRegister(uint8_t reg, uint8_t value)
 {
   ft_digital_write(RFID_SS, FT_LOW); /* Select SPI Chip MFRC522 */
  
-  //! bit de poids fort (MSB pour Most Significant Bit)
-  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
   // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
   (void) ft_spiWrite(reg & 0x7E); //7E = 01111110 
   (void) ft_spiWrite(value);
@@ -121,8 +116,7 @@ uint8_t PCD_ReadRegister(uint8_t reg)
   uint8_t value;
   ft_digital_write(RFID_SS, FT_LOW);  /* Select SPI Chip MFRC522 */
  
-  //! bit de poids fort (MSB pour Most Significant Bit)
-  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
+
   // MSB == 1 is for reading. LSB is not used in address. Datasheet section 8.1.2.3.
   (void) ft_spiWrite(0x80 | reg); // 80 = 10000000 
  
@@ -141,11 +135,8 @@ uint8_t PCD_ReadRegister(uint8_t reg)
  */
 void PCD_AntennaOn()
 {
-  uint8_t value = PCD_ReadRegister(TxControlReg);
-  if ((value & 0x03) != 0x03)//!que passa
-  {
-    PCD_WriteRegister(TxControlReg, value | 0x03);
-  }
+  //read puis ou si jamais
+  PCD_WriteRegister(TxControlReg, 0b00000011);
 } // End PCD_AntennaOn()
 
 void PCD_Init()
@@ -161,15 +152,17 @@ void PCD_Init()
   // When communicating with a PICC we need a timeout if something goes wrong.
   // f_timer = 13.56 MHz / (2*TPreScaler+1) where TPreScaler = [TPrescaler_Hi:TPrescaler_Lo].
   // TPrescaler_Hi are the four low bits in TModeReg. TPrescaler_Lo is TPrescalerReg.
-  PCD_WriteRegister(T_MODE_REG, 0x80);      // TAuto=1; timer starts automatically at the end of the transmission in all communication modes at all speeds
-  PCD_WriteRegister(T_PRESCALER_REG, 0xA9); // TPreScaler = TModeReg[3..0]:TPrescalerReg, ie 0x0A9 = 169 => f_timer=40kHz, ie a timer period of 25us.
-  PCD_WriteRegister(T_RELOADH_REG, 0x03);   // Reload timer with 0x3E8 = 1000, ie 25ms before timeout.
-  PCD_WriteRegister(T_RELOADL_REG, 0xE8);
- 
-  PCD_WriteRegister(TX_ASK_REG, 0x40);      // Default 0x00. Force a 100 % ASK modulation independent of the ModGsPReg register setting
-  PCD_WriteRegister(MODE_REG, 0x3D);       // Default 0x3F. Set the preset value for the CRC coprocessor for the CalcCRC command to 0x6363 (ISO 14443-3 part 6.2.4)
- 
-  PCD_WriteRegister(RFCfgReg, (0x07<<4)); // Set Rx Gain to max
+  
+  PCD_WriteRegister(TModeReg, 0b10000000);      //0x80 = 10000000 TAuto=1; timer starts automatically at the end of the transmission in all communication modes at all speeds
+  PCD_WriteRegister(TPrescalerReg, 0xA9); // 0xa9 = 10101001 = 169 TPreScaler = TModeReg[3..0]:TPrescalerReg, ie 0x0A9 = 169 => f_timer=40kHz, ie a timer period of 25us.
+  PCD_WriteRegister(TReloadRegH, 0x03);   // Reload timer with 0x3E8 = 1000, ie 25ms before timeout.
+  PCD_WriteRegister(TReloadRegL, 0xE8);
+
+  PCD_WriteRegister(TxASKReg, 0b01000000);      //  Default 0x00. Force a 100 % ASK modulation independent of the ModGsPReg register setting
+  PCD_WriteRegister(ModeReg, 0x3D);       // Default 0x3F. Set the preset value for the CRC coprocessor for the CalcCRC command to 0x6363 (ISO 14443-3 part 6.2.4)
+  //why ^^
+
+  PCD_WriteRegister(RFCfgReg, 0b01110000); // Set Rx Gain to max
  
   PCD_AntennaOn();                        // Enable the antenna driver pins TX1 and TX2 (they were disabled by the reset)
 } // End PCD_Init()
@@ -221,18 +214,18 @@ void PCD_SetRegisterBits(uint8_t reg, uint8_t mask)
 uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
 {
   //same as 279 in communicate with picc
-  PCD_WriteRegister(COMIEN_REG, PCD_Idle);      // Stop any active command.
-  PCD_WriteRegister(DIVIRQ_REG, 0x04);           // Clear the CRCIRq interrupt request bit
-  PCD_SetRegisterBits(FIFO_LVL_REG, 0x80);      // FlushBuffer = 1, FIFO initialization
-  PCD_WriteRegister2(FIFO_DATA_REG, length, data); // Write data to the FIFO
-  PCD_WriteRegister(COMIEN_REG, PCD_CalcCRC);   // Start the calculation
+  PCD_WriteRegister(ComlEnReg, PCD_Idle);      // Stop any active command.
+  PCD_WriteRegister(DivIrqReg, 0x04);           // Clear the CRCIRq interrupt request bit
+  PCD_SetRegisterBits(FIFOLevelReg, 0x80);      // FlushBuffer = 1, FIFO initialization
+  PCD_WriteRegister2(FIFODataReg, length, data); // Write data to the FIFO
+  PCD_WriteRegister(ComlEnReg, PCD_CalcCRC);   // Start the calculation
  
   // Wait for the CRC calculation to complete. Each iteration of the while-loop takes 17.73us.
   uint16_t i = 5000;
   uint8_t n;
   while (1)
   {
-    n = PCD_ReadRegister(DIVIRQ_REG);  // DIVIRQ_REG[7..0] bits are: Set2 reserved reserved MfinActIRq   reserved CRCIRq reserved reserved
+    n = PCD_ReadRegister(DivIrqReg);  // DivIrqReg[7..0] bits are: Set2 reserved reserved MfinActIRq   reserved CRCIRq reserved reserved
     if (n & 0x04)
     {
       // CRCIRq bit set - calculation done
@@ -248,7 +241,7 @@ uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
   }
  
   // Stop calculating CRC for new content in the FIFO.
-  PCD_WriteRegister(COMIEN_REG, PCD_Idle);
+  PCD_WriteRegister(ComlEnReg, PCD_Idle);
  
   // Transfer the result from the registers to the result buffer
   result[0] = PCD_ReadRegister(CRCResultRegL);
@@ -261,7 +254,7 @@ uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
  * CRC validation can only be done if backData and backLen are specified.
  */
 uint8_t PCD_CommunicateWithPICC(uint8_t command,
-                                         uint8_t waitIRq,
+                                         uint8_t wait_interrupt,
                                          uint8_t *sendData,
                                          uint8_t sendLen,
                                          uint8_t *backData,
@@ -277,27 +270,28 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
   uint8_t txLastBits = validBits ? *validBits : 0;
   uint8_t bitFraming = (rxAlign << 4) + txLastBits;   // RxAlign = BitFramingReg[6..4]. TxLastBits = BitFramingReg[2..0]
  
-  PCD_WriteRegister(COMMAND_REG, 0x0);            // Stop any active command.
-  PCD_WriteRegister(COMIRQ_REG, 0x7F);                 // Clear all seven interrupt request bits
-  PCD_SetRegisterBits(FIFO_LVL_REG, 0x80);            // FlushBuffer = 1, FIFO initialization
-  PCD_WriteRegister2(FIFO_DATA_REG, sendLen, sendData);  // Write sendData to the FIFO
-  PCD_WriteRegister(BIT_FRAMING_REG, bitFraming);       // Bit adjustments why not startsend
-  PCD_WriteRegister(COMMAND_REG, command);             // Execute the command
+  PCD_WriteRegister(CommandReg, 0x0);            // Stop any active command.
+  PCD_WriteRegister(CommIRqReg, 0x7F);                 // Clear all seven interrupt request bits
+  PCD_SetRegisterBits(FIFOLevelReg, 0x80);            // FlushBuffer = 1, FIFO initialization
+  PCD_WriteRegister2(FIFODataReg, sendLen, sendData);  // Write sendData to the FIFO
+  PCD_WriteRegister(BitFramingReg, bitFraming);       // Bit adjustments
+  PCD_WriteRegister(CommandReg, command);             // Execute the command
   if (command == PCD_Transceive)
   {
-    PCD_SetRegisterBits(BIT_FRAMING_REG, 0x80);      // StartSend=1, transmission of data starts
+    PCD_SetRegisterBits(BitFramingReg, 0x80);      // StartSend=1, transmission of data starts
   }
  
+  serial_putstr(".\r\n");
   // Wait for the command to complete.
   // In PCD_Init() we set the TAuto flag in TModeReg. This means the timer automatically starts when the PCD stops transmitting.
   // Each iteration of the do-while-loop takes 17.86us.
   i = 2000;
-  while (1)
+  while (i-- >= 0)
   {
-    n = PCD_ReadRegister(COMIRQ_REG);  // ComIrqReg[7..0] bits are: Set1 TxIRq RxIRq IdleIRq   HiAlertIRq LoAlertIRq ErrIRq TimerIRq
-    if (n & waitIRq)
+    n = PCD_ReadRegister(CommIRqReg);  // CommIRqReg[7..0] bits are: Set1 TxIRq RxIRq IdleIRq   HiAlertIRq LoAlertIRq ErrIRq TimerIRq
+    if (n & wait_interrupt)
     {          // One of the interrupts that signal success has been set.
-		serial_putstr("break\r\n");
+		  serial_putstr("break\r\n");
       break;
     }
  
@@ -306,16 +300,13 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
       serial_putstr("timeout1\r\n");
 	  return STATUS_TIMEOUT;
     }
- 
-    if (--i == 0)
-    {           // The emergency break. If all other condions fail we will eventually terminate on this one after 35.7ms. Communication with the MFRC522 might be down.
-      serial_putstr("timeout\r\n");
-	  return STATUS_TIMEOUT;
-    }
   }
-
+  if (i == 0) {
+    serial_putstr("timooooout shouldnt be here\r\n");
+		return STATUS_TIMEOUT;
+	}
   // Stop now if any errors except collisions were detected.
-  uint8_t errorRegValue = PCD_ReadRegister(ERROR_REG); // ErrorReg[7..0] bits are: WrErr TempErr reserved BufferOvfl   CollErr CRCErr ParityErr ProtocolErr
+  uint8_t errorRegValue = PCD_ReadRegister(ErrorReg); // ErrorReg[7..0] bits are: WrErr TempErr reserved BufferOvfl   CollErr CRCErr ParityErr ProtocolErr
   if (errorRegValue & 0x13)
   {  // BufferOvfl ParityErr ProtocolErr
 	serial_putstr("error\r\n");
@@ -325,7 +316,7 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
   // If the caller wants data back, get it from the MFRC522.
   if (backData && backLen)
   {
-    n = PCD_ReadRegister(FIFO_LVL_REG);           // Number of bytes in the FIFO are in 0-6
+    n = PCD_ReadRegister(FIFOLevelReg);           // Number of bytes in the FIFO are in 0-6
     if (n > *backLen)
     {
 		serial_putstr("no room\r\n");
@@ -333,7 +324,7 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
     }
  
     *backLen = n;                       // Number of bytes returned
-    PCD_ReadRegister2(FIFO_DATA_REG, n, backData, rxAlign);    // Get received data from FIFO
+    PCD_ReadRegister2(FIFODataReg, n, backData, rxAlign);    // Get received data from FIFO
     _validBits = PCD_ReadRegister(ControlReg) & 0x07; // RxLastBits[2:0] indicates the number of valid bits in the last received byte. If this value is 000b, the whole byte is valid.
     if (validBits)
     {
@@ -388,14 +379,13 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
  * Executes the Transceive command.
  * CRC validation can only be done if backData and backLen are specified.
  */
-//why not startsend to 1
-uint8_t PCD_TransceiveData(uint8_t *sendData,uint8_t sendLen,uint8_t *backData,uint8_t *backLen,uint8_t *validBits,uint8_t rxAlign,int ccheckCRC)
+uint8_t PCD_TransceiveData(uint8_t *sendData,uint8_t sendLen,uint8_t *backData,uint8_t *backLen,uint8_t *validBits,uint8_t rxAlign,int checkCRC)
 {
-	uint8_t waitIRq = (COMIRQ_REG >> 5) && (COMIRQ_REG >> 4);    // RxIRq and IdleIRq
+  //doesnt work
+	uint8_t wait_interrupt = 0x30;    // RxIRq and IdleIRq
 															//RxIRq a received data stream ends
 															//IdleIRq a command execution finishes
-	serial_putnbr((int)waitIRq);
-	return PCD_CommunicateWithPICC(PCD_Transceive, waitIRq, sendData, sendLen, backData, backLen, validBits, rxAlign, checkCRC);
+	return PCD_CommunicateWithPICC(PCD_Transceive, wait_interrupt, sendData, sendLen, backData, backLen, validBits, rxAlign, checkCRC);
 } // End PCD_TransceiveData()
 
 /**
@@ -405,46 +395,43 @@ void PCD_ClrRegisterBits(uint8_t reg, uint8_t mask)
 {
   uint8_t tmp = PCD_ReadRegister(reg);
   PCD_WriteRegister(reg, tmp & (~mask));    // clear bit mask
+
 } // End PCD_ClearRegisterBitMask()
 
 /*
  * Transmits REQA or WUPA commands.
  * Beware: When two PICCs are in the field at the same time I often get STATUS_TIMEOUT - probably due do bad antenna design.
  */
-uint8_t card_request_wakeup(uint8_t command, uint8_t *bufferATQA, uint8_t *bufferSize)
+uint8_t card_request_or_wakeup(uint8_t command, uint8_t *bufferATQA, uint8_t *bufferSize)
 {
   uint8_t validBits;
   uint8_t status;
  
 
-  if (bufferATQA == NULL || *bufferSize < 2)
+  if (bufferATQA == NULL || *bufferSize != 2)
   {  // The ATQA response is 2 bytes long.
     return STATUS_NO_ROOM;
   }
  
   // ValuesAfterColl=1 => Bits received after collision are cleared.
-  PCD_ClrRegisterBits(CollReg, 0x80);
- 
+  //PCD_ClrRegisterBits(CollReg, 0x80);
+  PCD_WriteRegister(CollReg, 0b10000000);
+
   // For REQA and WUPA we need the short frame format
   // - transmit only 7 bits of the last (and only) byte. TxLastBits = BitFramingReg[2..0]
 	validBits = 7;
- 
+  
+  //rxAlign to 0 or 7
  	status = PCD_TransceiveData(&command, 1, bufferATQA, bufferSize, &validBits, 0, 0);
    //!changer RX align par les bits 456 de bit framing reg
-	if (status != STATUS_OK)
-	{
-		serial_putstr("not ok\r\n");
-		return status;
-	}
  
-	if ((*bufferSize != 2) || (validBits != 0))
+	if (validBits != 0)
 	{   // ATQA must be exactly 16 bits.
 		serial_putstr("error\r\n");
     	return STATUS_ERROR;
 	}
-	serial_putstr("cc\r\n");
-	return STATUS_OK;
-} // End PICC_REQA_or_WUPA(
+	return status;
+} // End REQA_or_WUPA(
 
 /*
  * Transmits a REQuest command, Type A. Invites PICCs in state IDLE to go to READY and prepare for anticollision or selection. 7 bit frame.
@@ -452,7 +439,7 @@ uint8_t card_request_wakeup(uint8_t command, uint8_t *bufferATQA, uint8_t *buffe
  */
 uint8_t card_id_request(uint8_t *bufferATQA, uint8_t *bufferSize)
 {
-  return card_request_wakeup(PICC_CMD_REQA, bufferATQA, bufferSize);
+  return card_request_or_wakeup(PICC_CMD_REQA, bufferATQA, bufferSize);
 } // End PICC_RequestA()
 
 /*
@@ -468,26 +455,37 @@ int card_check(void)
 } // End PICC_IsNewCardPresent()
 
 /*=======================================================*/
-
 /*
  * Simple wrapper around PICC_Select.
  */
-int PICC_ReadCardSerial(void)
+int PICC_ReadCardSerial(t_uid *uid)
 {
-  uint8_t result = PICC_Select(&uid);
+
+  //validbits = 7
+  uint8_t result = PICC_Select(uid, 7);
   return (result == STATUS_OK);
 } // End PICC_ReadCardSerial()
 
 int main()
 {
-	serial_init();
+
+  t_uid uid;
+  
+  serial_init();
 	initSPI(1);
 	PCD_Init();
-	serial_putstr("Init made\r\n");
+  serial_putstr("Init made\n");
 	for (;;)	
 	{
 		if(card_check())
-			serial_putstr("coucou");
+		{
+      serial_putstr("is new card\r\n");
+        if(PICC_ReadCardSerial(&uid))
+        {
+          serial_putstr("salut\r\n");
+          //PICC_DumpToSerial();
+        }
+    }
 	}
 	return (0);
 }
