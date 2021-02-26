@@ -18,6 +18,17 @@
 
 int main()
 {
+	serial_init();
+
+
+	play_music();
+	serial_putstr("fin de la musique \r\n");
+	// ft_pin_mode(33, FT_OUTPUT);
+	// for (;;)
+	// {
+	// 	ft_digital_write(33, FT_HIGH);
+	// 	// ft_digital_write(33, FT_LOW);
+	// }
 	led_send_data();
 	// serial_test();
 

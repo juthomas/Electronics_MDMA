@@ -39,5 +39,10 @@ void	serial_putstr(const char* str);
 void	serial_putchar(char c);
 
 
+void noTone(uint8_t _pin);
+void tone(uint8_t _pin, unsigned int frequency, unsigned long duration);
+void play_music();
+
+
 
 #endif
