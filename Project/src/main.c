@@ -2,6 +2,8 @@
 
 #define CPU_CLOCK 2000000
 
+//!use the water lvl reg
+//! had watch dog
 static void	wait_x_cpu_clocks(int32_t cpu_clocks)
 {
 	while (cpu_clocks > 0)
@@ -21,7 +23,7 @@ int ft_spiWrite(uint8_t b)
 {
     for (uint8_t bit = 0; bit < 8; bit++)
     {
-        if (b & 0x80)
+        if (b & 0x80)//! if it's the most significant bit
             ft_digital_write(RFID_MOSI,FT_HIGH);
         else
             ft_digital_write(RFID_MOSI,FT_LOW);
@@ -41,6 +43,8 @@ void PCD_WriteRegister2(uint8_t reg, uint8_t count, uint8_t *values)
 {
   ft_digital_write(RFID_SS, FT_LOW); /* Select SPI Chip MFRC522 */
  
+  //! bit de poids fort (MSB pour Most Significant Bit)
+  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
   // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
   (void) ft_spiWrite(reg & 0x7E);
   for (uint8_t index = 0; index < count; index++)
@@ -59,6 +63,8 @@ void PCD_ReadRegister2(uint8_t reg, uint8_t count, uint8_t *values, uint8_t rxAl
 {
   if (count == 0) { return; }
  
+  //! bit de poids fort (MSB pour Most Significant Bit)
+  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
   uint8_t address = 0x80 | reg;  // MSB == 1 is for reading. LSB is not used in address. Datasheet section 8.1.2.3.
   uint8_t index = 0;             // Index in values array.
  
@@ -101,8 +107,10 @@ void PCD_WriteRegister(uint8_t reg, uint8_t value)
 {
   ft_digital_write(RFID_SS, FT_LOW); /* Select SPI Chip MFRC522 */
  
+  //! bit de poids fort (MSB pour Most Significant Bit)
+  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
   // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
-  (void) ft_spiWrite(reg & 0x7E);
+  (void) ft_spiWrite(reg & 0x7E); //7E = 01111110 
   (void) ft_spiWrite(value);
  
   ft_digital_write(RFID_RST, FT_HIGH); /* Release SPI Chip MFRC522 */
@@ -113,8 +121,10 @@ uint8_t PCD_ReadRegister(uint8_t reg)
   uint8_t value;
   ft_digital_write(RFID_SS, FT_LOW);  /* Select SPI Chip MFRC522 */
  
+  //! bit de poids fort (MSB pour Most Significant Bit)
+  //! bit de poids faible (en anglais, Least Significant Bit, ou LSB)
   // MSB == 1 is for reading. LSB is not used in address. Datasheet section 8.1.2.3.
-  (void) ft_spiWrite(0x80 | reg);
+  (void) ft_spiWrite(0x80 | reg); // 80 = 10000000 
  
   // Read the value back. Send 0 to stop reading.
   value = ft_spiWrite(0);
@@ -125,13 +135,14 @@ uint8_t PCD_ReadRegister(uint8_t reg)
 }
 
 /**
+ * 11.2
  * Turns the antenna on by enabling pins TX1 and TX2.
  * After a reset these pins disabled.
  */
 void PCD_AntennaOn()
 {
   uint8_t value = PCD_ReadRegister(TxControlReg);
-  if ((value & 0x03) != 0x03)
+  if ((value & 0x03) != 0x03)//!que passa
   {
     PCD_WriteRegister(TxControlReg, value | 0x03);
   }
@@ -206,8 +217,10 @@ void PCD_SetRegisterBits(uint8_t reg, uint8_t mask)
 /**
  * Use the CRC coprocessor in the MFRC522 to calculate a CRC_A.
  */
+//! n'est ce pas supprimable
 uint8_t PCD_CalculateCRC(uint8_t *data, uint8_t length, uint8_t *result)
 {
+  //same as 279 in communicate with picc
   PCD_WriteRegister(COMIEN_REG, PCD_Idle);      // Stop any active command.
   PCD_WriteRegister(DIVIRQ_REG, 0x04);           // Clear the CRCIRq interrupt request bit
   PCD_SetRegisterBits(FIFO_LVL_REG, 0x80);      // FlushBuffer = 1, FIFO initialization
@@ -268,7 +281,7 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
   PCD_WriteRegister(COMIRQ_REG, 0x7F);                 // Clear all seven interrupt request bits
   PCD_SetRegisterBits(FIFO_LVL_REG, 0x80);            // FlushBuffer = 1, FIFO initialization
   PCD_WriteRegister2(FIFO_DATA_REG, sendLen, sendData);  // Write sendData to the FIFO
-  PCD_WriteRegister(BIT_FRAMING_REG, bitFraming);       // Bit adjustments
+  PCD_WriteRegister(BIT_FRAMING_REG, bitFraming);       // Bit adjustments why not startsend
   PCD_WriteRegister(COMMAND_REG, command);             // Execute the command
   if (command == PCD_Transceive)
   {
@@ -312,7 +325,7 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
   // If the caller wants data back, get it from the MFRC522.
   if (backData && backLen)
   {
-    n = PCD_ReadRegister(FIFO_LVL_REG);           // Number of bytes in the FIFO
+    n = PCD_ReadRegister(FIFO_LVL_REG);           // Number of bytes in the FIFO are in 0-6
     if (n > *backLen)
     {
 		serial_putstr("no room\r\n");
@@ -375,7 +388,8 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
  * Executes the Transceive command.
  * CRC validation can only be done if backData and backLen are specified.
  */
-uint8_t PCD_TransceiveData(uint8_t *sendData,uint8_t sendLen,uint8_t *backData,uint8_t *backLen,uint8_t *validBits,uint8_t rxAlign,int    checkCRC)
+//why not startsend to 1
+uint8_t PCD_TransceiveData(uint8_t *sendData,uint8_t sendLen,uint8_t *backData,uint8_t *backLen,uint8_t *validBits,uint8_t rxAlign,int ccheckCRC)
 {
 	uint8_t waitIRq = (COMIRQ_REG >> 5) && (COMIRQ_REG >> 4);    // RxIRq and IdleIRq
 															//RxIRq a received data stream ends
@@ -416,6 +430,7 @@ uint8_t card_request_wakeup(uint8_t command, uint8_t *bufferATQA, uint8_t *buffe
 	validBits = 7;
  
  	status = PCD_TransceiveData(&command, 1, bufferATQA, bufferSize, &validBits, 0, 0);
+   //!changer RX align par les bits 456 de bit framing reg
 	if (status != STATUS_OK)
 	{
 		serial_putstr("not ok\r\n");
