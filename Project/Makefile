@@ -131,7 +131,7 @@ flash:
 	@if [ $(MUTE) = FALSE ];then\
 		avrdude -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
 	else\
-		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i  -l /dev/null;\
+		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
 	fi
 	@echo "$(COLOR)Black Magic \033[100D\033[40C\0033[1;32m[I̶̢͇͎͉͙͒̉n̸̛͖̣͒̓͒̊͆̉͜v̶̰̉̀́̓͠ǒ̵̜̰̝̼̤͉k̴͎̠̪͙̐̈́̔͑̇e̶̖̰͘d̸̻͛͊̎̀͒̚]\0033[1;37m"
 	@echo "$(COLOR)$(DEVICE) \033[100D\033[40C\0033[1;32m[Flashed]\0033[1;37m"
