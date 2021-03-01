@@ -1,10 +1,12 @@
 #include "../inc/mdma.h"
 
+
 #define CPU_CLOCK 2000000
 //extern t_uid uid;
 
 //!use the water lvl reg
-//! had watch dog
+//!had watch dog
+
 static void	wait_x_cpu_clocks(int32_t cpu_clocks)
 {
 	while (cpu_clocks > 0)
@@ -13,7 +15,7 @@ static void	wait_x_cpu_clocks(int32_t cpu_clocks)
 	}
 }
 
-static void	custom_delay(int32_t milli)
+static void	delay(int32_t milli)
 {
 	//milli = 0,001s
 	milli = milli *	2000;
@@ -24,7 +26,7 @@ int ft_spiWrite(uint8_t b)
 {
     for (uint8_t bit = 0; bit < 8; bit++)
     {
-        if (b & 0x80)//! if it's the most significant bit
+        if (b & 0x80)
             ft_digital_write(RFID_MOSI,FT_HIGH);
         else
             ft_digital_write(RFID_MOSI,FT_LOW);
@@ -34,6 +36,19 @@ int ft_spiWrite(uint8_t b)
 		return bit;
     }
 	return 0;
+}
+
+int ft_transfer(uint8_t data)
+{
+  SPDR = data;                    // Start the transmission
+
+  serial_putchar('t');
+  while (!(SPSR & (1<<SPIF)))     // Wait for the end of the transmissio
+  {
+
+  };
+  serial_putchar('y');
+  return SPDR; 
 }
 
 /**
@@ -105,8 +120,8 @@ void PCD_WriteRegister(uint8_t reg, uint8_t value)
   ft_digital_write(RFID_SS, FT_LOW); /* Select SPI Chip MFRC522 */
  
   // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
-  (void) ft_spiWrite(reg & 0x7E); //7E = 01111110 
-  (void) ft_spiWrite(value);
+  (void) SPI.transfer(reg & 0x7E); //7E = 01111110 
+  (void) SPI.transfer(value);
  
   ft_digital_write(RFID_RST, FT_HIGH); /* Release SPI Chip MFRC522 */
 }
@@ -115,16 +130,17 @@ uint8_t PCD_ReadRegister(uint8_t reg)
 {
   uint8_t value;
   ft_digital_write(RFID_SS, FT_LOW);  /* Select SPI Chip MFRC522 */
- 
+  serial_putchar('q');
 
   // MSB == 1 is for reading. LSB is not used in address. Datasheet section 8.1.2.3.
-  (void) ft_spiWrite(0x80 | reg); // 80 = 10000000 
+  (void) SPI.transfer(0x80 | reg); // 80 = 10000000 
  
+  serial_putchar('w');
   // Read the value back. Send 0 to stop reading.
-  value = ft_spiWrite(0);
- 
+  value = SPI.transfer(0);
+  serial_putchar('e');
   ft_digital_write(RFID_RST, FT_HIGH); /* Release SPI Chip MFRC522 */
- 
+  serial_putchar('r');
   return value;
 }
 
@@ -135,19 +151,26 @@ uint8_t PCD_ReadRegister(uint8_t reg)
  */
 void PCD_AntennaOn()
 {
-  //read puis ou si jamais
-  PCD_WriteRegister(TxControlReg, 0b00000011);
+  int mask;
+
+  serial_putchar('g');
+  mask = PCD_ReadRegister(TxControlReg);
+  serial_putnbr(mask);
+  PCD_WriteRegister(TxControlReg, mask | 0b00000011);
+  serial_putchar('h');
+  serial_putnbr(PCD_ReadRegister(TxControlReg));
+
 } // End PCD_AntennaOn()
 
 void PCD_Init()
 {
   /* Reset MFRC522 */
   ft_digital_write(RFID_RST, FT_LOW);
-  custom_delay(10);
+  delay(10);
   ft_digital_write(RFID_RST, FT_HIGH);
   
   // Section 8.8.2 in the datasheet says the oscillator start-up time is the start up time of the crystal + 37,74us. Let us be generous: 50ms.
-  custom_delay(50);
+  delay(50);
  
   // When communicating with a PICC we need a timeout if something goes wrong.
   // f_timer = 13.56 MHz / (2*TPreScaler+1) where TPreScaler = [TPrescaler_Hi:TPrescaler_Lo].
@@ -189,11 +212,11 @@ void initSPI(uint32_t freq)
     {
         ft_pin_mode(RFID_RST,FT_OUTPUT);
         ft_digital_write(RFID_RST,FT_HIGH);
-        custom_delay(100);
+        delay(100);
         ft_digital_write(RFID_RST,FT_LOW);
-        custom_delay(100);
+        delay(100);
         ft_digital_write(RFID_RST,FT_HIGH);
-        custom_delay(200);
+        delay(200);
     }
 }
 /*=============================================*/
@@ -272,6 +295,8 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
  
   PCD_WriteRegister(CommandReg, 0x0);            // Stop any active command.
   PCD_WriteRegister(CommIRqReg, 0x7F);                 // Clear all seven interrupt request bits
+
+  serial_putnbr(PCD_ReadRegister(CommIRqReg));
   PCD_SetRegisterBits(FIFOLevelReg, 0x80);            // FlushBuffer = 1, FIFO initialization
   PCD_WriteRegister2(FIFODataReg, sendLen, sendData);  // Write sendData to the FIFO
   PCD_WriteRegister(BitFramingReg, bitFraming);       // Bit adjustments
@@ -280,36 +305,39 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
   {
     PCD_SetRegisterBits(BitFramingReg, 0x80);      // StartSend=1, transmission of data starts
   }
- 
-  serial_putstr(".\r\n");
+  int mask = PCD_ReadRegister(ControlReg);
+  PCD_WriteRegister(ControlReg, mask | 0b01000000);
+  //check status of timer
+  serial_putnbr(PCD_ReadRegister(Status1Reg));
   // Wait for the command to complete.
   // In PCD_Init() we set the TAuto flag in TModeReg. This means the timer automatically starts when the PCD stops transmitting.
   // Each iteration of the do-while-loop takes 17.86us.
   i = 2000;
-  while (i-- >= 0)
+  while (--i > 0)
   {
     n = PCD_ReadRegister(CommIRqReg);  // CommIRqReg[7..0] bits are: Set1 TxIRq RxIRq IdleIRq   HiAlertIRq LoAlertIRq ErrIRq TimerIRq
     if (n & wait_interrupt)
     {          // One of the interrupts that signal success has been set.
-		  serial_putstr("break\r\n");
+		  serial_putchar('p');
       break;
     }
  
     if (n & 0x01)
     {           // Timer interrupt - nothing received in 25ms
-      serial_putstr("timeout1\r\n");
+      serial_putchar('i');
 	  return STATUS_TIMEOUT;
     }
   }
   if (i == 0) {
-    serial_putstr("timooooout shouldnt be here\r\n");
+    serial_putchar('t');
 		return STATUS_TIMEOUT;
 	}
+  serial_putchar('s');
   // Stop now if any errors except collisions were detected.
   uint8_t errorRegValue = PCD_ReadRegister(ErrorReg); // ErrorReg[7..0] bits are: WrErr TempErr reserved BufferOvfl   CollErr CRCErr ParityErr ProtocolErr
   if (errorRegValue & 0x13)
   {  // BufferOvfl ParityErr ProtocolErr
-	serial_putstr("error\r\n");
+
     return STATUS_ERROR;
   }
  
@@ -319,7 +347,6 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
     n = PCD_ReadRegister(FIFOLevelReg);           // Number of bytes in the FIFO are in 0-6
     if (n > *backLen)
     {
-		serial_putstr("no room\r\n");
       return STATUS_NO_ROOM;
     }
  
@@ -331,11 +358,11 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
       *validBits = _validBits;
     }
   }
- 
+ /*
   // Tell about collisions
   if (errorRegValue & 0x08)
   { // CollErr
-	serial_putstr("collision\r\n");
+
     return STATUS_COLLISION;
   }
  
@@ -371,7 +398,8 @@ uint8_t PCD_CommunicateWithPICC(uint8_t command,
       return STATUS_CRC_WRONG;
     }
   }
- 
+ */
+  serial_putchar('o');
   return STATUS_OK;
 } // End PCD_CommunicateWithPICC()
 
@@ -408,26 +436,27 @@ uint8_t card_request_or_wakeup(uint8_t command, uint8_t *bufferATQA, uint8_t *bu
   uint8_t status;
  
 
+  //serial_putchar('l');
   if (bufferATQA == NULL || *bufferSize != 2)
   {  // The ATQA response is 2 bytes long.
     return STATUS_NO_ROOM;
   }
  
   // ValuesAfterColl=1 => Bits received after collision are cleared.
-  //PCD_ClrRegisterBits(CollReg, 0x80);
+  PCD_ClrRegisterBits(CollReg, 0x80);
   PCD_WriteRegister(CollReg, 0b10000000);
 
   // For REQA and WUPA we need the short frame format
   // - transmit only 7 bits of the last (and only) byte. TxLastBits = BitFramingReg[2..0]
 	validBits = 7;
-  
+    //serial_putchar('y');
+
   //rxAlign to 0 or 7
  	status = PCD_TransceiveData(&command, 1, bufferATQA, bufferSize, &validBits, 0, 0);
    //!changer RX align par les bits 456 de bit framing reg
- 
 	if (validBits != 0)
 	{   // ATQA must be exactly 16 bits.
-		serial_putstr("error\r\n");
+		//serial_putstr("error\r\n");
     	return STATUS_ERROR;
 	}
 	return status;
@@ -450,7 +479,14 @@ int card_check(void)
 {
   uint8_t bufferATQA[2];
   uint8_t bufferSize = sizeof(bufferATQA);
+
+  PCD_WriteRegister(TxModeReg, 0x00);
+	PCD_WriteRegister(RxModeReg, 0x00);
+	// Reset ModWidthReg
+	PCD_WriteRegister(ModWidthReg, 0x26);
+
   uint8_t result = card_id_request(bufferATQA, &bufferSize);
+  serial_putchar('k');
   return ((result == STATUS_OK) || (result == STATUS_COLLISION));
 } // End PICC_IsNewCardPresent()
 
@@ -468,23 +504,32 @@ int PICC_ReadCardSerial(t_uid *uid)
 
 int main()
 {
-
-  t_uid uid;
-  
   serial_init();
-	initSPI(1);
+	initSPI(1);		
+  serial_putnbr(425);
+  serial_putchar('c');
+  serial_putstr("blabla");
 	PCD_Init();
-  serial_putstr("Init made\n");
+
+  //serial_test();
+
+
+	delay(100);
+
 	for (;;)	
 	{
+    serial_putchar('.');
 		if(card_check())
 		{
-      serial_putstr("is new card\r\n");
-        if(PICC_ReadCardSerial(&uid))
-        {
-          serial_putstr("salut\r\n");
+      serial_putchar('u');
+      //t_uid uid;
+        //if(PICC_ReadCardSerial(&uid))
+        //{
+          //serial_putchar('i');
+          //serial_putchar('\r');
+          //serial_putchar('\n');
           //PICC_DumpToSerial();
-        }
+        //}
     }
 	}
 	return (0);
