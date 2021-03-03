@@ -90,6 +90,9 @@
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
 
+
+// #include "./tone.c"
+
 const int buzzer = 33; //buzzer to arduino pin 9
 int melody[] = {
 
@@ -119,31 +122,50 @@ void	custom_delay(uint32_t milli)
 void play_music()
 {
 
+  ft_pin_mode(33, FT_OUTPUT);
   // iterate over the notes of the melody:
+  // while (1)
+  // {
 
-  for (int thisNote = 0; thisNote < 13; thisNote++) {
+  // }
+  serial_putstr("repaler 1\r\n");
 
-    // to calculate the note duration, take one second divided by the note type.
+  tone(33, 0, 0);
+  serial_putstr("repaler 2\r\n");
 
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 
-    int noteDuration = 1000 / noteDurations[thisNote];
-
-    tone(33, melody[thisNote], noteDuration);
-
-    // to distinguish the notes, set a minimum time between them.
-
-    // the note's duration + 30% seems to work well:
-
-    int pauseBetweenNotes = noteDuration * 1.30;
-
-    custom_delay(pauseBetweenNotes);
-
-    // stop the tone playing:
-
-    noTone(33);
+  while (1)
+  {
 
   }
+
+  for (;;)
+  {
+
+  }
+
+  // for (int thisNote = 0; thisNote < 13; thisNote++) {
+  //   // to calculate the note duration, take one second divided by the note type.
+
+  //   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+
+  //   int noteDuration = 1000 / noteDurations[thisNote];
+
+  //   tone(33, melody[thisNote], noteDuration);
+
+  //   // to distinguish the notes, set a minimum time between them.
+
+  //   // the note's duration + 30% seems to work well:
+
+  //   int pauseBetweenNotes = noteDuration * 1.30;
+
+  //   custom_delay(pauseBetweenNotes);
+
+  //   // stop the tone playing:
+
+  //   noTone(33);
+
+  // }
 
 
 }

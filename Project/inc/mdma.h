@@ -4,9 +4,13 @@
 #  define __AVR_ATmega2560__
 #  define F_CPU 16000000
 # endif
-# include <avr/io.h>
-# include <avr/interrupt.h>
+// # include <avr/io.h>
+// # include <avr/interrupt.h>
+# include <stdint.h>
 # include "./pin_registers.h"
+# include "./tone.h"
+# include <avr/interrupt.h>
+# include <avr/io.h>
 
 # define CPU_CLOCK 2000000 // 16Mhz -> / 8 2Mhz
 # define SERIAL_8N1 0x06
@@ -39,9 +43,9 @@ void	serial_putstr(const char* str);
 void	serial_putchar(char c);
 
 
-void noTone(uint8_t _pin);
-void tone(uint8_t _pin, unsigned int frequency, unsigned long duration);
-void play_music();
+
+// void pinMode(uint8_t pin, uint8_t mode);
+// void digitalWrite(uint8_t pin, uint8_t val);
 
 
 
