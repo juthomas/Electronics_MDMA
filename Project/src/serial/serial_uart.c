@@ -74,6 +74,12 @@ void	serial_putnbr(int32_t n)
 	}
 }
 
+void	serial_putnbrln(int32_t n)
+{
+	serial_putnbr(n);
+	serial_putstr("\r\n");
+}
+
 void	serial_init()
 {
 	uart_init(9600, SERIAL_8N1);

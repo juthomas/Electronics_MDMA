@@ -33,12 +33,16 @@
 void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
 void	ft_digital_write(enum e_pins pin, enum e_states state);
 int		ft_digital_read(enum e_pins pin);
-void	led_send_data();
+
+uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
+void	led_draw_animation(uint16_t pixels_number);
+void	led_send_data(uint8_t *pixels, uint16_t pixels_number);
 
 
 int		serial_test();
 void	serial_init();
 void	serial_putnbr(int32_t n);
+void	serial_putnbrln(int32_t n);
 void	serial_putstr(const char* str);
 void	serial_putchar(char c);
 

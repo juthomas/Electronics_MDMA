@@ -1,54 +1,55 @@
 #include "../inc/mdma.h"
 
-void	led_send_data()
+
+uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
+	pixels[pixel_index * 3] = (color & 0x00FF00) >> 8;
+	pixels[pixel_index * 3 + 1] = (color & 0xFF0000) >> 16;
+	pixels[pixel_index * 3 + 2] = color & 0x0000FF;
+	return (pixels);
+}
 
+void	led_draw_animation(uint16_t pixels_number)
+{
+	uint8_t pixels[pixels_number * 3];
+	uint32_t colors = 0xFF0000;
 
-
-	
-	// serial_test();
-		// nothing();
-
-	volatile uint8_t red = 255;
-	volatile uint8_t green = 255;
-	volatile uint8_t blue = 255;
-	volatile uint8_t registerLowMask = 0b00000000;//ancien registre + etat haut pin
-	volatile uint8_t registerHighMask = 0b00000011;//ancien registre + etat bas pin
-	volatile uint8_t output = 0;
-	// cli();
-	DDRB |= (1 << 0);
-	DDRB |= (1 << 1);
-
-	// uint8_t data = &DDRB;
-	// serial_init();
-	// serial_putstr("data : ");
-	// serial_putnbr(data);
-	// serial_putstr("\r\n");
-
-	uint16_t bytes_number; //(pixels * 3)
-	uint8_t pixels[3];
-
-	bytes_number = 3;
-	pixels[0] = 0xFF;//green
-	pixels[1] = 0x00;//red
-	pixels[2] = 0x00;//blue
-
-
+	serial_putstr("hello\r\n");
 
 
 	for (;;)
 	{
-		// PORTB = 0b00000001;//~= 0.33us
-		// PORTB = 0b00000000;//~= 0.33us 
 
-		// PORTB = 0b00000001;
-		// PORTB = 0b00000000;
+		for (int i = 0; i < pixels_number; i++)
+		{
+			feed_one_pixel(i, pixels, colors);
+			colors += 2;
+		}
+		led_send_data(pixels, pixels_number);
+		for (int i = 0; i < 10000;i++);
+		if (colors > 0xFFFFFF)
+		{
+			colors = 0;
+		}
+	}
 
-		// PORTB = 0b00000001;
-		// PORTB = 0b00000000;
+}
 
-		// PORTB = 0b00000001;
-		// PORTB = 0b00000000;
+
+void	led_send_data(uint8_t *pixels, uint16_t pixels_number)
+{
+
+
+	// cli();
+	DDRB |= (1 << 0);
+	DDRB |= (1 << 1);
+
+
+
+
+
+
+
 	volatile uint16_t	i;//bytes count
 	volatile uint8_t	*ptr;
 	volatile uint8_t	*b;
@@ -56,9 +57,9 @@ void	led_send_data()
 	volatile uint8_t	lo;
 	volatile uint8_t	next;
 
-	i = bytes_number;
+	i = pixels_number*3;
 	ptr = pixels;
-	b = *ptr++;
+	b = (uint8_t)(*ptr++);
 	hi = 0b00000011;
 	lo = 0b00000000;
 
@@ -118,6 +119,5 @@ void	led_send_data()
 
 		for (int i = 0; i < 1000;i++);
 
-	}
-	sei();
+	// sei();
 }
