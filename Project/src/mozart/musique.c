@@ -90,19 +90,41 @@
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
 
-
-// #include "./tone.c"
-
 const int buzzer = 33; //buzzer to arduino pin 9
 int melody[] = {
+//12
+  NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+  NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+  NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+  NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+  NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//60
+  NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//72
+  NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//84
+  NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//96
 
-  NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_E4, NOTE_C4, NOTE_E4, NOTE_F4
+  NOTE_D5, NOTE_D5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//108
+  NOTE_C5, NOTE_C5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//120
+  NOTE_B4, NOTE_B4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//132
+  NOTE_AS4, NOTE_AS4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//144
+
+
 };
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
 int noteDurations[] = {
 
-  8, 8, 4, 4, 8, 8, 8, 4, 8,8,8,8,8
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
 };
 
 void	wait_x_cpu_clocks(int32_t cpu_clocks)
@@ -121,52 +143,43 @@ void	custom_delay(uint32_t milli)
 
 void play_music()
 {
+	// serial_init();
 
   ft_pin_mode(33, FT_OUTPUT);
+  while (0)
+	{
+
+	tone(33, 880, 200);
+    custom_delay(10000);
+
+	}
   // iterate over the notes of the melody:
-  // while (1)
-  // {
 
-  // }
-  serial_putstr("repaler 1\r\n");
+  for (int thisNote = 0; thisNote < 144; thisNote++) {
 
-  tone(33, 0, 0);
-  serial_putstr("repaler 2\r\n");
+    // to calculate the note duration, take one second divided by the note type.
 
+    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 
-  while (1)
-  {
+    int noteDuration = 1000 / noteDurations[thisNote];
+
+    tone(33, melody[thisNote], noteDuration);
+
+    // to distinguish the notes, set a minimum time between them.
+
+    // the note's duration + 30% seems to work well:
+
+    int pauseBetweenNotes = noteDuration * 1.30;
+
+    custom_delay(pauseBetweenNotes/4);
+    // custom_delay(pauseBetweenNotes *1000);
+
+    // stop the tone playing:
+
+    // noTone(33);
 
   }
 
-  for (;;)
-  {
-
-  }
-
-  // for (int thisNote = 0; thisNote < 13; thisNote++) {
-  //   // to calculate the note duration, take one second divided by the note type.
-
-  //   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-
-  //   int noteDuration = 1000 / noteDurations[thisNote];
-
-  //   tone(33, melody[thisNote], noteDuration);
-
-  //   // to distinguish the notes, set a minimum time between them.
-
-  //   // the note's duration + 30% seems to work well:
-
-  //   int pauseBetweenNotes = noteDuration * 1.30;
-
-  //   custom_delay(pauseBetweenNotes);
-
-  //   // stop the tone playing:
-
-  //   noTone(33);
-
-  // }
-
-
+  uint8_t cc;
 }
 
