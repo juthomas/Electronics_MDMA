@@ -24,8 +24,8 @@ MOZART_DIR = mozart
 PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
 LEDS_MANAGER_FT = low_level_led_addressing
-SERIAL_FT = serial_uart
 MOZART_FT = tone musique
+SERIAL_FT = serial_uart serial_nbr_base
 
 SRC_FT = main
 
@@ -143,7 +143,7 @@ flash:
 	@if [ $(MUTE) = FALSE ];then\
 		avrdude -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
 	else\
-		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i  -l /dev/null;\
+		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
 	fi
 	@echo "$(COLOR)Black Magic \033[100D\033[40C\0033[1;32m[I̶̢͇͎͉͙͒̉n̸̛͖̣͒̓͒̊͆̉͜v̶̰̉̀́̓͠ǒ̵̜̰̝̼̤͉k̴͎̠̪͙̐̈́̔͑̇e̶̖̰͘d̸̻͛͊̎̀͒̚]\0033[1;37m"
 	@echo "$(COLOR)$(DEVICE) \033[100D\033[40C\0033[1;32m[Flashed]\0033[1;37m"
