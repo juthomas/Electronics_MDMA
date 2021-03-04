@@ -35,7 +35,13 @@ int		serial_test();
 void	serial_init();
 void	serial_putnbr(int32_t n);
 void	serial_putstr(const char* str);
+void	serial_putstrln(const char* str);
+
 void	serial_putchar(char c);
+void	serial_putnbrln(int32_t n);
+void	serial_putnbr_base(int nbr, char *base);
+void	serial_putnbr_baseln(int nbr, char *base);
+
 
 
 

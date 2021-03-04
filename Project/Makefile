@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-14320 #tty.usbserial-14410
+PORT		= /dev/tty.usbserial-1420 #tty.usbserial-14410
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200 #can change for old bootloader
@@ -21,7 +21,7 @@ SERIAL_DIR = serial
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
-SERIAL_FT = serial_uart
+SERIAL_FT = serial_uart serial_nbr_base
 
 SRC_FT = main
 
