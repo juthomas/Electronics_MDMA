@@ -48,8 +48,8 @@ void	serial_putstrln(const char* str);
 
 void	serial_putchar(char c);
 void	serial_putnbrln(int32_t n);
-void	serial_putnbr_base(int nbr, char *base);
-void	serial_putnbr_baseln(int nbr, char *base);
+void	serial_putnbr_base(int32_t nbr, char *base);
+void	serial_putnbr_baseln(int32_t nbr, char *base);
 
 
 

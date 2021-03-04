@@ -3,9 +3,21 @@
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
-	pixels[pixel_index * 3] = (color & 0x00FF00) >> 8;
-	pixels[pixel_index * 3 + 1] = (color & 0xFF0000) >> 16;
-	pixels[pixel_index * 3 + 2] = color & 0x0000FF;
+		// ((((color & 0xFF0000) >> (int32_t)16) * percentage / 100) << (int32_t)16) +
+
+	if (color & 0xFF000000)
+	{
+		pixels[pixel_index * 3] = ((color & 0x00FF00) >> 8) * ((color & 0xFF000000) >> 24) / 0xFF;
+		pixels[pixel_index * 3 + 1] = ((color & 0xFF0000) >> 16) * ((color & 0xFF000000) >> 24) / 0xFF;
+		pixels[pixel_index * 3 + 2] = (color & 0x0000FF) * ((color & 0xFF000000) >> 24) / 0xFF;
+	}
+	else
+	{
+		pixels[pixel_index * 3] = (color & 0x00FF00) >> 8;
+		pixels[pixel_index * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[pixel_index * 3 + 2] = color & 0x0000FF;
+	}
+	
 	return (pixels);
 }
 
@@ -15,43 +27,38 @@ uint32_t	rainbow_wheel(uint8_t pos)
 	uint8_t green;
 	uint8_t blue;
 
-	red = 42;
-	green = 42;
-	blue = 42;
-
-
-	if (pos < 85) {
+	if (pos < 85)
+	{
 		red = pos * 3;
 		green = 255 - pos * 3;
 		blue = 0;
 		
-		// return strip.Color(pos * 3, 255 - pos * 3, 0);
-	} else if(pos < 170) {
+	}
+	else if (pos < 170)
+	{
 		pos -= 85;
 		red = 255 - pos * 3;
 		green = 0;
 		blue = pos * 3;
 
-		// return strip.Color(255 - pos * 3, 0, pos * 3);
-	} else {
+	}
+	else 
+	{
 		pos -= 170;
 		red = 0;
 		green = pos * 3;
 		blue = 255 - pos * 3;
-		// return strip.Color(0, pos * 3, 255 - pos * 3);
 	}
-	return ((red << 16) + (green << 8) + blue);
+	return (((int32_t)red << (int32_t)16) + ((int32_t)green << (int32_t)8) + (int32_t)blue);
 }
 
 uint32_t	reduce_luminosity(uint32_t color, uint8_t percentage)
 {
-	return (color);
-	// return (
-		// ((((color & 0xFF0000) >> 16) * percentage / 100) << 16) +
-		// ((((color & 0x00FF00) >> 8) * percentage / 100) << 8) +
-		// ((((color & 0x0000FF)) * percentage / 100))
-		// );
-
+	return (
+			((((color & 0xFF0000) >> (int32_t)16) * percentage / 100) << (int32_t)16) +
+			((((color & 0x00FF00) >> (int32_t)8) * percentage / 100) << (int32_t)8) +
+			((((color & 0x0000FF) >> (int32_t)0) * percentage / 100) << (int32_t)0)
+		);
 }
 
 void	led_draw_animation(uint16_t pixels_number)
@@ -61,41 +68,27 @@ void	led_draw_animation(uint16_t pixels_number)
 
 	serial_putstr("hello\r\n");
 
-
+	uint8_t red = 0;
 	for (;;)
 	{
-
 		for (int i = 0; i < pixels_number; i++)
 		{
-			feed_one_pixel(i, pixels, reduce_luminosity(rainbow_wheel(colors % 256), 100));
+			feed_one_pixel(i, pixels, rainbow_wheel((colors + i * 10) % 256) + 0x05000000 );
 		}
 		led_send_data(pixels, pixels_number);
-		// for (int i = 0; i < 10000;i++);
 		if (colors > 0xFFFFFF)
 		{
 			colors = 0;
 		}
-		for(int i = 0; i < 10000; i++);
-		colors += 1;
-
+		colors += 13;
 	}
-
 }
 
 
 void	led_send_data(uint8_t *pixels, uint16_t pixels_number)
 {
-
-
-	// cli();
 	DDRB |= (1 << 0);
 	DDRB |= (1 << 1);
-
-
-
-
-
-
 
 	volatile uint16_t	i;//bytes count
 	volatile uint8_t	*ptr;
@@ -110,6 +103,7 @@ void	led_send_data(uint8_t *pixels, uint16_t pixels_number)
 	hi = 0b00000011;
 	lo = 0b00000000;
 
+	next = lo;
 	 if((int)b & 0x80)
 	 {
 		 next = hi;
@@ -162,9 +156,4 @@ void	led_send_data(uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
-
-
-		for (int i = 0; i < 1000;i++);
-
-	// sei();
 }

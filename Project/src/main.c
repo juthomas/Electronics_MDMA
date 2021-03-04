@@ -16,7 +16,7 @@ int main()
 	// pixels[2] = 0xFF;//blue
 	// led_send_data(pixels, pixels_number);
 
-	led_draw_animation(5);
+	led_draw_animation(88);
 
    return 0;
 }

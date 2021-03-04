@@ -1,9 +1,9 @@
 #include "../../inc/mdma.h"
 
-static int		ft_strlen_error(char *base)
+static int32_t		ft_strlen_error(char *base)
 {
-	int			i;
-	int			j;
+	int32_t			i;
+	int32_t			j;
 
 	i = 0;
 	j = i + 1;
@@ -24,7 +24,7 @@ static int		ft_strlen_error(char *base)
 	return (i);
 }
 
-static void		limite(long int n, char *base, int u)
+static void		limite(int32_t n, char *base, int32_t u)
 {
 	if (n < 0)
 	{
@@ -36,10 +36,10 @@ static void		limite(long int n, char *base, int u)
 	serial_putchar(base[(n % u)]);
 }
 
-void			serial_putnbr_base(int nbr, char *base)
+void			serial_putnbr_base(int32_t nbr, char *base)
 {
-	int			u;
-	long int	n;
+	int32_t			u;
+	int32_t			n;
 
 	u = ft_strlen_error(base);
 	if (nbr == -2147483648 && u > 1)
@@ -60,7 +60,7 @@ void			serial_putnbr_base(int nbr, char *base)
 	}
 }
 
-void			serial_putnbr_baseln(int nbr, char *base)
+void			serial_putnbr_baseln(int32_t nbr, char *base)
 {
 	serial_putnbr_base(nbr, base);
 	serial_putstr("\r\n");
