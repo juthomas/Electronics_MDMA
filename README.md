@@ -84,6 +84,9 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
 
 ### Leds Control
 
+#### Prerequisites
+* `ft_pin_mode(led_pin, FT_OUTPUT);`
+
 #### Leds Variables
 * char buffer (size = number of leds * 3)
 #### Color Attribution
