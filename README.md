@@ -87,12 +87,11 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
 #### Leds Variables
 * char buffer (size = number of leds * 3)
 #### Color Attribution
-The color format is uint32_t :  
-`0xLLRRGGBB`  
-LL : Luminosity (0x01 to 0xFF, or 0x00 to ignore)  
-RR : Red (0x00 to 0xFF)  
-GG : Green (0x00 to 0xFF)  
-BB : Blue (0x00 to 0xFF)  
+  The color format is uint32_t : `0xLLRRGGBB`  
+  LL : Luminosity (0x01 to 0xFF, or 0x00 to ignore)  
+  RR : Red (0x00 to 0xFF)  
+  GG : Green (0x00 to 0xFF)  
+  BB : Blue (0x00 to 0xFF)  
 
 #### Usefull Functions
 * `uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)`  
