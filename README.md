@@ -15,6 +15,10 @@ __Sommaire__ :
 * [Visual Studio Code Linter](#visual-studio-code-linter)
 * [Project Functionalities](#project-functionalities)
   * [Leds Control](#leds-control)
+  * [Prerequisites](#prerequisites)
+  * [Leds Variables](#leds-variables)
+  * [Color Attribution](#color-attribution)
+  * [Usefull Functions](#usefull-functions)
 
 <div id='description'/>
 
@@ -84,17 +88,26 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
 
 ### Leds Control
 
+<div id='prerequisites'/>
+
 #### Prerequisites
 * `ft_pin_mode(led_pin, FT_OUTPUT);`
 
+<div id='leds-variables'/>
+
 #### Leds Variables
 * char buffer (size = number of leds * 3)
+
+<div id='color-attribution'/>
+
 #### Color Attribution
   The color format is uint32_t : `0xLLRRGGBB`  
   LL : Luminosity (0x01 to 0xFF, or 0x00 to ignore)  
   RR : Red (0x00 to 0xFF)  
   GG : Green (0x00 to 0xFF)  
   BB : Blue (0x00 to 0xFF)  
+
+<div id='usefull-functions'/>
 
 #### Usefull Functions
 * `uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)`  
