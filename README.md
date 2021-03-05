@@ -14,7 +14,7 @@ __Sommaire__ :
 * [Usage](#usage)
 * [Visual Studio Code Linter](#visual-studio-code-linter)
 * [Project Functionalities](#project-functionalities)
-  * [Leds Control](#visual-studio-code-linter)
+  * [Leds Control](#leds-control)
 
 <div id='description'/>
 
@@ -79,3 +79,10 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
 <div id='project-functionalities'/>
 
 ## Project Functionalities
+
+<div id='leds-control'/>
+
+### Leds Control
+
+#### Leds Variables
+* char buffer
