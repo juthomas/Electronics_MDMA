@@ -9,6 +9,7 @@
 # include <stdint.h>
 # include "./pin_registers.h"
 # include "./tone.h"
+// # include "./leds.h"
 # include <avr/interrupt.h>
 # include <avr/io.h>
 
@@ -36,7 +37,12 @@ int		ft_digital_read(enum e_pins pin);
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
 void	led_draw_animation(uint16_t pixels_number);
-void	led_send_data(uint8_t *pixels, uint16_t pixels_number);
+void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
+
+uint32_t	rainbow_wheel(uint8_t pos);
+uint32_t	reduce_luminosity(uint32_t color, uint8_t percentage);
+void	led_draw_animation(uint16_t pixels_number);
+
 
 
 int		serial_test();

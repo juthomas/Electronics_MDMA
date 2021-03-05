@@ -16,6 +16,7 @@ int main()
 	// pixels[2] = 0xFF;//blue
 	// led_send_data(pixels, pixels_number);
 
+	//70 fps loop (88 leds)
 	led_draw_animation(88);
 
    return 0;
