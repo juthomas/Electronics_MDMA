@@ -783,7 +783,7 @@ void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number)
 		g_pin_associations[pin].register_port_addr == FT_PORTL)
 	{
 		//Go check this project : //https://github.com/pololu/pololu-led-strip-arduino/blob/master/PololuLedStrip.h
-		serial_putstrln("Error Port >= H not yet implemented")
+		serial_putstrln("Error Port >= H not yet implemented");
 	}
 	(*g_asm_sender[pin].func)(g_pin_associations[pin].register_mask, pixels, pixels_number);
 	
