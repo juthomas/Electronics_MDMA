@@ -13,7 +13,7 @@ __Sommaire__ :
 * [Installation](#installation-avr)
 * [Usage](#usage)
 * [Visual Studio Code Linter](#visual-studio-code-linter)
-*   [Visual Studio Code Linter](#visual-studio-code-linter)
+  * [Visual Studio Code Linter](#visual-studio-code-linter)
 
 <div id='description'/>
 
