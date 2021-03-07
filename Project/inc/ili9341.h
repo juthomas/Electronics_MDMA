@@ -17,6 +17,22 @@
 #define TFT_CLK 52
 #define TFT_MISO 50
 
+#ifndef _BV(bit)
+#define _BV(bit) (1<<(bit))
+#endif
+
+#define AVR_WRITESPI(x) for (SPDR = (x); (!(SPSR & _BV(SPIF)));)
+#define abs(x) ((x)<0 ? -(x) : (x))
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+#define MISO_WRITE 37
+#define _swap_int16_t(a, b) \
+    {                       \
+        int16_t t = a;      \
+        a = b;              \
+        b = t;              \
+    }
+
 // Color definitions, stollen like most of the actual code from adafruit lol
 #define ILI9341_BLACK 0x0000       ///<   0,   0,   0
 #define ILI9341_NAVY 0x000F        ///<   0,   0, 123
@@ -77,16 +93,21 @@ int16_t height;
 
 
 void ili9341_begin(void);
-void ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
 void spiWrite(uint8_t b);
 void ili9341_setCursor(int16_t x, int16_t y);
 void ili9341_setTextColor(uint16_t c);
 void ili9341_setTextSize(uint8_t s);
-void write(uint8_t c, int16_t color, uint8_t size);
-void ili9341_println(char *str, int16_t color, uint8_t size);
-void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
-void SPI_WRITE16(uint16_t w);
+void write(uint8_t c, int16_t color, uint8_t size, uint8_t delay);
+void ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay);
+void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint8_t delay);
+void SPI_WRITE16(uint16_t w, uint8_t delay);
 void ili9341_setRotation(uint8_t m);
 void ili9341_fillScreen(uint16_t color);
-
+void writePixel(int16_t x, int16_t y, uint16_t color, uint8_t delay);
+void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay);
+void SPI_BEGIN_TRANSACTION(void);
+void ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay);
+void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, uint8_t delay);
+void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
 #endif

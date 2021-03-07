@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/cu.usbserial-14210
+PORT		= /dev/tty.usbmodem142101
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200 #can change for old bootloader
@@ -20,7 +20,7 @@ SERIAL_DIR = serial
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
-ILI9341_FT = ili9341_init ili9341_print ili9341_text
+ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities
 SERIAL_FT = serial_uart
 
 SRC_FT = main

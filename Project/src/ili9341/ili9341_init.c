@@ -1,4 +1,13 @@
 #include "../../inc/mdma.h"
+ //   Values specific to HARDWARE SPI:
+// SPIClass *_spi; ///< SPI class pointer
+// SPISettings settings; ///< SPI transaction settings
+uint32_t _freq; ///< SPI bitrate (if no SPI transactions)
+uint32_t _mode; ///< SPI data mode (transactions or not
+
+uint8_t spcr;
+uint8_t spsr;
+
 
 static const uint8_t PROGMEM initcmd[] = {
     0xEF, 3, 0x03, 0x80, 0x02,  //Undocumented but necessary
@@ -44,20 +53,19 @@ void ili9341_setTextSize(uint8_t s) {
 
 void spiWrite(uint8_t b)
 {
-    for (uint8_t bit = 0; bit < 8; bit++)
-    {
-        if (b & 0x80)
-            ft_digital_write(TFT_MOSI,FT_HIGH);
-        else
-            ft_digital_write(TFT_MOSI,FT_LOW);
-        ft_digital_write(TFT_CLK,FT_HIGH);
-        b <<= 1;
-        ft_digital_write(TFT_CLK,FT_LOW);
-    }
+    AVR_WRITESPI(b);
+}
+
+void SPI_BEGIN_TRANSACTION(void)
+{
+    cli();
+    SPCR = spcr;
+    SPSR = spsr;
 }
 
 void sendCommand(uint8_t commandByte, uint8_t *dataBytes, uint8_t numDataBytes)
 {
+    SPI_BEGIN_TRANSACTION();
     if (TFT_CS >= 0)
         ft_digital_write(TFT_CS,FT_LOW);
 
@@ -72,6 +80,7 @@ void sendCommand(uint8_t commandByte, uint8_t *dataBytes, uint8_t numDataBytes)
 
 void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numDataBytes)
 {
+    SPI_BEGIN_TRANSACTION();
     if (TFT_CS >= 0)
         ft_digital_write(TFT_CS,FT_LOW);
 
@@ -93,15 +102,15 @@ void initSPI(uint32_t freq)
     }
     ft_pin_mode(TFT_DC,FT_OUTPUT);
     ft_digital_write(TFT_DC,FT_HIGH);
-
+    
+    _mode = 0;
+    spcr = 81;
+    spsr = 1;
+    cli();
+    ft_pin_mode(TFT_CS, FT_OUTPUT);
+    ft_pin_mode(TFT_CLK, FT_OUTPUT);
     ft_pin_mode(TFT_MOSI, FT_OUTPUT);
-    ft_digital_write(TFT_MOSI, FT_LOW);
-    ft_pin_mode(TFT_CLK,FT_OUTPUT);
-    ft_digital_write(TFT_CLK,FT_LOW);
-    if (TFT_MISO >= 0)
-    {
-        ft_pin_mode(TFT_MISO,FT_INPUT);
-    }
+    sei();
     if (TFT_RST >= 0)
     {
         ft_pin_mode(TFT_RST,FT_OUTPUT);
@@ -137,7 +146,6 @@ void ili9341_setRotation(uint8_t m) {
     height = ILI9341_TFTWIDTH;
     break;
   }
-  serial_putnbr((int32_t)m);
   sendCommand(0x36, &m, 1);
 }
 void ili9341_begin()
