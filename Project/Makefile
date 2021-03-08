@@ -20,7 +20,7 @@ SERIAL_DIR = serial
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
-ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities
+ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities graphicTest
 SERIAL_FT = serial_uart
 
 SRC_FT = main

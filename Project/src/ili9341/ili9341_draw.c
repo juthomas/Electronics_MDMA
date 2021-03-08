@@ -1,5 +1,12 @@
 #include "../../inc/mdma.h"
 
+/*
+** Welcome in the file that save the different geometric form drawable.
+** We have Lines, Rectangles, Triangles, Circles.
+** Each one of them is drawable filled.
+** FillScreen is a drawRectangle with the size of the screen.
+*/
+
 void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay)
 {
     if (x1 == x2)
@@ -16,12 +23,9 @@ void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16
     }
     else
     {
-        SPI_BEGIN_TRANSACTION();
-        if (TFT_CS >= 0)
-            ft_digital_write(TFT_CS, FT_LOW);
+        spi_begin_transaction();
         writeLine(x1, y1, x2, y2, color, delay);
-        if (TFT_CS >= 0)
-            ft_digital_write(TFT_CS, FT_HIGH);
+        spi_end_transaction();
     }
 }
 
@@ -63,12 +67,10 @@ void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c
                             w = width - x;
                         if (y2 >= height)
                             h = height - y;
-                        if (TFT_CS >= 0)
-                            *portSPI &= ~(1 << 0);
+                        spi_begin_transaction();
                         setAddrWindow(x, y, w, h, delay);
                         writeColor(color, (uint32_t)w * h, delay);
-                        if (TFT_CS >= 0)
-                            *portSPI |= (1 << 0);
+                        spi_end_transaction();
                     }
                 }
             }
@@ -78,26 +80,20 @@ void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c
 
 void ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
 {
-    SPI_BEGIN_TRANSACTION();
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_LOW);
+    spi_begin_transaction();
     drawFastHLine(x, y, w, color, 0);
     drawFastHLine(x, y + h - 1, w, color, 0);
     drawFastVLine(x, y, h, color, 0);
     drawFastVLine(x + w - 1, y, h, color, 0);
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_HIGH);
+    spi_end_transaction();
 }
 
 void ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
 {
-    SPI_BEGIN_TRANSACTION();
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_LOW);
+    spi_begin_transaction();
     drawFastVLine(x0, y0 - r, 2 * r + 1, color, delay);
     fillCircleHelper(x0, y0, r, 3, 0, color, delay);
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_HIGH);
+    spi_end_transaction();
 }
 
 void ili9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
@@ -108,9 +104,7 @@ void ili9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8
     int16_t x = 0;
     int16_t y = r;
 
-    SPI_BEGIN_TRANSACTION();
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_LOW);
+    spi_begin_transaction();
     writePixel(x0, y0 + r, color, delay);
     writePixel(x0, y0 - r, color, delay);
     writePixel(x0 + r, y0, color, delay);
@@ -137,8 +131,7 @@ void ili9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8
         writePixel(x0 + y, y0 - x, color, delay);
         writePixel(x0 - y, y0 - x, color, delay);
     }
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_HIGH);
+    spi_end_transaction();
 }
 
 void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color)
@@ -146,6 +139,27 @@ void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_
     ili9341_drawLine(x0, y0, x1, y1, color, 0);
     ili9341_drawLine(x1, y1, x2, y2, color, 0);
     ili9341_drawLine(x2, y2, x0, y0, color, 0);
+}
+
+void ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
+{
+    int16_t posY = 0;
+    int16_t posX = 0;
+    spi_begin_transaction();
+    for (int16_t j = 0; j < height; j++, y++)
+    {
+        for (int16_t i = 0; i < width; i++)
+        {
+            if(scale > 1)
+                ili9341_drawfillRect(x + posX, posY, scale, scale, pgm_read_word((&bitmap[j * width + i])), 0);
+            else
+                writePixel(i, y, pgm_read_word((&bitmap[j * width + i])), 0);
+            posX += 1 * scale;
+        }
+        posX = 0;
+        posY += 1 * scale;
+    }
+    spi_end_transaction();
 }
 
 void ili9341_fillScreen(uint16_t color)

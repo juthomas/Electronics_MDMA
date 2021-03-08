@@ -13,8 +13,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c,
   if (!cp437 && (c >= 176))
     c++; // Handle 'classic' charset behavior
 
-  if (TFT_CS >= 0)
-    ft_digital_write(TFT_CS,FT_LOW);
+  spi_begin_transaction();
   for (int8_t i = 0; i < 5; i++)
   { // Char bitmap = 5 columns
     uint8_t line = pgm_read_byte(&font[c * 5 + i]);
@@ -37,8 +36,7 @@ void drawChar(int16_t x, int16_t y, unsigned char c,
       }
     }
   }
-  if (TFT_CS >= 0)
-    ft_digital_write(TFT_CS,FT_HIGH);
+  spi_end_transaction();
 }
 
 void write(uint8_t c, int16_t color, uint8_t text_size, uint8_t delay)
@@ -60,10 +58,15 @@ void write(uint8_t c, int16_t color, uint8_t text_size, uint8_t delay)
   }
 }
 
+void ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay)
+{
+  for (int i = 0; str[i]; i++)
+    write(str[i], color, size, delay);
+}
+
 void ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay)
 {
   for (int i = 0; str[i]; i++)
-  {
     write(str[i], color, size, delay);
-  }
+  write('\n', color, size, delay);
 }

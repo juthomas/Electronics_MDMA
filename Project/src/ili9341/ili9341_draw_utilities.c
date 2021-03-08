@@ -1,5 +1,10 @@
 #include "../../inc/mdma.h"
 
+uint16_t color565(uint8_t red, uint8_t green, uint8_t blue)
+{
+    return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3);
+}
+
 void writeColor(uint16_t color, uint32_t len, uint8_t delay)
 {
     uint8_t hi = color >> 8, lo = color;
@@ -63,23 +68,16 @@ void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, u
 
 void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color, uint8_t delay)
 {
-    SPI_BEGIN_TRANSACTION();
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_LOW);
+    spi_begin_transaction();
     writeLine(x, y, x, y + h - 1, color, delay);
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_HIGH);
+    spi_end_transaction();
 }
 
-void drawFastHLine(int16_t x, int16_t y, int16_t w,
-                   uint16_t color, uint8_t delay)
+void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color, uint8_t delay)
 {
-    SPI_BEGIN_TRANSACTION();
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_LOW);
+    spi_begin_transaction();
     writeLine(x, y, x + w - 1, y, color, delay);
-    if (TFT_CS >= 0)
-        ft_digital_write(TFT_CS, FT_HIGH);
+    spi_end_transaction();
 }
 
 void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t corners, int16_t delta, uint16_t color, uint8_t delay)

@@ -3,7 +3,7 @@
 void writeCommand(uint8_t cmd)
 {
     ft_digital_write(TFT_DC, FT_LOW);
-    spiWrite(cmd);
+    AVR_WRITESPI(cmd);
     ft_digital_write(TFT_DC, FT_HIGH);
 }
 
