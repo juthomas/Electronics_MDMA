@@ -68,7 +68,7 @@ void	led_draw_animation(uint16_t pixels_number)
 	serial_putstr("hello\r\n");
 
 	ft_pin_mode(51, FT_OUTPUT);
-	ft_pin_mode(52, FT_OUTPUT);
+	ft_pin_mode(3, FT_OUTPUT);
 
 
 	// uint8_t red = 0;
@@ -78,11 +78,13 @@ void	led_draw_animation(uint16_t pixels_number)
 		{
 			feed_one_pixel(i, pixels, rainbow_wheel((colors + i * 10) % 256) + 0x20000000 );
 		}
-		led_send_data(51, pixels, pixels_number);
+
+		// for (int32_t i = 0; i < 1000000; i++);
+		led_send_data(3, pixels, pixels_number);
 		if (colors > 0xFFFFFF)
 		{
 			colors = 0;
 		}
-		colors += 5;
+		colors += 1;
 	}
 }
