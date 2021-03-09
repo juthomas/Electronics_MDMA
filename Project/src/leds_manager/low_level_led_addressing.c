@@ -518,6 +518,7 @@ void	led_send_data_PORTG(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+	// free(pixels);
 }
 
 //https://www.nongnu.org/avr-libc/user-manual/inline_asm.html
