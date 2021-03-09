@@ -182,6 +182,31 @@ uint8_t	*led_gimp_compute(uint8_t luminosity , uint8_t* item)
 	return (pixels);
 }
 
+
+uint8_t	*led_gimp_compute_colorize(uint8_t luminosity , uint8_t* item, uint8_t red, uint8_t green, uint8_t blue)
+{
+	uint8_t *pixels = 0;
+	pixels = (uint8_t*)malloc(sizeof(uint8_t) * (64 * 3 + 1));
+	bzero(pixels, sizeof(uint8_t) * (64 * 3 + 1));
+	 memcpy(pixels, item, 64*4);
+     ;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+
+	for (int i = 0; i < 64; i++)
+	{
+		r = pixels[i * 3] * luminosity / 100 * red / 100;
+		g = pixels[i * 3 + 1] * luminosity / 100 * green / 100;
+		b = pixels[i * 3 + 2] * luminosity / 100 * blue / 100;
+		pixels[i * 3] = g;
+		pixels[i * 3 + 1] = r;
+		pixels[i * 3 + 2] = b;
+	}
+
+	return (pixels);
+}
+
 void print_define(char *define_name, uint8_t *item, uint8_t luminosity)
 {
 	uint8_t *pixels = led_gimp_compute(luminosity, item);
@@ -194,35 +219,69 @@ void print_define(char *define_name, uint8_t *item, uint8_t luminosity)
 	free(pixels);
 }
 
+void	print_colorized(char *define_name, uint8_t *item, uint8_t luminosity, uint8_t r, uint8_t g, uint8_t b)
+{
+	uint8_t *pixels = led_gimp_compute_colorize(luminosity, item, r, g, b);
+	printf("\033[1;35m#define \033[1;34m%s \033[01;38;5;172m\"\033[01;38;5;220m", define_name);
+	for (int i = 0; i < (64*3); i++)
+	{
+		printf("\\%o", pixels[i]);
+	}
+	printf("\033[01;38;5;172m\"\033[1;37m\n\n");
+	free(pixels);
+}
+
+void	print_usage()
+{
+	printf("Usage : \n");
+	printf("./a.out \n");
+	printf("         RED  GREEN  BLUE\n");
+	printf("./a.out 0-100 0-100 0-100 \n");
+	printf("         LUM   RED  GREEN  BLUE\n");
+	printf("./a.out 0-100 0-100 0-100 0-100 \n");
+	// printf("Usage : \n");
+	// printf("Usage : \n");
+}
+
+void	list_of_items(uint8_t luminosity, uint8_t red, uint8_t green, uint8_t blue)
+{
+	print_colorized("SWORD", sword, luminosity, red, green, blue);
+	print_colorized("PURSE", purse, luminosity, red, green, blue);
+	print_colorized("BOW", bow, luminosity, red, green, blue);
+	print_colorized("POTION", potion, luminosity, red, green, blue);
+	print_colorized("COIN", coin, luminosity, red, green, blue);
+	print_colorized("GEM", gem, luminosity, red, green, blue);
+	print_colorized("MARIO", mario, luminosity, red, green, blue);
+	print_colorized("GHOST", ghost, luminosity, red, green, blue);
+	print_colorized("LINK", link, luminosity, red, green, blue);
+	print_colorized("DONALD", donald, luminosity, red, green, blue);
+	print_colorized("STEEVE", steeve, luminosity, red, green, blue);
+	print_colorized("CREEPER", creeper, luminosity, red, green, blue);
+	print_colorized("DICE_1", dice_1, luminosity, red, green, blue);
+	print_colorized("DICE_2", dice_2, luminosity, red, green, blue);
+	print_colorized("DICE_3", dice_3, luminosity, red, green, blue);
+	print_colorized("DICE_4", dice_4, luminosity, red, green, blue);
+	print_colorized("DICE_5", dice_5, luminosity, red, green, blue);
+	print_colorized("DICE_6", dice_6, luminosity, red, green, blue);
+}
+
 int main(int argc, char **argv)
 {
 	if (argc < 2)
 	{
-		print_define("SWORD", sword, 7);
-		print_define("PURSE", purse, 7);
-		print_define("BOW", bow, 7);
-		print_define("POTION", potion, 7);
-		print_define("COIN", coin, 7);
-		print_define("GEM", gem, 7);
-		print_define("MARIO", mario, 7);
-		print_define("GHOST", ghost, 7);
-		print_define("LINK", link, 7);
-		print_define("DONALD", donald, 7);
-		print_define("STEEVE", steeve, 7);
-		print_define("CREEPER", creeper, 7);
-		print_define("DICE_1", dice_1, 7);
-		print_define("DICE_2", dice_2, 7);
-		print_define("DICE_3", dice_3, 7);
-		print_define("DICE_4", dice_4, 7);
-		print_define("DICE_5", dice_5, 7);
-		print_define("DICE_6", dice_6, 7);
+		list_of_items(7, 100, 100, 100);
 	}
 	else if (argc == 2 || argc == 3)
 	{
 		//help
+		print_usage();
 	}
-	else
+	else if (argc == 4)
 	{
-		print_define(argv[1], (uint8_t*)argv[3], atoi(argv[2]));
+		list_of_items(7, atoi(argv[1]), atoi(argv[2]), atoi(argv[3]));
+	}
+	else if (argc == 5)
+	{
+		list_of_items( atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
 	}
 }
