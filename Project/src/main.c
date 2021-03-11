@@ -3,15 +3,9 @@
 
 #define CPU_CLOCK 2000000
 #define DT 61
-#define CLK 21
+#define CLK 11
 
-
-#define ENC_CTL	DDRB	//encoder port control
-#define ENC_WR	PORTB	//encoder port write	
-#define ENC_RD	PINB	//encoder port read
-#define ENC_A 0	
-#define ENC_B 1	
-
+//5 - 4
 // void	wait_x_cpu_clocks(int32_t cpu_clocks)
 // {
 // 	while (cpu_clocks > 0)
@@ -27,13 +21,18 @@
 // }
 
 //ma meilleur interupt
-ISR (INT0_vect){
-	serial_putnbr(ft_digital_read(CLK));
+ISR (INT1_vect){
+	/*serial_putnbr(ft_digital_read(CLK));
 	serial_putnbr(ft_digital_read(DT));
 	if(ft_digital_read(CLK) || ft_digital_read(DT))
  		serial_putstr("droite");
 	else
-		 serial_putstr("gauche");
+		 serial_putstr("gauche");*/
+  serial_putstr(" id:2 \n\r");
+}
+
+ISR (INT0_vect){
+
   serial_putstr(" id:0 \n\r");
 }
 
@@ -43,9 +42,14 @@ int main()
 
 	serial_init();
 
-//PCICR |= 0b10; 
-	EIMSK |= (1 << INT0); //autoriser interupt sur INT0
-	EICRA = (1 << ISC01); //interupt on higt
+	//PCIFR = (1 << PCIF0);
+	//PCICR |= (1 << PCIE0); 
+	
+	EIMSK |= (1 << INT0 | 1 << INT1); //autoriser interupt sur INT0
+	//PCMSK0 = 0b00000101;//autoriser les interupt sur pcint0 et pcint2
+	//PCMSK0 = (1 << PINB);
+	EICRA |= (1 << ISC01 | 1 << ISC11); //interupt on higt
+	
 	SREG = 0b10000000; //global interrupt enable
 
 
