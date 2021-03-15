@@ -21,20 +21,33 @@
 // }
 
 //ma meilleur interupt
-ISR (INT1_vect){
-	/*serial_putnbr(ft_digital_read(CLK));
+/*ISR (INT1_vect){
+	serial_putnbr(ft_digital_read(CLK));
 	serial_putnbr(ft_digital_read(DT));
 	if(ft_digital_read(CLK) || ft_digital_read(DT))
  		serial_putstr("droite");
 	else
-		 serial_putstr("gauche");*/
+		 serial_putstr("gauche");
   serial_putstr(" id:2 \n\r");
 }
 
 ISR (INT0_vect){
 
   serial_putstr(" id:0 \n\r");
+}*/
+
+
+
+ISR (PCINT0_vect){
+	serial_putstr(", gauche: ");
+	serial_putnbr(ft_digital_read(13));
+	serial_putstr(", droite: ");
+	serial_putnbr(ft_digital_read(11));
+	serial_putstr(", milieux: ");
+	serial_putnbr(ft_digital_read(10));
+	serial_putstr("\n\r");
 }
+
 
 //mon meilleur main
 int main()
@@ -43,18 +56,24 @@ int main()
 	serial_init();
 
 	//PCIFR = (1 << PCIF0);
-	//PCICR |= (1 << PCIE0); 
 	
-	EIMSK |= (1 << INT0 | 1 << INT1); //autoriser interupt sur INT0
-	//PCMSK0 = 0b00000101;//autoriser les interupt sur pcint0 et pcint2
+	 DDRB &= ~((1 << DDB7) | (1 << DDB5) | (1 << DDB4)); // Clear the PB0, PB1, PB2 pin
+    // PB0,PB1,PB2 (PCINT0, PCINT1, PCINT2 pin) are now inputs
+
+    PORTB |= ((1 << PORTB7) | (1 << PORTB5) | (1 << PORTB4)); // turn On the Pull-up
+    // PB0, PB1 and PB2 are now inputs with pull-up enabled
+	PCICR |= (1 << PCIE0); 
+	
+	//EIMSK |= (1 << INT0 | 1 << INT1); //autoriser interupt sur INT0
+	PCMSK0 = ((1 << PCINT7) | (1 < PCINT5) | (1 < PCINT4));//autoriser les interupt sur pcint0 et pcint2
 	//PCMSK0 = (1 << PINB);
-	EICRA |= (1 << ISC01 | 1 << ISC11); //interupt on higt
+	//EICRA |= (1 << ISC01 | 1 << ISC11); //interupt on higt
 	
 	SREG = 0b10000000; //global interrupt enable
 
 
-	ft_pin_mode(CLK, FT_INPUT);
-	ft_pin_mode(DT, FT_INPUT);
+//	ft_pin_mode(CLK, FT_INPUT);
+
 	for (;;)	
 	{		
 	}
