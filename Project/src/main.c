@@ -39,13 +39,28 @@ ISR (INT0_vect){
 
 
 ISR (PCINT0_vect){
-	serial_putstr(", gauche: ");
-	serial_putnbr(ft_digital_read(13));
-	serial_putstr(", droite: ");
-	serial_putnbr(ft_digital_read(11));
-	serial_putstr(", milieux: ");
-	serial_putnbr(ft_digital_read(10));
-	serial_putstr("\n\r");
+	static unsigned long lastInterrupt = 0;
+	unsigned long interruptTime = TCNT1;
+
+	if(interruptTime - lastInterrupt > 5)
+	{
+		serial_putstr(", gauche: ");
+		serial_putnbr(ft_digital_read(13));
+		serial_putstr(", ");
+		serial_putnbr(ft_digital_read(42));
+		serial_putstr(", ");
+		serial_putnbr(PINB);
+		serial_putstr(", droite: ");
+		serial_putnbr(ft_digital_read(11));
+		serial_putstr(", ");
+		serial_putnbr(ft_digital_read(44));
+		serial_putstr(", milieux: ");
+		serial_putnbr(ft_digital_read(10));
+		serial_putstr(", ");
+		serial_putnbr(ft_digital_read(46));
+		serial_putstr("\n\r");
+	}
+
 }
 
 
