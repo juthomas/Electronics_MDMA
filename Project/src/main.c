@@ -68,12 +68,13 @@ volatile int8_t hehe = 0;
 
 int main()
 {
-	serial_init();
-	serial_putstr("Reboot\n\r");
+	// serial_init(); 
+	// serial_putstr("Reboot\n\r");
 
-
+   for(;;)
+   {
 	play_music();
-
+   }
    ft_pin_mode(33, FT_OUTPUT);
 
 
@@ -87,13 +88,13 @@ int main()
 
 
 
-	serial_putstr("Hello\n\r");
+// 	serial_putstr("Hello\n\r");
 
-   for(;;)
-   {
-	   serial_putnbr(hehe);
-	   serial_putstr("bbbb \r\n");
-   }
+//    for(;;)
+//    {
+// 	   serial_putnbr(hehe);
+// 	   serial_putstr("bbbb \r\n");
+//    }
    return 0;
 }
 

@@ -2,117 +2,84 @@
 
 #include "../../inc/mdma.h"
 
-volatile int8_t pin_timer = 0;
-volatile int8_t *pin_port = 0;
-volatile int8_t pin_mask = 0;
-volatile long pin_toggle_count = 0;
-
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
 
+static volatile uint8_t *tone_port_addr;
+static volatile uint8_t tone_port_mask;
+static volatile uint32_t duration_ticks = 0x00;
 
-void tone(uint8_t _pin, unsigned int frequency, unsigned long duration)
+void setupTimer0(uint8_t ocr, uint8_t prescaler) {
+  cli();
+  // Clear registers
+  TCCR0A = 0;
+  TCCR0B = 0;
+  TCNT0 = 0;
+
+  // 100.16025641025641 Hz (16000000/((155+1)*1024))
+  OCR0A = ocr;
+  // CTC
+  TCCR0A |= (1 << WGM01);
+  // Prescaler 1024
+  TCCR0B = prescaler & 0x07;
+  //TCCR0B |= (1 << CS02) | (1 << CS00);
+  // Output Compare Match A Interrupt Enable
+  TIMSK0 |= (1 << OCIE0A);
+  sei();
+}
+
+
+
+
+ISR(TIMER0_COMPA_vect)
 {
-  cli(); // Désactive l'interruption globale
-
-  uint32_t ocr = 0;
-  uint8_t prescalarbits = 0b001;
-  long tmp_pin_toggle_count = 0;
-
-  //  ft_pin_mode(_pin, FT_OUTPUT);
-  serial_putstr("HI !\r\n");
-  pin_port = (volatile uint8_t*)g_pin_associations[_pin].register_port_addr;
-  pin_mask = g_pin_associations[_pin].register_mask;
-  tmp_pin_toggle_count = 1000;
-ocr = F_CPU / frequency / 2 - 1;
-  prescalarbits = 0b001;  // ck/1: same for both timers
-      if (ocr > 255)
-      {
-        ocr = F_CPU / frequency / 2 / 8 - 1;
-        prescalarbits = 0b010;  // ck/8: same for both timers
-
-        if ( ocr > 255)
-        {
-          ocr = F_CPU / frequency / 2 / 32 - 1;
-          prescalarbits = 0b011;
-        }
-
-        if (ocr > 255)
-        {
-          ocr = F_CPU / frequency / 2 / 64 - 1;
-          prescalarbits =  0b100;
-
-          if ( ocr > 255)
-          {
-            ocr = F_CPU / frequency / 2 / 128 - 1;
-            prescalarbits = 0b101;
-          }
-
-          if (ocr > 255)
-          {
-            ocr = F_CPU / frequency / 2 / 256 - 1;
-            prescalarbits =  0b110;
-            if (ocr > 255)
-            {
-              // can't do any better than /1024
-              ocr = F_CPU / frequency / 2 / 1024 - 1;
-              prescalarbits =  0b111;
-            }
-          }
-        }
-      }
-    if (duration > 0)
+    if(!duration_ticks)
     {
-      tmp_pin_toggle_count = 2 * frequency * duration / 1000;
+        TIMSK0 &= ~_BV(OCIE0A);
+        TCCR0B = 0x00;
     }
     else
     {
-      tmp_pin_toggle_count = -1;
+        *tone_port_addr ^= tone_port_mask;
+        // ft_digital_write(33, divider % 2 == 1 ? FT_LOW : FT_HIGH);
+        duration_ticks--;
     }
-// serial_putnbr(ocr);
-// serial_putstr(" : ocr\r\n");
-
-
-  // cli(); // Désactive l'interruption globale
-        TCCR2A = 0;
-        TCCR2B = 0;
-        bitWrite(TCCR2A, WGM21, 1);
-        bitWrite(TCCR2B, CS20, 1);
-                OCR2A = ocr;
-        pin_toggle_count = tmp_pin_toggle_count;
-        bitWrite(TIMSK2, OCIE2A, 1);
-  sei(); 
+  // divider++;
+  // divider%=100;
 }
 
-void noTone(uint8_t _pin)
+void timer_freq_prescale(uint32_t a_freq, uint8_t *a_ocr, uint8_t *a_prescaler) 
 {
+    // prescaler table for timer 0
+    uint8_t prescalers[] = { 0x00, 0x03, 0x06, 0x08, 0x0a, 0x00 };
 
+    uint16_t ocr = 0x00;
+    uint8_t prescaler = 0x00;
+
+    do {
+        ocr = (uint16_t) (F_CPU / ((a_freq << 1) * (0x01 << prescalers[prescaler])));
+        ++prescaler;        
+    } while ((ocr > 255) && (prescalers[prescaler]));
+
+    --ocr;
+    if (ocr > 255) ocr = 255;
+
+    *a_ocr = ocr & 0xff;
+    *a_prescaler = prescaler;
 }
 
-void disable_timer()
+void    tone(enum e_pins pin, uint32_t frequence, uint32_t duration)
 {
-		//TIMSK2 = 0;
-        bitWrite(TIMSK2, OCIE2A, 0); // disable interrupt
-       	TCCR2A = (1 << WGM20);
-        TCCR2B = (TCCR2B & 0b11111000) | (1 << CS22);
-        OCR2A = 0;
-}
-
-ISR(TIMER2_COMPA_vect)
-{
-  if (pin_toggle_count > 0)
-  {
-  serial_putstr(".");
-
-    *pin_port ^= pin_mask;
-
-      pin_toggle_count--;
-  }
-  else
-  {
-  }
-
+    duration *= 2;
+    frequence /= 10;
+    tone_port_addr = (volatile uint8_t*)g_pin_associations[pin].register_port_addr;
+    tone_port_mask = g_pin_associations[pin].register_mask;
+    uint8_t ocr = 0;
+    uint8_t prescaler = 0;
+    duration_ticks = (uint32_t)((uint32_t)((uint32_t)frequence * (uint32_t)duration)/(uint32_t)500);
+    timer_freq_prescale(frequence, &ocr, &prescaler);
+    setupTimer0(ocr, prescaler);
 }

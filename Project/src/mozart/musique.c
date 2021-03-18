@@ -1,4 +1,5 @@
 #include "../../inc/mdma.h"
+// #include "../../inc/tone.h"
 
 #define NOTE_B0  31
 #define NOTE_C1  33
@@ -146,13 +147,18 @@ void play_music()
 	// serial_init();
 
   ft_pin_mode(33, FT_OUTPUT);
-  while (0)
-	{
+  ft_pin_mode(14, FT_OUTPUT);
+  ft_pin_mode(15, FT_OUTPUT);
+  ft_pin_mode(16, FT_OUTPUT);
+  ft_pin_mode(17, FT_OUTPUT);
 
-	tone(33, 880, 200);
-    custom_delay(10000);
+  // while (0)
+	// {
 
-	}
+	// tone(33, 880, 200);
+  //   custom_delay(10000);
+
+	// }
   // iterate over the notes of the melody:
 
   for (int thisNote = 0; thisNote < 144; thisNote++) {
@@ -171,7 +177,9 @@ void play_music()
 
     int pauseBetweenNotes = noteDuration * 1.30;
 
-    custom_delay(pauseBetweenNotes/4);
+    // custom_delay(pauseBetweenNotes/4);
+    custom_delay(pauseBetweenNotes/2);
+    // ft_digital_write()
     // custom_delay(pauseBetweenNotes *1000);
 
     // stop the tone playing:
