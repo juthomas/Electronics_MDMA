@@ -152,14 +152,6 @@ void play_music()
   ft_pin_mode(16, FT_OUTPUT);
   ft_pin_mode(17, FT_OUTPUT);
 
-  // while (0)
-	// {
-
-	// tone(33, 880, 200);
-  //   custom_delay(10000);
-
-	// }
-  // iterate over the notes of the melody:
 
   for (int thisNote = 0; thisNote < 144; thisNote++) {
 
@@ -167,27 +159,13 @@ void play_music()
 
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 
-    int noteDuration = 1000 / noteDurations[thisNote];
+    uint32_t noteDuration = 800 / noteDurations[thisNote];
 
     tone(33, melody[thisNote], noteDuration);
 
-    // to distinguish the notes, set a minimum time between them.
+    uint32_t pauseBetweenNotes = noteDuration * 1.3;
 
-    // the note's duration + 30% seems to work well:
-
-    int pauseBetweenNotes = noteDuration * 1.30;
-
-    // custom_delay(pauseBetweenNotes/4);
-    custom_delay(pauseBetweenNotes/2);
-    // ft_digital_write()
-    // custom_delay(pauseBetweenNotes *1000);
-
-    // stop the tone playing:
-
-    // noTone(33);
-
+    custom_delay(pauseBetweenNotes);
   }
-
-  uint8_t cc;
 }
 
