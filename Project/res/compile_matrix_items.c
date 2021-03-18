@@ -369,7 +369,7 @@ void print_define(char *define_name, uint8_t *item, uint8_t luminosity)
 void	print_colorized_static(char *define_name, uint8_t *item, uint8_t luminosity, uint8_t r, uint8_t g, uint8_t b)
 {
 	uint8_t *pixels = led_gimp_compute_colorize(luminosity, item, r, g, b);
-	printf("\033[1;34mstatic const uint8_t *%s = (uint8_t*)\033[01;38;5;172m\"\033[01;38;5;220m", define_name);
+	printf("\033[1;34mstatic const uint8_t %s[] PROGMEM = \033[01;38;5;172m\"\033[01;38;5;220m", define_name);
 	for (int i = 0; i < (64*3); i++)
 	{
 		printf("\\%o", pixels[i]);

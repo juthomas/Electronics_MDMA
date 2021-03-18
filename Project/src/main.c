@@ -4,8 +4,9 @@
 
 int main()
 {
-	// serial_init(); 
+	serial_init(); 
 	// serial_putstr("Reboot\n\r");
+	led_draw_animation(64);
 
    for(;;)
    {
