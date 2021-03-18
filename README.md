@@ -13,6 +13,13 @@ __Sommaire__ :
 * [Installation](#installation-avr)
 * [Usage](#usage)
 * [Visual Studio Code Linter](#visual-studio-code-linter)
+* [Project Functionalities](#project-functionalities)
+  * [Leds Control](#leds-control)
+  * [Prerequisites](#prerequisites)
+  * [Leds Variables](#leds-variables)
+  * [Color Attribution](#color-attribution)
+  * [Usefull Functions](#usefull-functions)
+
 <div id='description'/>
 
 ## Description
@@ -23,7 +30,7 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
 À travers le projet Mega Drinking Machina Adventure™ nous voulons faire vivre à nos très chers futurs utilisateurs une simulation familiale de cette aventure hors du commun. Une compilation de jeux à boire allant de 1 à 5 joueurs sera proposée, avec une mise en place intuitive et rapide. Sur batterie, lumineux et facile à transporter, il deviendra votre meilleur outil pour pimenter vos soirées peu importe le contexte.
 <div id='installation-avr'/>
 
-### Installation (AVR)
+## Installation (AVR)
 
 * Debian Based Linux :  
   * Install avr-gcc :  
@@ -40,7 +47,8 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
   `brew install avrdude`
 <div id='usage'/>
 
-### Usage
+## Usage
+
 * Setup port :  
   `ls /dev/ > /tmp/file1`  
   then connect board  
@@ -55,7 +63,8 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
   `make help` for other options
 <div id='visual-studio-code-linter'/>
 
-### Visual Studio Code Linter
+## Visual Studio Code Linter
+
 * Install C/C++ extension  
 * Configure C/C++ extension for avr :  
   Type `C/C++: Edit Configurations (JSON)` in Command Palette  
@@ -70,3 +79,39 @@ Il y fait mention d’un jeu à boire avec ses amis où ils auraient décidé d'
   to includePath.  
   If this line doesnt work find "avr/io.h" file with `find / -name io.h`  
   Add the containing folder to includePath (like Linux method)
+
+<div id='project-functionalities'/>
+
+## Project Functionalities
+
+<div id='leds-control'/>
+
+### Leds Control
+
+<div id='prerequisites'/>
+
+#### Prerequisites
+* `ft_pin_mode(led_pin, FT_OUTPUT);`
+
+<div id='leds-variables'/>
+
+#### Leds Variables
+* char buffer (size = number of leds * 3)
+
+<div id='color-attribution'/>
+
+#### Color Attribution
+  The color format is uint32_t : `0xLLRRGGBB`  
+  LL : Luminosity (0x01 to 0xFF, or 0x00 to ignore)  
+  RR : Red (0x00 to 0xFF)  
+  GG : Green (0x00 to 0xFF)  
+  BB : Blue (0x00 to 0xFF)  
+
+<div id='usefull-functions'/>
+
+#### Usefull Functions
+* `uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)`  
+  feed the selected pixel with the color
+* `led_send_data(51, pixels, pixels_number);`  
+  send data to the leds
+

@@ -48,6 +48,12 @@ void serial_putstr(const char* str)
 	}
 }
 
+void serial_putstrln(const char* str)
+{
+	serial_putstr(str);
+	serial_putstr("\r\n");
+}
+
 char serial_rx(void)
 {
 	//(20.7)
@@ -74,6 +80,12 @@ void	serial_putnbr(int32_t n)
 	}
 }
 
+void	serial_putnbrln(int32_t n)
+{
+	serial_putnbr(n);
+	serial_putstr("\r\n");
+}
+
 void	serial_init()
 {
 	uart_init(9600, SERIAL_8N1);
@@ -87,7 +99,14 @@ int serial_test()
 	for(;;)
 	{
 		serial_putnbr(42);
-		serial_putstr(" : hello word\r\n");
+		serial_putstrln(" : hello word");
+		serial_putstr("Hex : ");
+		serial_putnbr_baseln(42, "0123456789ABCDEF");
+		serial_putstr("Bin : ");
+		serial_putnbr_baseln(42, "01");
+		serial_putstr("Poney : ");
+		serial_putnbr_baseln(42, "PONEY");
+		serial_putstr("\r\n");
 		custom_delay(100);
 	}
 }
