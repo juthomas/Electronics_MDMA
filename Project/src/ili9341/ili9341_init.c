@@ -58,6 +58,7 @@ void spi_end_transaction(void)
 {
     if (TFT_CS >= 0)
         *portSPI |= (1 << 0);
+    sei();
 }
 
 //Please add here if ~dear reader~ you understand why it's necessary to stop all interruptions ?

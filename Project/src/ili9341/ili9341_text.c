@@ -64,6 +64,35 @@ void ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay)
     write(str[i], color, size, delay);
 }
 
+void	ili9341_putnbr(int8_t n, int16_t color, uint8_t size, uint8_t delay)
+{
+	if (n < 0)
+		 write('-', color, size, delay);
+	if (n >= -9 && n <= 9)
+	{
+		if (n < 0)
+			n = -n;
+		write(n + 48, color, size, delay);
+	}
+	if (n < -9)
+	{
+		ili9341_putnbr(n / -10, color, size, delay);
+		ili9341_putnbr(-(n % 10), color, size, delay);
+	}
+	if (n > 9)
+	{
+		ili9341_putnbr(n / 10, color, size, delay);
+		ili9341_putnbr(n % 10, color, size, delay);
+	}
+}
+
+void	ili9341_putnbrln(int8_t n, int16_t color, uint8_t size, uint8_t delay)
+{
+  ili9341_putnbr(n, color, size, delay);
+  write('\n', color, size, delay);
+}
+
+
 void ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay)
 {
   for (int i = 0; str[i]; i++)
