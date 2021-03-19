@@ -106,7 +106,9 @@ void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, u
 void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
 void ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 uint16_t color565(uint8_t red, uint8_t green, uint8_t blue);
-void graphic_test(void);
+void    graphic_test(void);
+void	ili9341_putnbr(int8_t n, int16_t color, uint8_t size, uint8_t delay);
+void	ili9341_putnbrln(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 
 void ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
 #endif
