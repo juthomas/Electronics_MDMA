@@ -2,8 +2,6 @@
 #include "../inc/mdma.h"
 #include <avr/interrupt.h>
 #include "ili9341/dragon.h"
-#include <avr/power.h>
-#include <stddef.h>
 
 #define CLK 3
 #define DT 2

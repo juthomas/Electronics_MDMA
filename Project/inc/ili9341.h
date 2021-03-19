@@ -84,31 +84,31 @@ int16_t width;       ///< Display width as modified by current rotation
 int16_t height;
 
 
-void ili9341_begin(void);
-void ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
-void spiWrite(uint8_t b);
-void ili9341_setCursor(int16_t x, int16_t y);
-void ili9341_setTextColor(uint16_t c);
-void ili9341_setTextSize(uint8_t s);
-void write(uint8_t c, int16_t color, uint8_t size, uint8_t delay);
-void ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay);
-void ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay);
-void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint8_t delay);
-void SPI_WRITE16(uint16_t w, uint8_t delay);
-void ili9341_setRotation(uint8_t m);
-void ili9341_fillScreen(uint16_t color);
-void writePixel(int16_t x, int16_t y, uint16_t color, uint8_t delay);
-void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay);
-void spi_begin_transaction(void);
-void spi_end_transaction(void);
-void ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay);
-void writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, uint8_t delay);
-void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
-void ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
+void    ili9341_begin(void);
+void    ili9341_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
+void    spiWrite(uint8_t b);
+void    ili9341_setCursor(int16_t x, int16_t y);
+void    ili9341_setTextColor(uint16_t c);
+void    ili9341_setTextSize(uint8_t s);
+void    write(uint8_t c, int16_t color, uint8_t size, uint8_t delay);
+void    ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay);
+void    ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay);
+void    setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint8_t delay);
+void    SPI_WRITE16(uint16_t w, uint8_t delay);
+void    ili9341_setRotation(uint8_t m);
+void    ili9341_fillScreen(uint16_t color);
+void    writePixel(int16_t x, int16_t y, uint16_t color, uint8_t delay);
+void    ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay);
+void    spi_begin_transaction(void);
+void    spi_end_transaction(void);
+void    ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay);
+void    writeLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color, uint8_t delay);
+void    ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay);
+void    ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 uint16_t color565(uint8_t red, uint8_t green, uint8_t blue);
 void    graphic_test(void);
 void	ili9341_putnbr(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 void	ili9341_putnbrln(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 
-void ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
+void    ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
 #endif

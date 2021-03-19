@@ -21,7 +21,9 @@ SERIAL_DIR = serial
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities graphicTest
-SERIAL_FT = serial_uart
+
+USELESS_FT = useless
+SERIAL_FT = serial_uart serial_nbr_base
 
 SRC_FT = main
 
@@ -135,7 +137,7 @@ flash:
 	@if [ $(MUTE) = FALSE ];then\
 		avrdude -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
 	else\
-		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i  -l /dev/null;\
+		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
 	fi
 	@echo "$(COLOR)Black Magic \033[100D\033[40C\0033[1;32m[I̶̢͇͎͉͙͒̉n̸̛͖̣͒̓͒̊͆̉͜v̶̰̉̀́̓͠ǒ̵̜̰̝̼̤͉k̴͎̠̪͙̐̈́̔͑̇e̶̖̰͘d̸̻͛͊̎̀͒̚]\0033[1;37m"
 	@echo "$(COLOR)$(DEVICE) \033[100D\033[40C\0033[1;32m[Flashed]\0033[1;37m"

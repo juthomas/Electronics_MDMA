@@ -50,12 +50,6 @@ char serial_rx(void)
 	return UDR0;
 }
 
-void	serial_putnbrln(int32_t n)
-{
-	serial_putnbr(n);
-	serial_putstr("\r\n");
-}
-
 void	serial_putnbr(int32_t n)
 {
 	if (n == -2147483648)
@@ -86,7 +80,14 @@ int serial_test()
 	for(;;)
 	{
 		serial_putnbr(42);
-		serial_putstr(" : hello word\r\n");
+		serial_putstrln(" : hello word");
+		serial_putstr("Hex : ");
+		serial_putnbr_baseln(42, "0123456789ABCDEF");
+		serial_putstr("Bin : ");
+		serial_putnbr_baseln(42, "01");
+		serial_putstr("Poney : ");
+		serial_putnbr_baseln(42, "PONEY");
+		serial_putstr("\r\n");
 		custom_delay(100);
 	}
 }
