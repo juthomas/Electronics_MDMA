@@ -39,7 +39,8 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(USELESS_DIR:%=$(OBJ_DIR)/%) \
-			$(SERIAL_DIR:%=$(OBJ_DIR)/%)
+			$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
+			$(RFID_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 

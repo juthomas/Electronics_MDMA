@@ -67,6 +67,7 @@ void serial_putstr(const char* str)
 	{
 		serial_putchar(*str++);
 	}
+	serial_putchar('c');
 }
 
 char serial_rx(void)

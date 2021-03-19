@@ -300,11 +300,11 @@ void SPI_init(uint32_t freq)
     {
         ft_pin_mode(RFID_RST,FT_OUTPUT);
         ft_digital_write(RFID_RST,FT_HIGH);
-        custom_delay(100);
+        delay(100);
         ft_digital_write(RFID_RST,FT_LOW);
-        custom_delay(100);
+        delay(100);
         ft_digital_write(RFID_RST,FT_HIGH);
-        custom_delay(200);
+        delay(200);
     }
     //SPCR = 0;
     //SPSR = 1;
