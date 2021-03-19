@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-14430 #tty.usbserial-14410
+PORT		= /dev/tty.usbserial-1420 #tty.usbserial-14410
 DEVICE		= atmega328p # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= arduino #arduino #wiring for atmega2560
 BAUD		= 57600 #can change for old bootloader
@@ -32,7 +32,7 @@ SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
 	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
 	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
-	  $(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c)
+	  
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 

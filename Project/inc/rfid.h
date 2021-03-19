@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rfid.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmp <tmp@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mgavillo <mgavillo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
-/*   Updated: 2021/02/25 15:58:43 by tmp              ###   ########.fr       */
+/*   Updated: 2021/03/18 02:04:11 by mgavillo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@
 #define RFID_SS     10
 #define RFID_RST    9
 #define CLK         13
+//#define SPCR        0x2C;
+//#define SPSR        0x2D;
+//#define SPDR        0x2E;
+
 
   enum PCD_Register {
     // Page 0: Command and status
     //                0x00        // reserved for future use
-    CommadReg      = 0x01 << 1,  // starts and stops command execution
-    ComlEnReg       = 0x02 << 1,  // enable and disable interrupt request control bits
-    DivlEnReg       = 0x03 << 1,  // enable and disable interrupt request control bits
-    ComIrqReg       = 0x04 << 1,  // interrupt request bits
+    CommandReg      = 0x01 << 1,  // starts and stops command execution
+    ComIEnReg       = 0x02 << 1,  // enable and disable interrupt request control bits
+    DivIEnReg       = 0x03 << 1,  // enable and disable interrupt request control bits
+    CommIRqReg       = 0x04 << 1,  // interrupt request bits
     DivIrqReg       = 0x05 << 1,  // interrupt request bits
     ErrorReg        = 0x06 << 1,  // error bits showing the error status of the last command executed
     Status1Reg      = 0x07 << 1,  // communication status bits
@@ -92,15 +96,15 @@
   };
 
     enum StatusCode {
-    STATUS_OK              = 1,  // Success
-    STATUS_ERROR           = 2,  // Error in communication
-    STATUS_COLLISION       = 3,  // Collision detected
-    STATUS_TIMEOUT         = 4,  // Timeout in communication.
-    STATUS_NO_ROOM         = 5,  // A buffer is not big enough.
-    STATUS_INTERNAL_ERROR  = 6,  // Internal error in the code. Should not happen ;-)
-    STATUS_INVALID         = 7,  // Invalid argument.
-    STATUS_CRC_WRONG       = 8,  // The CRC_A does not match
-    STATUS_MIFARE_NACK     = 9   // A MIFARE PICC responded with NAK.
+    STATUS_OK              ,  // Success
+    STATUS_ERROR           ,  // Error in communication
+    STATUS_COLLISION       ,  // Collision detected
+    STATUS_TIMEOUT         ,  // Timeout in communication.
+    STATUS_NO_ROOM         ,  // A buffer is not big enough.
+    STATUS_INTERNAL_ERROR  ,  // Internal error in the code. Should not happen ;-)
+    STATUS_INVALID         ,  // Invalid argument.
+    STATUS_CRC_WRONG       ,  // The CRC_A does not match
+    STATUS_MIFARE_NACK        // A MIFARE PICC responded with NAK.
   };
  
   
@@ -145,5 +149,5 @@
     // The PICC_CMD_MF_READ and PICC_CMD_MF_WRITE can also be used for MIFARE Ultralight.
     PICC_CMD_UL_WRITE      = 0xA2    // Writes one 4 byte page to the PICC.
   };
-
+  
   void PCD_ClrRegisterBits(uint8_t reg, uint8_t mask);
