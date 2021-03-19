@@ -104,11 +104,6 @@ void timer_freq_prescale(uint32_t a_freq, uint32_t *a_ocr, uint8_t *a_prescaler)
 	*a_prescaler = prescaler;
 }
 
-
-
-
-
-
 void tone(enum e_pins pin, uint32_t frequence, uint32_t duration)
 {
 	duration *= 8;
@@ -121,10 +116,3 @@ void tone(enum e_pins pin, uint32_t frequence, uint32_t duration)
 	timer_freq_prescale(frequence, &ocr, &prescaler);
 	setupTimer0(ocr, prescaler);
 }
-
-// ISR(TIMER1_COMPA_vect)
-// {
-// 	*music_port_addr ^= music_port_mask;
-// 	// 1/8 sec
-// 	tone(33, 1319, 100);
-// }

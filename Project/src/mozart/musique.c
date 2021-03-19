@@ -108,13 +108,10 @@ int melody[] = {
   NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//72
   NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//84
   NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//96
-
   NOTE_D5, NOTE_D5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//108
   NOTE_C5, NOTE_C5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//120
   NOTE_B4, NOTE_B4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//132
   NOTE_AS4, NOTE_AS4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//144
-
-
 };
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
@@ -193,22 +190,5 @@ void play_music()
 
   start_background_music();
 
-  // custom_delay(10000);
-  
-
-  // for (int thisNote = 0; thisNote < 144; thisNote++) {
-
-  //   // to calculate the note duration, take one second divided by the note type.
-
-  //   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-
-  //   uint32_t noteDuration = 800 / noteDurations[thisNote];
-
-  //   tone(33, melody[thisNote], noteDuration);
-
-  //   uint32_t pauseBetweenNotes = noteDuration * 1.3;
-
-  //   custom_delay(pauseBetweenNotes);
-  // }
 }
 
