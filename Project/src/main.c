@@ -378,21 +378,21 @@ unsigned char PcdRequest(unsigned char *pTagType)
 {
   unsigned char status;
   unsigned char  unLen;
-  unsigned char ucComMF522Buf[18];
+  unsigned char buf[18];
 
 
   PCD_ClrRegisterBits(CollReg,0x80);
-  ucComMF522Buf[0] = PICC_CMD_REQA;
+  buf[0] = PICC_CMD_REQA;
   
   unsigned char rxAlign = 0;
   unsigned char txLastBits		= 7;
 
-  status = PCD_CommunicateWithPICC(PCD_Transceive, ucComMF522Buf,1,ucComMF522Buf,&unLen, &txLastBits, rxAlign);
+  status = PCD_CommunicateWithPICC(PCD_Transceive, buf,1,buf,&unLen, &txLastBits, rxAlign);
 
   if ((status == STATUS_OK) && (unLen == 0x10))
   {
-    *pTagType     = ucComMF522Buf[0];
-    *(pTagType+1) = ucComMF522Buf[1];
+    *pTagType     = buf[0];
+    *(pTagType+1) = buf[1];
     return 1;
   }
   return 0;
@@ -639,7 +639,6 @@ void PICC_WriteData(){
 int main() {
 
   init_rfid();
-  return(0);
   while(1)
   {
 	  if(PcdRequest(main_buf))
