@@ -4,13 +4,13 @@
 
 int main()
 {
-	serial_init(); 
+	// serial_init(); 
 	// serial_putstr("Reboot\n\r");
-	led_draw_animation(64);
 
    for(;;)
    {
 	play_music();
+	led_draw_animation(64);
    }
    ft_pin_mode(33, FT_OUTPUT);
 
