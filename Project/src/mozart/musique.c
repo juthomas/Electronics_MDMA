@@ -91,6 +91,12 @@
 #define NOTE_D8  4699
 #define NOTE_DS8 4978
 
+static volatile uint8_t *music_port_addr;
+static volatile uint8_t music_port_mask;
+static volatile uint32_t current_music_tick;
+static volatile int32_t current_left_duration;
+static volatile uint32_t current_note;
+
 const int buzzer = 33; //buzzer to arduino pin 9
 int melody[] = {
 //12
@@ -142,6 +148,39 @@ void	custom_delay(uint32_t milli)
 	wait_x_cpu_clocks(milli - 5);
 }
 
+void start_background_music()
+{
+  current_music_tick = 0;
+  current_left_duration = 0;
+  current_note = 0;
+	music_port_mask = g_pin_associations[14].register_mask;
+	music_port_addr = (volatile uint8_t *)g_pin_associations[14].register_port_addr;
+	setupTimer1(0, 0);
+}
+
+
+ISR(TIMER1_COMPA_vect)
+{
+	*music_port_addr ^= music_port_mask;
+  if (current_note > 144)
+  {
+    TIMSK1 &= ~_BV(OCIE1A);
+		TCCR1B = 0x00;
+  }
+  if (current_left_duration < 0)
+  {
+    current_note++;
+    current_left_duration = 600 / noteDurations[current_note];
+	  tone(33, melody[current_note], current_left_duration);
+    current_left_duration *= 1.3;
+  }
+  else
+  {
+    current_left_duration -= 1000/8;
+  }
+}
+
+
 void play_music()
 {
 	// serial_init();
@@ -152,20 +191,24 @@ void play_music()
   ft_pin_mode(16, FT_OUTPUT);
   ft_pin_mode(17, FT_OUTPUT);
 
+  start_background_music();
 
-  for (int thisNote = 0; thisNote < 144; thisNote++) {
+  // custom_delay(10000);
+  
 
-    // to calculate the note duration, take one second divided by the note type.
+  // for (int thisNote = 0; thisNote < 144; thisNote++) {
 
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
+  //   // to calculate the note duration, take one second divided by the note type.
 
-    uint32_t noteDuration = 800 / noteDurations[thisNote];
+  //   //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
 
-    tone(33, melody[thisNote], noteDuration);
+  //   uint32_t noteDuration = 800 / noteDurations[thisNote];
 
-    uint32_t pauseBetweenNotes = noteDuration * 1.3;
+  //   tone(33, melody[thisNote], noteDuration);
 
-    custom_delay(pauseBetweenNotes);
-  }
+  //   uint32_t pauseBetweenNotes = noteDuration * 1.3;
+
+  //   custom_delay(pauseBetweenNotes);
+  // }
 }
 

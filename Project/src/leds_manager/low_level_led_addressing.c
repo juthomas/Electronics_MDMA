@@ -21,6 +21,7 @@ void	led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headA:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -73,6 +74,7 @@ void	led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTB(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -95,6 +97,7 @@ void	led_send_data_PORTB(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headB:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -147,6 +150,7 @@ void	led_send_data_PORTB(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTC(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -169,6 +173,7 @@ void	led_send_data_PORTC(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headC:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -221,6 +226,7 @@ void	led_send_data_PORTC(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTD(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -243,6 +249,7 @@ void	led_send_data_PORTD(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headD:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -295,6 +302,7 @@ void	led_send_data_PORTD(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTE(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -318,6 +326,7 @@ void	led_send_data_PORTE(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		next = hi;
 	}
 	// for(;;);
+	cli();
 	asm volatile(
 		"headE:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -370,6 +379,7 @@ void	led_send_data_PORTE(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTF(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -392,6 +402,7 @@ void	led_send_data_PORTF(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headF:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -444,6 +455,7 @@ void	led_send_data_PORTF(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 }
 
 void	led_send_data_PORTG(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
@@ -466,6 +478,7 @@ void	led_send_data_PORTG(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	{
 		next = hi;
 	}
+	cli();
 	asm volatile(
 		"headG:"                   "\n\t" //        (T =  0)	
 		"out   %[port], %[hi]"    "\n\t" //        (T =  1) // 1 Tick = 0.0625ms
@@ -518,6 +531,7 @@ void	led_send_data_PORTG(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [ptr]    "e" (ptr),
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
+		  sei();
 	// free(pixels);
 }
 
@@ -823,6 +837,6 @@ void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number)
 		serial_putstrln("Error Port >= H not yet implemented");
 	}
 	(*g_asm_sender[pin].func)(g_pin_associations[pin].register_mask, pixels, pixels_number);
-	
+
 
 }
