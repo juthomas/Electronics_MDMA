@@ -37,11 +37,11 @@ ISR (INT0v[0]ect){
   serial_putstr(" id:0 \n\r");
 }*/
 
-void bouton_state(int previous, int now, int index){
+void bouton_state(int now, int index){
 
-		if ((previous == 0 && now == 2) || (previous == 2 && now == 3) || (previous == 3 && now == 1) || (previous == 1 && now == 0))
+		if ((v[index] == 0 && now == 2) || (v[index] == 2 && now == 3) || (v[index] == 3 && now == 1) || (v[index] == 1 && now == 0))
 			nb[index]++;
-		else if (((previous == 0 && now == 1) || (previous == 2 && now == 0) || (previous == 3 && now == 2) || (previous == 1 && now == 3)))
+		else if (((v[index] == 0 && now == 1) || (v[index] == 2 && now == 0) || (v[index] == 3 && now == 2) || (v[index] == 1 && now == 3)))
 			nb[index]--;
 		v[index] = now;
 
@@ -54,11 +54,11 @@ ISR(PCINT0_vect)
 	int a = 0;
 		a = ((PINB & (1 << PINB5)) >> PINB5) << 1;
 		a += (PINB & (1 << PINB4)) >> PINB4;
-		bouton_state(v[0], a, 0);
+		bouton_state(a, 0);
 
 		a = ((PINB & (1 << PINB7)) >> PINB7) << 1;
 		a += (PINB & (1 << PINB6)) >> PINB6;
-		bouton_state(v[1], a, 1);
+		bouton_state(a, 1);
 		
 		yo = 1;
 }
@@ -68,15 +68,15 @@ ISR(PCINT2_vect){
 	int a = 0;
 		a = ((PINK & (1 << PINK1)) >> PINK1) << 1;
 		a += (PINK & (1 << PINK0)) >> PINK0;
-		bouton_state(v[2], a, 2);
+		bouton_state(a, 2);
 
 		a = ((PINK & (1 << PINK3)) >> PINK3) << 1;
 		a += (PINK & (1 << PINK2)) >> PINK2;
-		bouton_state(v[3], a, 3);
+		bouton_state(a, 3);
 
 		a = ((PINK & (1 << PINK5)) >> PINK5) << 1;
-		a += (PINK & (1 << PINK6)) >> PINK6;
-		bouton_state(v[4], a, 4);
+		a += (PINK & (1 << PINK4)) >> PINK4;
+		bouton_state(a, 4);
 
 		yo = 1;
 }
