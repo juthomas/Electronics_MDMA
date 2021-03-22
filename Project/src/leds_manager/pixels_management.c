@@ -1,4 +1,8 @@
 #include "../../inc/mdma.h"
+#include "../../inc/leds.h"
+#include "../../inc/matrix_progmem.h"
+
+
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
@@ -153,7 +157,7 @@ void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, 
 {
 	int32_t dx = ABS(x1 - x0), sx = x0 < x1 ? 1 : -1;
 	int32_t dy = ABS(y1 - y0), sy = y0 < y1 ? 1 : -1;
-	int32_t err = dx - dy, e2, x2; /* error value e_xy */
+	int32_t err = dx - dy, e2; /* error value e_xy */
 	int32_t ed = dx + dy == 0 ? 1 : ft_sqrt((float)dx * dx + (float)dy * dy);
 
 	for (;;)
@@ -163,15 +167,16 @@ void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, 
 		pixels[(x0 * 8 + y0) * 3 + 2] = blue * ABS(err - dx + dy) / ed;
 
 		e2 = err;
-		x2 = x0;
 		if (2 * e2 >= -dx)
 		{ /* x step */
 			if (x0 == x1)
 				break;
 			if (e2 + dy < ed)
+			{
 				pixels[(x0 * 8 + y0) * 3] = green * (e2 + dy) / ed;
 				pixels[(x0 * 8 + y0) * 3 + 1] = red * (e2 + dy) / ed;
 				pixels[(x0 * 8 + y0) * 3 + 2] = blue * (e2 + dy) / ed;
+			}
 			err -= dy;
 			x0 += sx;
 		}
@@ -180,9 +185,11 @@ void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, 
 			if (y0 == y1)
 				break;
 			if (dx - e2 < ed)
+			{
 				pixels[(x0 * 8 + y0) * 3] = green * (dx - e2) / ed;
 				pixels[(x0 * 8 + y0) * 3 + 1] = red * (dx - e2) / ed;
 				pixels[(x0 * 8 + y0) * 3 + 2] = blue * (dx - e2) / ed;
+			}
 			err += dx;
 			y0 += sy;
 		}
@@ -227,8 +234,8 @@ void led_matrix_send_progmem(const uint8_t *progmem)
 
 void led_draw_animation(uint16_t pixels_number)
 {
-	uint8_t pixels[pixels_number * 3];
-	uint32_t colors = 0xFF0000;
+	// uint8_t pixels[pixels_number * 3];
+	// uint32_t colors = 0xFF0000;
 
 	ft_pin_mode(51, FT_OUTPUT);
 	ft_pin_mode(3, FT_OUTPUT);

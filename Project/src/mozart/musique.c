@@ -1,5 +1,5 @@
 #include "../../inc/mdma.h"
-// #include "../../inc/tone.h"
+#include "../../inc/tone.h"
 
 #define NOTE_B0  31
 #define NOTE_C1  33
@@ -189,6 +189,5 @@ void play_music()
   ft_pin_mode(17, FT_OUTPUT);
 
   start_background_music();
-
 }
 

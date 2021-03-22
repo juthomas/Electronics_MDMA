@@ -161,6 +161,8 @@ unmute:
 
 debug: unmute coffee
 
+re: clean all
+
 serial: coffee
 	@echo "\0033[1;36mStarting Serial Monitor"
 	@echo "To quit this windows"

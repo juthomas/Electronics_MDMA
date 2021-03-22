@@ -1,6 +1,8 @@
 
 
 #include "../../inc/mdma.h"
+# include "../../inc/tone.h"
+
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
@@ -74,7 +76,7 @@ ISR(TIMER0_COMPA_vect)
 void timer_freq_prescale(uint32_t a_freq, uint32_t *a_ocr, uint8_t *a_prescaler)
 {
 	// prescaler table for timer 0
-	uint8_t prescalers[] = {0x00, 0x03, 0x06, 0x08, 0x0a, 0x00};
+	// uint8_t prescalers[] = {0x00, 0x03, 0x06, 0x08, 0x0a, 0x00};
 	uint32_t ocr = 0x00;
 	uint8_t prescaler = 0x00;
 	ocr = F_CPU / a_freq / 2 - 1;
