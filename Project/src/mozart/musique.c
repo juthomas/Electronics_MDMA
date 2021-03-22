@@ -183,11 +183,6 @@ void play_music()
 	// serial_init();
 
   ft_pin_mode(33, FT_OUTPUT);
-  ft_pin_mode(14, FT_OUTPUT);
-  ft_pin_mode(15, FT_OUTPUT);
-  ft_pin_mode(16, FT_OUTPUT);
-  ft_pin_mode(17, FT_OUTPUT);
-
   start_background_music();
 }
 

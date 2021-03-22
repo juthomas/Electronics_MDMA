@@ -41,6 +41,10 @@ int main()
   ili9341_begin();
   ili9341_setRotation(3);
   ili9341_fillScreen(ILI9341_BLACK);
+  play_music();
+	led_draw_animation(64);
+  play_music();
+
   for (;;)
   {
     //serial_putstrln("Nope For The moment");
@@ -64,6 +68,7 @@ int main()
       ili9341_println("PARTY BOI", clign = (clign == ILI9341_YELLOW ? ILI9341_RED : ILI9341_YELLOW), 5, 0);
       ili9341_println("!!!!", ILI9341_WHITE, 5, 0);
       ili9341_println("(le boss)", ILI9341_WHITE, 1, 0);
+	  custom_delay(1000);
     }
     test_rfid();
   }

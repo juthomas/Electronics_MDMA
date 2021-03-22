@@ -157,6 +157,8 @@ void initSPI()
     *((volatile uint8_t *)266) |= (1 << 3);
     *((volatile uint8_t *)267) |= (1 << 3);
     cli();
+    *((volatile uint8_t *)36) |= (1 << 0);
+    *((volatile uint8_t *)266) |= (1 << 2);
     *((volatile uint8_t *)36) |= (1 << 1);
     *((volatile uint8_t *)36) |= (1 << 2);
     sei();

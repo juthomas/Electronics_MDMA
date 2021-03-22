@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbmodem144301
+PORT		= /dev/tty.usbmodem14201
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
@@ -38,8 +38,8 @@ SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
 		$(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
 		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
 		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
-		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) 
-		#$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c)
+		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
+		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c)
 		#$(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -48,8 +48,8 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
-			$(MOZART_DIR:%=$(OBJ_DIR)/%) 
-			#$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%)
+			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
+			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%)
 			#$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
 
 INC = $(INC_DIR:%=-I ./%)

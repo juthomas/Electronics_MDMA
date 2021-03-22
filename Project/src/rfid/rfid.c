@@ -14,14 +14,14 @@ void PCD_WriteRegister(unsigned char reg, unsigned char value)
 {
   SPCR = 0b1010000;
   SPSR = 0;
-  ft_digital_write(RFID_CS, FT_LOW); // Select slave
+  *((volatile uint8_t *)267) &= ~(1 << 2); // Select slave
   SPDR = reg;                        // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
   while (!(SPSR & (1 << SPIF)))
     ;
   SPDR = value;
   while (!(SPSR & (1 << SPIF)))
     ;
-  ft_digital_write(RFID_CS, FT_HIGH); // Release slave again
+  *((volatile uint8_t *)267) |= (1 << 2); // Release slave again
 }
 
 unsigned char PCD_ReadRegister(unsigned char reg)
@@ -30,7 +30,7 @@ unsigned char PCD_ReadRegister(unsigned char reg)
 
   SPCR = 0b1010000;
   SPSR = 0;
-  ft_digital_write(RFID_CS, FT_LOW); // Select slave
+  *((volatile uint8_t *)267) &= ~(1 << 2); // Select slave
   SPDR = (0x80 | reg);
   while (!(SPSR & (1 << SPIF)))
     ;       // MSB == 1 is for reading. LSB is not used in address. Datasheet section 8.1.2.3.
@@ -38,7 +38,7 @@ unsigned char PCD_ReadRegister(unsigned char reg)
   while (!(SPSR & (1 << SPIF)))
     ;
   value = SPDR;
-  ft_digital_write(RFID_CS, FT_HIGH); // Release slave again
+  *((volatile uint8_t *)267) |= (1 << 2);// Release slave again
   return (value);
 }
 
@@ -249,18 +249,21 @@ void PCD_init()
 
   int hardReset = 0;
 
-  ft_pin_mode(RFID_CS, FT_OUTPUT);
-  ft_digital_write(RFID_CS, FT_HIGH);
+  *((volatile uint8_t *)266) |= (1 << 2);
+  *((volatile uint8_t *)267) |= (1 << 2);
 
-  ft_pin_mode(RFID_RST, FT_INPUT);
-
-  if (ft_digital_read(RFID_RST) == FT_LOW)
-  {
-    ft_digital_write(13, FT_HIGH);                         // The MFRC522 chip is in power down mode.
-    ft_pin_mode(RFID_RST, FT_OUTPUT);    // Now set the resetPowerDownPin as digital output.
-    ft_digital_write(RFID_RST, FT_LOW);  // Make sure we have a clean LOW state.
+  *((volatile uint8_t *)266) &= ~(1 << 0);
+  //ft_pin_mode(RFID_RST, FT_INPUT);
+  
+  if (!(*((volatile uint8_t *)265) & (1 << 0)))
+  {                        // The MFRC522 chip is in power down mode.
+      *((volatile uint8_t *)266) |= (1 << 0);
+      *((volatile uint8_t *)267) &= ~(1 << 0); 
+    //ft_pin_mode(RFID_RST, FT_OUTPUT);    // Now set the resetPowerDownPin as digital output.
+    //ft_digital_write(RFID_RST, FT_LOW);  // Make sure we have a clean LOW state.
     custom_delay(1);                     // 8.8.1 Reset timing requirements says about 100ns. Let us be generous: 2μsl
-    ft_digital_write(RFID_RST, FT_HIGH); // Exit power down mode. This triggers a hard reset.
+    *((volatile uint8_t *)267) |= (1 << 0); 
+    //ft_digital_write(RFID_RST, FT_HIGH); // Exit power down mode. This triggers a hard reset.
     // Section 8.8.2 in the datasheet says the oscillator start-up time is the start up time of the crystal + 37,74μs. Let us be generous: 50ms.
     custom_delay(50);
     hardReset = 1;
