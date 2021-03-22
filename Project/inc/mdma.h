@@ -9,6 +9,7 @@
 # include <stdint.h>
 # include "./pin_registers.h"
 # include "./tone.h"
+# include "./leds.h"
 // # include "./leds.h"
 # include <avr/interrupt.h>
 # include <avr/io.h>
