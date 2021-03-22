@@ -117,7 +117,6 @@ void ili9341_putnbr_base(int32_t nbr, char *base, int16_t color, uint8_t size, u
   u = ft_strlen_error(base);
   if (nbr < 0)
   {
-    ft_digital_write(13, FT_HIGH);
     write('-', color, size, delay);
     nbr = nbr * -1;
   }

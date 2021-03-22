@@ -255,7 +255,7 @@ void PCD_init()
   ft_pin_mode(RFID_RST, FT_INPUT);
 
   if (ft_digital_read(RFID_RST) == FT_LOW)
-  {             
+  {
     ft_digital_write(13, FT_HIGH);                         // The MFRC522 chip is in power down mode.
     ft_pin_mode(RFID_RST, FT_OUTPUT);    // Now set the resetPowerDownPin as digital output.
     ft_digital_write(RFID_RST, FT_LOW);  // Make sure we have a clean LOW state.
@@ -276,39 +276,6 @@ void PCD_init()
 
   PCD_Tinit();
   PCD_AntennaOn();
-}
-
-void SPI_init(uint32_t freq)
-{
-  if (ft_digital_read(RFID_RST) >= 0)
-  {
-    ft_pin_mode(RFID_RST, FT_OUTPUT);
-    ft_digital_write(RFID_RST, FT_HIGH);
-  }
-  //ft_pin_mode(RFID_DC,FT_OUTPUT);
-  // ft_digital_write(RFID_DC,FT_HIGH);
-
-  cli();
-  ft_pin_mode(RFID_MOSI, FT_OUTPUT);
-  ft_digital_write(RFID_MOSI, FT_LOW);
-  ft_pin_mode(CLK, FT_OUTPUT);
-  ft_digital_write(CLK, FT_LOW);
-  sei();
-
-  if (ft_digital_read(RFID_MISO) >= 0)
-  {
-    ft_pin_mode(RFID_MISO, FT_INPUT);
-  }
-  if (ft_digital_read(RFID_RST) >= 0)
-  {
-    ft_pin_mode(RFID_RST, FT_OUTPUT);
-    ft_digital_write(RFID_RST, FT_HIGH);
-    custom_delay(100);
-    ft_digital_write(RFID_RST, FT_LOW);
-    custom_delay(100);
-    ft_digital_write(RFID_RST, FT_HIGH);
-    custom_delay(200);
-  }
 }
 
 void init_rfid()
@@ -416,7 +383,7 @@ unsigned char PcdSelect(unsigned char *main_buf)
   status = PCD_CalculateCRC(main_buf, 7, &main_buf[7]);
   if (status != STATUS_OK)
   {
-    serial_putstr("crc not good");
+    //serial_putstr("crc not good");
     return status;
   }
   unsigned char txLastBits = 0; // 0 => All 8 bits are valid.
@@ -560,14 +527,14 @@ void DumpSector(unsigned char sector)
   {
     blockAddr = firstBlock + blockIndex;
     byteCount = 18;
-    ili9341_putnbrln(blockAddr, ILI9341_WHITE, 1, 0);
+    //ili9341_putnbrln(blockAddr, //ili9341_WHITE, 1, 0);
 
     if (isSectorTrailer)
     {
       status = PcdAuthenticate(firstBlock);
       if (status != STATUS_OK)
       {
-        ili9341_print("Auth failed\n", ILI9341_WHITE, 1, 0);
+        //ili9341_print("Auth failed\n", //ili9341_WHITE, 1, 0);
         return;
       }
 
@@ -576,33 +543,33 @@ void DumpSector(unsigned char sector)
     status = MifareRead(blockAddr, buffer, &byteCount);
     if (status != STATUS_OK)
     {
-      ili9341_print("write Failed : ", ILI9341_WHITE, 1, 0);
-      ili9341_putnbrln(status == STATUS_NO_ROOM, ILI9341_WHITE, 1, 0);
+      //ili9341_print("write Failed : ", //ili9341_WHITE, 1, 0);
+      //ili9341_putnbrln(status == STATUS_NO_ROOM, //ili9341_WHITE, 1, 0);
 
       return;
     }
-    ili9341_print(buffer, ILI9341_WHITE, 1, 0);
+    //ili9341_print(buffer, //ili9341_WHITE, 1, 0);
 
     // for (unsigned char index = 0; index < 16; index++)
     // {
     //   if (buffer[index] < 0x10)
       
-    //      ili9341_print(" 0", ILI9341_WHITE, 1, 0);
+    //      //ili9341_print(" 0", //ili9341_WHITE, 1, 0);
     //   else
-    //     ili9341_print(" ", ILI9341_WHITE, 1, 0);
-    //   //ili9341_putnbr_base(buffer[index],"0123456789ABCDEF", ILI9341_WHITE, 1, 0);
-    //   ili9341_print(buffer[index], ILI9341_WHITE, 1, 0);
+    //     //ili9341_print(" ", //ili9341_WHITE, 1, 0);
+    //   ////ili9341_putnbr_base(buffer[index],"0123456789ABCDEF", //ili9341_WHITE, 1, 0);
+    //   //ili9341_print(buffer[index], //ili9341_WHITE, 1, 0);
 
     //   if ((index % 4) == 3)
     //   {
-    //     ili9341_print(" ", ILI9341_WHITE, 1, 0);
+    //     //ili9341_print(" ", //ili9341_WHITE, 1, 0);
     //   }
     // }
-   ili9341_putnbrln(blockIndex, ILI9341_WHITE, 1, 0);
+   //ili9341_putnbrln(blockIndex, //ili9341_WHITE, 1, 0);
 
     blockIndex--;
   }
-  ili9341_print("end sector \n", ILI9341_WHITE, 1, 0);
+  //ili9341_print("end sector \n", //ili9341_WHITE, 1, 0);
 }
 
 void PcdDump()
@@ -610,23 +577,23 @@ void PcdDump()
   unsigned char nb_sectors;
 
   nb_sectors = 16;
-  ili9341_print("UID : ", ILI9341_WHITE, 1, 0);
+  //ili9341_print("UID : ", //ili9341_WHITE, 1, 0);
   char base[16] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
   for (int i = 0; i < 4; i++)
   {
-    ili9341_putnbr_base(Uid[i], "012345689ABCDEF", ILI9341_WHITE, 1, 0);
-    ili9341_print(",", ILI9341_WHITE, 1, 0);
+    //ili9341_putnbr_base(Uid[i], "012345689ABCDEF", //ili9341_WHITE, 1, 0);
+    //ili9341_print(",", //ili9341_WHITE, 1, 0);
 
   }
-  ili9341_println("", ILI9341_WHITE, 1, 0);
+  //ili9341_println("", //ili9341_WHITE, 1, 0);
   //serial_putstr("Sector Block   0  1  2  3   4  5  6  7   8  9 10 11  12 13 14 15  AccessBits\n");
-  //ili9341_println("Sector Block   0  1  2  3   4  5  6  7   8  9 10 11  12 13 14 15  AccessBits\n", ILI9341_WHITE, 1, 0);
+  ////ili9341_println("Sector Block   0  1  2  3   4  5  6  7   8  9 10 11  12 13 14 15  AccessBits\n", //ili9341_WHITE, 1, 0);
   for (int8_t i = nb_sectors - 1; i >= 0; i--)
   {
-    ili9341_print("sector ", ILI9341_WHITE, 1, 0);
-    ili9341_putnbr(i, ILI9341_WHITE, 1, 0);
-    ili9341_putnbrln(i, ILI9341_WHITE, 1, 0);
-    //ili9341_println("", ILI9341_WHITE, 1, 0);
+    //ili9341_print("sector ", //ili9341_WHITE, 1, 0);
+    //ili9341_putnbr(i, //ili9341_WHITE, 1, 0);
+    //ili9341_putnbrln(i, //ili9341_WHITE, 1, 0);
+    ////ili9341_println("", //ili9341_WHITE, 1, 0);
     DumpSector(i);
   }
 }
@@ -668,7 +635,7 @@ void PICC_WriteData()
     }
     block--;
   }
-  //ili9341_print("WRITE MADE EHE \n\n", ILI9341_WHITE, 1, 0);
+  ////ili9341_print("WRITE MADE EHE \n\n", //ili9341_WHITE, 1, 0);
 }
 
 int test_rfid()

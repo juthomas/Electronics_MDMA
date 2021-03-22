@@ -2,9 +2,9 @@
 
 void writeCommand(uint8_t cmd)
 {
-    ft_digital_write(TFT_DC, FT_LOW);
+    *((volatile uint8_t *)267) &= ~(1 << 3);
     AVR_WRITESPI(cmd);
-    ft_digital_write(TFT_DC, FT_HIGH);
+    *((volatile uint8_t *)267) |= (1 << 3);
 }
 
 void SPI_WRITE16(uint16_t w, uint8_t delay)

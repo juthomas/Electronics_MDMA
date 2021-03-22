@@ -2,9 +2,9 @@ FILENAME	= main
 PORT		= /dev/tty.usbmodem144301
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
-BAUD		= 115200 #can change for old bootloader
+BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
-COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
+COMPILE		= avr-gcc -Os -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
 
 MUTE		= TRUE #FALSE to unmute
@@ -18,31 +18,39 @@ PIN_REGISTER_DIR = pin_registers
 ILI9341_DIR = ili9341
 SERIAL_DIR = serial
 RFID_DIR = rfid
+MOZART_DIR = mozart
+LEDS_MANAGER_DIR = leds_manager
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
 USELESS_FT = useless
+LEDS_MANAGER_FT = low_level_led_addressing pixels_management
+MOZART_FT = tone musique
 SERIAL_FT = serial_uart serial_nbr_base
 RFID_FT = rfid
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
-SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
-	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
-	  $(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
-		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c)
+SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
+		$(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
+		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
+		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
+		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) 
+		#$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c)
+		#$(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
-OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
+OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
+			$(MOZART_DIR:%=$(OBJ_DIR)/%) 
+			#$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%)
+			#$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
 
 INC = $(INC_DIR:%=-I ./%)
 
@@ -158,6 +166,8 @@ unmute:
 	$(eval MUTE=FALSE)
 
 debug: unmute coffee
+
+re: clean all
 
 serial: coffee
 	@echo "\0033[1;36mStarting Serial Monitor"

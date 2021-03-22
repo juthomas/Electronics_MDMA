@@ -83,9 +83,10 @@ void spi_begin_transaction(void)
 void sendCommand(uint8_t commandByte, uint8_t *dataBytes, uint8_t numDataBytes)
 {
     spi_begin_transaction();
-    ft_digital_write(TFT_DC,FT_LOW);
+    //ft_digital_write(TFT_DC,FT_LOW);
+    *((volatile uint8_t *)267) &= ~(1 << 3);
     AVR_WRITESPI(commandByte);
-    ft_digital_write(TFT_DC,FT_HIGH);
+    *((volatile uint8_t *)267) |= (1 << 3);
     for (int i = 0; i < numDataBytes; i++)
         AVR_WRITESPI((*dataBytes)++);
     spi_end_transaction();
@@ -94,9 +95,9 @@ void sendCommand(uint8_t commandByte, uint8_t *dataBytes, uint8_t numDataBytes)
 void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t numDataBytes)
 {
     spi_begin_transaction();
-    ft_digital_write(TFT_DC,FT_LOW);
+    *((volatile uint8_t *)267) &= ~(1 << 3);
     AVR_WRITESPI(commandByte);
-    ft_digital_write(TFT_DC,FT_HIGH);
+    *((volatile uint8_t *)267) |= (1 << 3);
     for (int i = 0; i < numDataBytes; i++)
         AVR_WRITESPI(pgm_read_byte(dataBytes++));
     spi_end_transaction();
@@ -111,37 +112,61 @@ void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t num
 **      The frequency is set at 3000000 for the Hardware SPI communication.
 */
 
+// void old_initSPI_RIP_Danslecoeur()
+// {
+//     spcr = 81;
+//     spsr = 1;
+//     if (TFT_CS >= 0)
+//     {
+//         ft_pin_mode(TFT_CS,FT_OUTPUT);
+//         ft_pin_mode(RFID_CS, FT_OUTPUT);
+//         ft_digital_write(TFT_CS,FT_HIGH);
+//         ft_digital_write(RFID_CS,FT_HIGH);
+//     }
+//     ft_pin_mode(TFT_DC,FT_OUTPUT);
+//     ft_digital_write(TFT_DC,FT_HIGH);
+    
+//     cli();
+//     ft_pin_mode(TFT_CS, FT_OUTPUT);
+//     ft_pin_mode(RFID_CS, FT_OUTPUT);
+//     ft_pin_mode(TFT_CLK, FT_OUTPUT);
+//     ft_pin_mode(TFT_MOSI, FT_OUTPUT);
+//     sei();
+
+//     if (TFT_RST >= 0)
+//     {
+         //ft_pin_mode(TFT_RST,FT_OUTPUT);
+//         ft_digital_write(TFT_RST,FT_HIGH);
+//         custom_delay(100);
+//         ft_digital_write(TFT_RST,FT_LOW);
+//         custom_delay(100);
+//         ft_digital_write(TFT_RST,FT_HIGH);
+//         custom_delay(200);
+//     }
+// }
+
 void initSPI()
 {
     spcr = 81;
     spsr = 1;
-    if (TFT_CS >= 0)
-    {
-        ft_pin_mode(TFT_CS,FT_OUTPUT);
-        ft_pin_mode(RFID_CS, FT_OUTPUT);
-        ft_digital_write(TFT_CS,FT_HIGH);
-        ft_digital_write(RFID_CS,FT_HIGH);
-    }
-    ft_pin_mode(TFT_DC,FT_OUTPUT);
-    ft_digital_write(TFT_DC,FT_HIGH);
-    
-    cli();
-    ft_pin_mode(TFT_CS, FT_OUTPUT);
-    ft_pin_mode(RFID_CS, FT_OUTPUT);
-    ft_pin_mode(TFT_CLK, FT_OUTPUT);
-    ft_pin_mode(TFT_MOSI, FT_OUTPUT);
-    sei();
 
-    if (TFT_RST >= 0)
-    {
-        ft_pin_mode(TFT_RST,FT_OUTPUT);
-        ft_digital_write(TFT_RST,FT_HIGH);
-        custom_delay(100);
-        ft_digital_write(TFT_RST,FT_LOW);
-        custom_delay(100);
-        ft_digital_write(TFT_RST,FT_HIGH);
-        custom_delay(200);
-    }
+    *((volatile uint8_t *)36) |= (1 << 0);
+    *((volatile uint8_t *)266) |= (1 << 2);
+    *((volatile uint8_t *)37) |= (1 << 0);
+    *((volatile uint8_t *)267) |= (1 << 2);
+    *((volatile uint8_t *)266) |= (1 << 3);
+    *((volatile uint8_t *)267) |= (1 << 3);
+    cli();
+    *((volatile uint8_t *)36) |= (1 << 1);
+    *((volatile uint8_t *)36) |= (1 << 2);
+    sei();
+    *((volatile uint8_t *)266) |= (1 << 1);
+
+    custom_delay(100);
+    *((volatile uint8_t *)267) &= ~(1 << 1);
+    custom_delay(100);
+    *((volatile uint8_t *)267) |= (1 << 1);
+    custom_delay(200);
 }
 
 //For vertical display it is 1 and 3.
@@ -183,8 +208,8 @@ void ili9341_begin()
     cp437 = 0;
     width = ILI9341_TFTWIDTH;
     height = ILI9341_TFTHEIGHT;
-    portSPI = (volatile uint8_t*)g_pin_associations[TFT_MOSI].register_port_addr;
-    portPINL = (volatile uint8_t*)g_pin_associations[TFT_DC].register_port_addr;
+    portSPI = 37;
+    portPINL = 267;
     const uint8_t *addr = initcmd;
     while ((cmd = pgm_read_byte(addr++)) > 0)
     {
