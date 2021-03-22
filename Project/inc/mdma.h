@@ -2,12 +2,13 @@
 # define MDMA_H
 # ifndef __AVR_ATmega2560__
 #  define __AVR_ATmega2560__
-#  define F_CPU 16000000
+//#  define F_CPU 16000000
 # endif
 # include <avr/io.h>
 # include <avr/interrupt.h>
 # include "./pin_registers.h"
 # include "./ili9341.h"
+# include "./rfid.h"
 
 # define CPU_CLOCK 2000000 // 16Mhz -> / 8 2Mhz
 # define SERIAL_8N1 0x06
@@ -43,6 +44,7 @@ void	serial_putchar(char c);
 void	serial_putnbrln(int32_t n);
 void	serial_putnbr_base(int nbr, char *base);
 void	serial_putnbr_baseln(int nbr, char *base);
+void    initSPI();
 
 
 

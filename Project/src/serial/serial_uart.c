@@ -7,13 +7,22 @@
 static void uart_init(uint32_t baud, uint8_t config)
 {
   // enable UDRE interrupt and enable transmit
-  UCSR0B |= (1 << UDRIE0) | (1 << TXEN0);
+  /*UCSR0B |= (1 << UDRIE0) | (1 << TXEN0);
 
   // set character data size to 8
   UCSR0C |= (1 << UCSZ00) | (1 << UCSZ01);
 
   // baud rate 9600
-	UBRR0 = 103;
+	UBRR0 = 103;*/
+
+	uint16_t baud_setting = (1600000UL / 4 / baud - 1) / 2;
+	UCSR0A = (1 << U2X0);
+	UBRR0H = baud_setting >> 8;
+	UBRR0L = baud_setting;
+
+	UCSR0C = config;
+	UCSR0B |= (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
+	UCSR0B &= ~(1 << (UDRIE0));
 }
 
 void serial_putchar(char c)
@@ -39,6 +48,7 @@ void serial_putstr(const char* str)
 	{
 		serial_putchar(*str++);
 	}
+	serial_putchar('c');
 }
 
 char serial_rx(void)

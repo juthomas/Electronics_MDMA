@@ -17,28 +17,32 @@ INC_DIR = inc
 PIN_REGISTER_DIR = pin_registers
 ILI9341_DIR = ili9341
 SERIAL_DIR = serial
+RFID_DIR = rfid
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
-ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities graphicTest
+ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
 USELESS_FT = useless
 SERIAL_FT = serial_uart serial_nbr_base
+RFID_FT = rfid
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
-	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c)
+	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
+	  $(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
+		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
+			$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
+			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
-			$(SERIAL_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 

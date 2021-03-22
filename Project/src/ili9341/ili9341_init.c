@@ -118,13 +118,16 @@ void initSPI()
     if (TFT_CS >= 0)
     {
         ft_pin_mode(TFT_CS,FT_OUTPUT);
+        ft_pin_mode(RFID_CS, FT_OUTPUT);
         ft_digital_write(TFT_CS,FT_HIGH);
+        ft_digital_write(RFID_CS,FT_HIGH);
     }
     ft_pin_mode(TFT_DC,FT_OUTPUT);
     ft_digital_write(TFT_DC,FT_HIGH);
     
     cli();
     ft_pin_mode(TFT_CS, FT_OUTPUT);
+    ft_pin_mode(RFID_CS, FT_OUTPUT);
     ft_pin_mode(TFT_CLK, FT_OUTPUT);
     ft_pin_mode(TFT_MOSI, FT_OUTPUT);
     sei();
@@ -183,7 +186,6 @@ void ili9341_begin()
     portSPI = (volatile uint8_t*)g_pin_associations[TFT_MOSI].register_port_addr;
     portPINL = (volatile uint8_t*)g_pin_associations[TFT_DC].register_port_addr;
     const uint8_t *addr = initcmd;
-    initSPI();
     while ((cmd = pgm_read_byte(addr++)) > 0)
     {
         x = pgm_read_byte(addr++);

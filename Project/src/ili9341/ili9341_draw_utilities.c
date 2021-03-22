@@ -82,7 +82,6 @@ void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color, uint8_t dela
 
 void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t corners, int16_t delta, uint16_t color, uint8_t delay)
 {
-
     int16_t f = 1 - r;
     int16_t ddF_x = 1;
     int16_t ddF_y = -2 * r;
