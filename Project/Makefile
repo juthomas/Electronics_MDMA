@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbmodem142101
+PORT		= /dev/tty.usbmodem144301
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200 #can change for old bootloader

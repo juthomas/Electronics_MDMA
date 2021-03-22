@@ -635,9 +635,9 @@ void PICC_WriteData()
 {
   unsigned char block;
   unsigned char status;
-  unsigned char imager[192];
+  unsigned char image[192];
   unsigned char name[10] = {'P', 'A', 'R', 'T', 'Y', ' ', 'B', 'O', 'Y'};
-
+  unsigned char buffer[100];
   int j = -1;
 
   while (j++ < 192)

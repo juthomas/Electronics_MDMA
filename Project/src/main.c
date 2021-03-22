@@ -39,7 +39,7 @@ int main()
   init_rfid();
 
   ili9341_begin();
-  ili9341_setRotation(1);
+  ili9341_setRotation(3);
   ili9341_fillScreen(ILI9341_BLACK);
   for (;;)
   {
