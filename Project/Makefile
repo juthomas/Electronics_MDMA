@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbmodem14201
+PORT		= /dev/tty.usbmodem14101
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
@@ -20,12 +20,13 @@ SERIAL_DIR = serial
 RFID_DIR = rfid
 MOZART_DIR = mozart
 LEDS_MANAGER_DIR = leds_manager
+BOUTON_DIR = Bouton
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
-USELESS_FT = useless
+BOUTON_FT = turn_me
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
 SERIAL_FT = serial_uart serial_nbr_base
@@ -39,8 +40,8 @@ SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
 		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
 		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
 		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
-		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c)
-		#$(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
+		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
+		$(BOUTON_FT:%=$(SRC_DIR)/$(BOUTON_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -49,8 +50,8 @@ OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
 			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
-			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%)
-			#$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
+			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
+			$(BOUTON_DIR:%=$(OBJ_DIR)/%) 
 
 INC = $(INC_DIR:%=-I ./%)
 

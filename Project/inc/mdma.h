@@ -41,6 +41,12 @@ void	ft_digital_write(enum e_pins pin, enum e_states state);
 int		ft_digital_read(enum e_pins pin);
 void	custom_delay(uint32_t milli);
 
+//bouton
+void    init_turn();
+
+
+
+
 // Leds 
 
 // low level led adressing
