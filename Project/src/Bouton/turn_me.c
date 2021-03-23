@@ -3,67 +3,67 @@
 #include <avr/interrupt.h>
 
 
-static int v[5] = {0, 0, 0, 0, 0};
+static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
-static int yo = 0;
 
+
+//bouton state vas geree si le bouton vas actuellment vers + ou - 
+//on as pris le partie pris de sous diviser chaque if en 4 cela permet de contrer le saut detat
 
 void bouton_state(int now, int index)
 {
 
-	if ((v[index] == 0 && now == 2) || (v[index] == 2 && now == 3) || (v[index] == 3 && now == 1) || (v[index] == 1 && now == 0))
+	if ((old_state[index] == 0 && now == 2) || (old_state[index] == 2 && now == 3) || (old_state[index] == 3 && now == 1) || (old_state[index] == 1 && now == 0))
 	{
 			nb[index]++;
 			ft_digital_write(4, FT_HIGH);
 	}
-	else if (((v[index] == 0 && now == 1) || (v[index] == 2 && now == 0) || (v[index] == 3 && now == 2) || (v[index] == 1 && now == 3)))
+	else if (((old_state[index] == 0 && now == 1) || (old_state[index] == 2 && now == 0) || (old_state[index] == 3 && now == 2) || (old_state[index] == 1 && now == 3)))
 	{
 			nb[index]--;
 		ft_digital_write(4, FT_LOW);
 	}
-	v[index] = now;
+	old_state[index] = now;
 }
+
+
+//PCINT0 et PCINT2 socupe de savoir qui as ete apller en fesant apelle as bouton state
+//lapelle as bouton_state pourais etre fait : (a faire)
 
 ISR(PCINT0_vect)
 {
-	//ili9341_println("yo", ILI9341_WHITE, 1, 0);
+	int state = 0;
+	state = ((PINB & (1 << PINB5)) >> PINB5) << 1;
+	state += (PINB & (1 << PINB4)) >> PINB4;
+	bouton_state(state, 0);
 
+	state = ((PINB & (1 << PINB7)) >> PINB7) << 1;
+	state += (PINB & (1 << PINB6)) >> PINB6;
+	bouton_state(state, 1);
 
-	int a = 0;
-	a = ((PINB & (1 << PINB5)) >> PINB5) << 1;
-	a += (PINB & (1 << PINB4)) >> PINB4;
-	bouton_state(a, 0);
-
-	a = ((PINB & (1 << PINB7)) >> PINB7) << 1;
-	a += (PINB & (1 << PINB6)) >> PINB6;
-	bouton_state(a, 1);
-
-	yo = 1;
 }
 
 ISR(PCINT2_vect)
 {
 
-	int a = 0;
-	a = ((PINK & (1 << PINK1)) >> PINK1) << 1;
-	a += (PINK & (1 << PINK0)) >> PINK0;
-	bouton_state(a, 2);
+	int state = 0;
+	state = ((PINK & (1 << PINK1)) >> PINK1) << 1;
+	state += (PINK & (1 << PINK0)) >> PINK0;
+	bouton_state(state, 2);
 
-	a = ((PINK & (1 << PINK3)) >> PINK3) << 1;
-	a += (PINK & (1 << PINK2)) >> PINK2;
-	bouton_state(a, 3);
+	state = ((PINK & (1 << PINK3)) >> PINK3) << 1;
+	state += (PINK & (1 << PINK2)) >> PINK2;
+	bouton_state(state, 3);
 
-	a = ((PINK & (1 << PINK5)) >> PINK5) << 1;
-	a += (PINK & (1 << PINK4)) >> PINK4;
-	bouton_state(a, 4);
-
-	yo = 1;
+	state = ((PINK & (1 << PINK5)) >> PINK5) << 1;
+	state += (PINK & (1 << PINK4)) >> PINK4;
+	bouton_state(state, 4);
 }
 
 void init_turn()
 {
-	
-	DDRB = 0b00000000;
+	cli();
+	//DDRB = 0b00000000;
 	// PB0,PB1,PB2 (PCINT0, PCINT1, PCINT2 pin) are now inputs
 	PORTB |= ((1 << PORTB7) | (1 << PORTB5) | (1 << PORTB4) | (1 << PORTB6)); // turn On the Pull-up
 	
@@ -76,7 +76,7 @@ void init_turn()
 	PCMSK2 |= 0b00111111;
 
 
-	SREG = 0b10000000; //global interrupt enable
+	sei(); //global interrupt enable
 
 	//	ft_pin_mode(CLK, FT_INPUT);
 

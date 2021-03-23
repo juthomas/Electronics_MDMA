@@ -47,10 +47,10 @@ int main()
 	init_turn();
 
 	  ili9341_setRotation(3);
-	  ili9341_fillScreen(ILI9341_BLACK);
+
 	  play_music();
-		led_draw_animation(64);
-	  play_music();
+	led_draw_animation(64);
+	  //play_music();
 
 	  for (;;)
 	  {
@@ -63,8 +63,8 @@ int main()
 	    y = cursor_y;
 	    while (!test_rfid())
 	    {
-	    	ili9341_setCursor(x, y);
-	    	ili9341_println("    - Start -", clign = (clign == ILI9341_YELLOW ? ILI9341_WHITE : ILI9341_YELLOW), 3, delay);
+	    	//ili9341_setCursor(x, y);
+	    	//ili9341_println("    - Start -", clign = (clign == ILI9341_YELLOW ? ILI9341_WHITE : ILI9341_YELLOW), 3, delay);
 	    }
 	    ili9341_fillScreen(ILI9341_BLACK);
 	    ili9341_setCursor(0, 0);
