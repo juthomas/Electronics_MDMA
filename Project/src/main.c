@@ -31,6 +31,8 @@ void custom_delay(uint32_t milli)
 
 int main()
 {
+	//init_turn(); 
+	
 	int16_t clign = ILI9341_WHITE;
 	int16_t x = 0;
 	int16_t y = 0;
@@ -44,6 +46,7 @@ int main()
 
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
+
 	init_turn();
 
 	  ili9341_setRotation(3);
