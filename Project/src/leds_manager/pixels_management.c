@@ -229,7 +229,14 @@ void led_matrix_send_progmem(const uint8_t *progmem)
 	uint8_t buffer[64 * 3];
 	for (unsigned char i = 0; i < 64 * 3; i++)
 		buffer[i] = (uint8_t)pgm_read_byte_near((progmem + i));
+	
 	led_send_data(3, (uint8_t *)buffer, 64);
+	led_send_data(2, (uint8_t *)buffer, 64);
+	led_send_data(9, (uint8_t *)buffer, 64);
+	led_send_data(5, (uint8_t *)buffer, 64);
+	led_send_data(8, (uint8_t *)buffer, 64);
+
+
 }
 
 void led_draw_animation(uint16_t pixels_number)
@@ -239,6 +246,10 @@ void led_draw_animation(uint16_t pixels_number)
 
 	ft_pin_mode(51, FT_OUTPUT);
 	ft_pin_mode(3, FT_OUTPUT);
+	ft_pin_mode(2, FT_OUTPUT);
+	ft_pin_mode(5, FT_OUTPUT);
+	ft_pin_mode(9, FT_OUTPUT);
+	ft_pin_mode(8, FT_OUTPUT);
 
 	led_matrix_send_progmem(SWORD);
 	for (int32_t i = 0; i < 500000; i++)
@@ -321,6 +332,7 @@ void led_draw_animation(uint16_t pixels_number)
 		{
 			led_matrix_draw_line(pixels, 0, 0, 7, y, 0x0, 0x10, 0x10);
 			led_send_data(3, pixels, 64);
+			led_send_data(2, pixels, 64);
 			for (int32_t i = 0; i < 100000; i++)
 				;
 		}
@@ -328,11 +340,13 @@ void led_draw_animation(uint16_t pixels_number)
 		{
 			led_matrix_draw_line(pixels, 0, 0, 7 - y, 7, 0x10, 0x10, 0x10);
 			led_send_data(3, pixels, 64);
+			led_send_data(2, pixels, 64);
 			for (int32_t i = 0; i < 100000; i++)
 				;
 		}
 		led_matrix_draw_circle(pixels, 2, 2, 2, 0x10, 0x0, 0x0);
 		led_send_data(3, pixels, 64);
+		led_send_data(2, pixels, 64);
 		for (int32_t i = 0; i < 500000; i++)
 			;
 		led_matrix_draw_circle(pixels, 5, 5, 2, 0x0, 0x10, 0x0);
