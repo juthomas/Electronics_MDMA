@@ -31,7 +31,7 @@ void custom_delay(uint32_t milli)
 
 int main()
 {
-	//init_turn(); 
+	init_turn(); 
 	
 	int16_t clign = ILI9341_WHITE;
 	int16_t x = 0;
@@ -47,17 +47,19 @@ int main()
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
 
-	init_turn();
+	//init_turn();
 
 	  ili9341_setRotation(3);
 
-	  play_music();
+	//  play_music();
 	led_draw_animation(64);
 	  //play_music();
 
 	  for (;;)
 	  {
 	    //serial_putstrln("Nope For The moment");
+
+
 	    ili9341_setCursor(0, 0);
 	    ili9341_print("MEGA\nDRINKING\n", ILI9341_WHITE, 5, delay);
 	    ili9341_print("MACHINA\n", ILI9341_RED, 5, delay);
@@ -82,7 +84,7 @@ int main()
 	    }
 	    test_rfid();
 	  }
-	serial_putstr("Ended as it can lol");
+	//serial_putstr("Ended as it can lol");
 	return (0);
 }
 // int main()

@@ -2,8 +2,13 @@
 #include "../../inc/mdma.h"
 #include <avr/interrupt.h>
 
+
+
 static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
+int touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+
 
 //bouton state vas geree si le bouton vas actuellment vers + ou -
 //on as pris le partie pris de sous diviser chaque if en 4 cela permet de contrer le saut detat
@@ -56,36 +61,55 @@ ISR(PCINT2_vect)
 	bouton_state(state, 4);
 }
 
-ISR(TIMER0_COMPB_vect)
+ISR(TIMER2_COMPA_vect)
 {
-	PORTC = (1 << PORTC6);
-	if (!((PINE & (1 << PE5)))) // bouton brancher as la PE5
-		PORTC = (1 << PORTC6); // led brancher sur PC6
-	if (!((PING & (1 << PG5))))
-		PORTA = (1 << PORTA7);
-		/* 
-		lideal serais d avoir un tbleaux comun as tout le monde pour pouvoir balader une matrice de bouton appuier ou non 
-		 je vais mettre un tableaux de [5][3] pour plus de clarter . et peu etre [6][3] pour les bouton sur la bord du milieux 
-		*/
+	static const uint8_t tab[NB_T] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
+	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
+
+	for (int i = 0; i < 1 ;i++)
+	{
+		if (!((*(value[i]) & (1 << tab[i])))) {
+			touch[i] = 1;
+		}
+		else
+			touch[i] = 0;
+	}
+
 }
+
+
+
+void setupTimer2(uint32_t ocr, uint8_t prescaler)
+{
+	cli();
+	// Clear registers
+	TCCR2A = 0;
+	TCCR2B = 0;
+	TCNT2 = 0;
+	// 100.16025641025641 Hz (16000000/((155+1)*1024))
+	OCR2A = ocr;
+	// CTC
+	TCCR2A |= (1 << WGM21);
+	// Prescaler 1024
+	TCCR2B = (TCCR2B & 0b11111000) | prescaler;
+	
+	// TCCR0B = prescaler & 0x07;
+
+	//TCCR0B |= (1 << CS02) | (1 << CS00);
+	// Output Compare Match A Interrupt Enable
+	TIMSK2 |= (1 << OCIE2A);
+	sei();
+}
+
+
 
 void init_turn()
 {
+	
+	DDRA |= (1 << DDA7);
+	setupTimer2(3000, 100);
 	cli();
 
-	//set toggle
-	TCCR0B |= (1 << FOC0B);
-	//set le mode 2
-	TCCR0B |= (0 << WGM02);
-	TCCR0A |= (1 << WGM01);
-	TCCR0A |= (0 << WGM00);
-	//set maske
-	TIMSK0 |= (1 << OCIE0B);
-	OCR0B = 25; //max value
-	
-	//set clock timer a 1024
-	TCCR0B |= (1 << CS02);
-	TCCR0B |= (1 << CS00);
 
 	//DDRB = 0b00000000;
 	// PB0,PB1,PB2 (PCINT0, PCINT1, PCINT2 pin) are now inputs
@@ -93,9 +117,6 @@ void init_turn()
 	DDRC |= (1 << DDC6);
 	DDRA |= (1 << DDA7);
 
-	/*while (1)
-	{
-	}*/
 	PORTK |= 0b00111111;
 	// activer de portk0 as portk5
 
@@ -104,9 +125,19 @@ void init_turn()
 
 	PCMSK2 |= 0b00111111;
 
-	sei(); //global interrupt enable
 
-	//	ft_pin_mode(CLK, FT_INPUT);
+	sei(); 
+					DDRC |= (1 << DDC6);
+while (1){
+			if (touch[0])
+			{
+				PINC = (1 << DDC6);
+			} 
+			else 
+			{
+				PINC = 0;
+			}
+}
 
 	return;
 }
