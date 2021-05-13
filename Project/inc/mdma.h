@@ -7,7 +7,7 @@
 // # include <avr/io.h>
 // # include <avr/interrupt.h>
 # include <stdint.h>
-# include "./pin_registers.h"
+// # include "./pin_registers.h"
 // # include "./tone.h"
 // # include "./leds.h"
 // # include "./leds.h"
@@ -34,9 +34,9 @@
 */
 
 // pins manipulation
-void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
-void	ft_digital_write(enum e_pins pin, enum e_states state);
-int		ft_digital_read(enum e_pins pin);
+// void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
+// void	ft_digital_write(enum e_pins pin, enum e_states state);
+// int		ft_digital_read(enum e_pins pin);
 
 // Leds 
 
@@ -49,7 +49,7 @@ void	led_draw_animation(uint16_t pixels_number);
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
 void	led_draw_animation(uint16_t pixels_number);
-void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
+// void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
 
 
 

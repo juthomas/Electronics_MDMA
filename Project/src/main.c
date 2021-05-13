@@ -10,10 +10,12 @@ int main()
 
    for(;;)
    {
-	play_music();
+	// play_music();
 	led_draw_animation(64);
    }
-   ft_pin_mode(33, FT_OUTPUT);
+//    ft_pin_mode(33, FT_OUTPUT);
+   DDRC |= 1 << PIN4;
+
 
 	// uint8_t pixels[3];
 	// uint16_t pixels_number = 1;

@@ -825,19 +825,19 @@ void	led_send_data_PORTL(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	// 	  [lo]     "r" (lo));
 }
 
-void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number)
-{
-	//For inform strange pins
-	if (g_pin_associations[pin].register_port_addr == FT_PORTH ||
-		g_pin_associations[pin].register_port_addr == FT_PORTJ ||
-		g_pin_associations[pin].register_port_addr == FT_PORTK ||
-		g_pin_associations[pin].register_port_addr == FT_PORTL)
-	{
-		//Go check this project : //https://github.com/pololu/pololu-led-strip-arduino/blob/master/PololuLedStrip.h
-		serial_putstrln("Error Port >= H not yet implemented");
-	}
-	(*g_asm_sender[pin].func)(g_pin_associations[pin].register_mask, pixels, pixels_number);
-}
+// void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number)
+// {
+// 	//For inform strange pins
+// 	if (g_pin_associations[pin].register_port_addr == FT_PORTH ||
+// 		g_pin_associations[pin].register_port_addr == FT_PORTJ ||
+// 		g_pin_associations[pin].register_port_addr == FT_PORTK ||
+// 		g_pin_associations[pin].register_port_addr == FT_PORTL)
+// 	{
+// 		//Go check this project : //https://github.com/pololu/pololu-led-strip-arduino/blob/master/PololuLedStrip.h
+// 		serial_putstrln("Error Port >= H not yet implemented");
+// 	}
+// 	(*g_asm_sender[pin].func)(g_pin_associations[pin].register_mask, pixels, pixels_number);
+// }
 
 void	matrix_send_data(enum e_matrix_activation activation,uint8_t *pixels, uint16_t pixels_number)
 {
