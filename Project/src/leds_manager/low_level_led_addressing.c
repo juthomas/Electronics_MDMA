@@ -837,6 +837,9 @@ void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number)
 		serial_putstrln("Error Port >= H not yet implemented");
 	}
 	(*g_asm_sender[pin].func)(g_pin_associations[pin].register_mask, pixels, pixels_number);
+}
 
-
+void	matrix_send_data(enum e_matrix_activation activation,uint8_t *pixels, uint16_t pixels_number)
+{
+	led_send_data_PORTA(activation, pixels, pixels_number);
 }

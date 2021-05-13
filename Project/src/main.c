@@ -1,4 +1,5 @@
 #include "../inc/mdma.h"
+#include "../inc/tone.h"
 
 #define CPU_CLOCK 2000000
 

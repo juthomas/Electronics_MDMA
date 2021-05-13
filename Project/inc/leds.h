@@ -5,6 +5,8 @@
 # include <./mdma.h>
 // #endif
 
+
+
 typedef void(*t_asm_sender)(uint8_t mask, uint8_t *, uint16_t);
 
 void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
@@ -25,6 +27,15 @@ typedef struct	s_asm_attr_sender{
 	t_asm_sender	func;
 
 }				t_asm_attr_sender;
+
+enum			e_matrix_activation{
+	MAT_1 = 1 << 4,
+	MAT_2 = 1 << 3,
+	MAT_3 = 1 << 0,
+	MAT_4 = 1 << 1,
+	MAT_5 = 1 << 2,
+	MAT_ALL = MAT_1 | MAT_2 | MAT_3 | MAT_4 | MAT_5
+};
 
 // static const t_asm_attr_sender g_asm_sender[1] = {
 // (t_asm_attr_sender){
@@ -245,6 +256,8 @@ static const t_asm_attr_sender g_asm_sender[FT_DMAX] = {
 .pin_number=FT_A15,
 .func = led_send_data_PORTK},
 };
+
+void	matrix_send_data(enum e_matrix_activation activation, uint8_t *pixels, uint16_t pixels_number);
 
 
 #endif

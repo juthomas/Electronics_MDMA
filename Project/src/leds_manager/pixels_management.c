@@ -229,7 +229,8 @@ void led_matrix_send_progmem(const uint8_t *progmem)
 	uint8_t buffer[64 * 3];
 	for (unsigned char i = 0; i < 64 * 3; i++)
 		buffer[i] = (uint8_t)pgm_read_byte_near((progmem + i));
-	led_send_data(3, (uint8_t *)buffer, 64);
+	// led_send_data(26, (uint8_t *)buffer, 64);
+	matrix_send_data(MAT_1 | MAT_3 | MAT_4 | MAT_2, (uint8_t *)buffer, 64);
 }
 
 void led_draw_animation(uint16_t pixels_number)
@@ -238,7 +239,12 @@ void led_draw_animation(uint16_t pixels_number)
 	// uint32_t colors = 0xFF0000;
 
 	ft_pin_mode(51, FT_OUTPUT);
-	ft_pin_mode(3, FT_OUTPUT);
+	ft_pin_mode(22, FT_OUTPUT);
+	ft_pin_mode(23, FT_OUTPUT);
+	ft_pin_mode(24, FT_OUTPUT);
+	ft_pin_mode(25, FT_OUTPUT);
+	ft_pin_mode(26, FT_OUTPUT);
+	ft_pin_mode(27, FT_OUTPUT);
 
 	led_matrix_send_progmem(SWORD);
 	for (int32_t i = 0; i < 500000; i++)
