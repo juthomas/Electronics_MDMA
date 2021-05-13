@@ -21,7 +21,7 @@ SERIAL_DIR = serial
 MOZART_DIR = mozart
 
 #defines of files in directories
-PIN_REGISTER_FT = pins_manipulation 
+# PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
