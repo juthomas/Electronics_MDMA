@@ -414,11 +414,51 @@ void launch_dice()
 }
 
 
+void draw_line_between_players(uint8_t* buffer, uint8_t from, uint8_t to)
+{
+	
+	// uint8_t buffer[62 * 3 * 5];
+	// 1 > 2
+	if (from == 1 && to == 2)
+	{
+		feed_one_pixel(57 - 1 , buffer, 0x00001000);//LVII PART_1
+		feed_one_pixel(56 - 1, buffer, 0x00001000);//LVI
+		feed_one_pixel(55 - 1, buffer, 0x00001000);//LV
+		feed_one_pixel(54 - 1, buffer, 0x00001000);//LIV
+
+		feed_one_pixel(62 - 1 + 62, buffer, 0x00001000);//LXII PART_2
+		feed_one_pixel(61 - 1 + 62, buffer, 0x00001000);//LXI
+		feed_one_pixel(60 - 1 + 62, buffer, 0x00001000);//LX
+		feed_one_pixel(59 - 1 + 62, buffer, 0x00001000);//LIX
+		feed_one_pixel(58 - 1 + 62, buffer, 0x00001000);//LIIX
+	}
+
+
+	// for (uint8_t current_led = 0; current_led++; current_led < 62)
+	// {
+	// 	if (current_led == 62)
+	// 	buffer[current_led * 3] = 0x00; 		//green
+	// 	buffer[current_led * 3 + 1] = 0x10;		//red
+	// 	buffer[current_led * 3 + 2] = 0x00;		//blue
+	// }
+
+}
+
+void draw_players_interactions()
+{
+
+}
 
 void led_draw_animation(uint16_t pixels_number)
 {
 	// uint8_t pixels[pixels_number * 3];
 	// uint32_t colors = 0xFF0000;
+
+	uint8_t buffer[62 * 3 * 5];
+	for (int i = 0; i < 62 * 3 * 5; i++)
+	{
+		buffer[i] = 0;
+	}
 
 	DDRA |= 1 << PIN0;
 	DDRA |= 1 << PIN1;
@@ -427,10 +467,12 @@ void led_draw_animation(uint16_t pixels_number)
 	DDRA |= 1 << PIN4;
 	DDRA |= 1 << PIN5;
 	// led_test();
-		draw_satanic_circle();
+		// draw_roulette();
 	for (;;)
 	{
 		// launch_dice();
+		draw_line_between_players(buffer,1, 2);
+		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 		for (int32_t i = 0; i < 500000; i++)
 		;
 	}
