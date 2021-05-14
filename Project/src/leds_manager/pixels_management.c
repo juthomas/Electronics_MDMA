@@ -53,7 +53,7 @@ uint8_t	*animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 		pixels[pixels_indexes[i] * 3 + 1] = (color & 0xFF0000) >> 16;
 		pixels[pixels_indexes[i] * 3 + 2] = color & 0x0000FF;
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-		for (int32_t i = 0; i < 9000; i++)
+		for (int32_t i = 0; i < 5000; i++)
 			;
 	}
 	return (pixels);
@@ -472,11 +472,9 @@ void reverse_array(uint16_t *pixels_to_draw, int size)
     }
 }
 
-void draw_line_between_players(uint8_t* buffer, uint8_t from, uint8_t to, uint8_t animate)
+void draw_line_between_players(uint8_t* buffer, uint8_t from, uint8_t to, uint8_t animate, uint32_t color)
 {
-	
-	// uint8_t buffer[62 * 3 * 5];
-	// 1 > 2
+	//Clockwise interations
 	if ((from == 1 && to == 2) || (from == 2 && to == 3) || (from == 3 && to == 4) \
 							|| (from == 4 && to == 5) || (from == 5 && to == 1))
 	{
@@ -488,13 +486,14 @@ void draw_line_between_players(uint8_t* buffer, uint8_t from, uint8_t to, uint8_
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
 		if (animate)
 		{
-			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 0x001000);
+			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 		}
 		else
 		{
-			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 0x001000);
+			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 		}
 	}
+	//Counter Clockwise interations
 	else if ((from == 2 && to == 1) || (from == 3 && to == 2) || (from == 4 && to == 3) \
 							|| (from == 5 && to == 4) || (from == 1 && to == 5))
 	{
@@ -502,21 +501,62 @@ void draw_line_between_players(uint8_t* buffer, uint8_t from, uint8_t to, uint8_
 		uint16_t pixels_to_draw[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, \
 		/*  LXII         LXI          LX           LIX           LIIX */ \
 		62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
-		
+
 		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 3);
 		if (animate)
 		{
-			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 0x001000);
+			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 		}
 		else
 		{
-			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 0x001000);
+			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 		}
 	}
-
-
-
+	//Clockwise Star interations
+	else if ((from == 1 && to == 3) || (from == 2 && to == 4) || (from == 3 && to == 5) \
+							|| (from == 4 && to == 1) || (from == 5 && to == 2))
+	{
+		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
+		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1,  25 - 1, 15 - 1, 6 - 1,\
+		/*   V           IV          III        II           I    */ \
+		5 - 1 + 62, 4 - 1 + 62, 3 - 1 + 62, 2 - 1 + 62, 1 - 1 + 62, \
+		/*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */ \
+		5 - 1 + 124, 12 - 1 + 124, 20 - 1 + 124, 29 - 1 + 124, 36 - 1 + 124, 40 - 1 + 124, 47 - 1 + 124};
+		
+		// reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
+		if (animate)
+		{
+			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		}
+		else
+		{
+			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		}
+	}
+	//Counter Clockwise Star interations
+	else if ((from == 3 && to == 1) || (from == 4 && to == 2) || (from == 5 && to == 3) \
+							|| (from == 1 && to == 4) || (from == 2 && to == 5))
+	{
+		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
+		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1,  25 - 1, 15 - 1, 6 - 1,\
+		/*   V           IV          III        II           I    */ \
+		5 - 1 + 62, 4 - 1 + 62, 3 - 1 + 62, 2 - 1 + 62, 1 - 1 + 62, \
+		/*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */ \
+		5 - 1 + 124, 12 - 1 + 124, 20 - 1 + 124, 29 - 1 + 124, 36 - 1 + 124, 40 - 1 + 124, 47 - 1 + 124};
+		
+		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 2);
+		if (animate)
+		{
+			animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		}
+		else
+		{
+			feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		}
+	}
 }
 
 void draw_players_interactions()
@@ -548,24 +588,47 @@ void led_draw_animation(uint16_t pixels_number)
 		// for (int32_t i = 0; i < 200000; i++)
 		// ;
 
+	uint32_t interactions_color = 0x101010;
 	//Clockwise interactions
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 5; i++)
 	{
 		clear_led_buffer(buffer, 0x000000);
-		draw_line_between_players(buffer,(i % 5) + 1, ((i + 1)% 5) + 1, TRUE);
+		draw_line_between_players(buffer,((i + 0) % 5) + 1, ((i + 1)% 5) + 1, TRUE, interactions_color);
+		draw_line_between_players(buffer,((i + 0) % 5) + 1, ((i + 2)% 5) + 1, TRUE, interactions_color);
+		draw_line_between_players(buffer,((i + 0) % 5) + 1, ((i + 3)% 5) + 1, TRUE, interactions_color);
+		draw_line_between_players(buffer,((i + 0) % 5) + 1, ((i + 4)% 5) + 1, TRUE, interactions_color);
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-		for (int32_t i = 0; i < 200000; i++)
+		for (int32_t i = 0; i < 100000; i++)
 		;
 	}
-	// Counter-Clockwise interactions
-	for (int i = 0; i < 10; i++)
-	{
-		clear_led_buffer(buffer, 0x000000);
-		draw_line_between_players(buffer,((i + 1) % 5) + 1, ((i)% 5) + 1, TRUE);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-		for (int32_t i = 0; i < 200000; i++)
-		;
-	}
+	// // Counter-Clockwise interactions
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	clear_led_buffer(buffer, 0x000000);
+	// 	draw_line_between_players(buffer,((i + 1) % 5) + 1, ((i)% 5) + 1, TRUE, interactions_color);
+	// 	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+	// 	for (int32_t i = 0; i < 200000; i++)
+	// 	;
+	// }
+	// // Star Clockwise interactions
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	clear_led_buffer(buffer, 0x000000);
+	// 	draw_line_between_players(buffer,((i) % 5) + 1, ((i + 2)% 5) + 1, TRUE, interactions_color);
+	// 	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+	// 	for (int32_t i = 0; i < 200000; i++)
+	// 	;
+	// }
+	// // Star Counter-Clockwise interactions
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	clear_led_buffer(buffer, 0x000000);
+	// 	draw_line_between_players(buffer,((i + 2) % 5) + 1, ((i)% 5) + 1, TRUE, interactions_color);
+	// 	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+	// 	for (int32_t i = 0; i < 200000; i++)
+	// 	;
+	// }
+	draw_satanic_circle();
 
 
 	led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
