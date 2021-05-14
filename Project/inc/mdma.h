@@ -17,7 +17,9 @@
 
 # define CPU_CLOCK 2000000 // 16Mhz -> / 8 2Mhz
 # define SERIAL_8N1 0x06
-#define ABS(x) x < 0 ? -x : x
+# define ABS(x) x < 0 ? -x : x
+# define TRUE 1
+# define FALSE 0
 
 /*
  *
