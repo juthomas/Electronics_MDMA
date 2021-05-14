@@ -61,19 +61,26 @@ uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 	return (pixels);
 }
 
-uint32_t led_wawe_color(uint8_t pos, uint32_t color)
+uint32_t get_pixel_color(uint8_t *pixels, uint16_t index)
+{
+	return ((uint32_t)(pixels[index * 3] << 8) +
+	((uint32_t)pixels[index * 3 + 1] << 16) +
+	((uint32_t)pixels[index * 3 + 2]));
+}
+
+uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
 {
 	if (pos > 50)
 	{
-		return (((int32_t)(((color & 0xFF0000 ) >> 16)  * (100 - pos) / 50) << (int32_t)16)
-		+ ((int32_t)(((color & 0x00FF00) >> 8)  * (100 - pos) / 50) << (int32_t)8)
-		+ (int32_t)((color & 0x0000FF) * (100 - pos) / 50));
+		return (((int32_t)  ((((color & 0xFF0000 ) >> 16)  * (100 - pos) / 50) + (((background_color & 0xFF0000 ) >> 16)  * (1 - (100 - pos) / 50))    )  << (int32_t)16)
+		+ ((int32_t)         ((((color & 0x00FF00) >> 8)  * (100 - pos) / 50)  + (((background_color & 0x00FF00 ) >> 8)  * (1 - (100 - pos) / 50))    )   << (int32_t)8)
+		+ (int32_t)          (((color & 0x0000FF) * (100 - pos) / 50)   )      + ((background_color & 0x0000FF )  * (1 - (100 - pos) / 50))     );
 	}
 	else
 	{
-		return (((int32_t)(((color & 0xFF0000 ) >> 16)  * (pos) / 50) << (int32_t)16)
-				+ ((int32_t)(((color & 0x00FF00) >> 8)  * (pos) / 50) << (int32_t)8)
-				+ (int32_t)((color & 0x0000FF) * (pos) / 50));
+		return (((int32_t)    ((((color & 0xFF0000 ) >> 16)  * (pos) / 50) + (((background_color & 0xFF0000 ) >> 16)  * (1 - (pos) / 50))    ) << (int32_t)16)
+				+ ((int32_t)  ((((color & 0x00FF00) >> 8)  * (pos) / 50)   + (((background_color & 0x00FF00 ) >> 8)  * (1 - (pos) / 50))     ) << (int32_t)8)
+				+ (int32_t)    (((color & 0x0000FF) * (pos) / 50))         + ((background_color & 0x0000FF )  * (1 - (pos) / 50))    );
 	}
 }
 
@@ -86,6 +93,11 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	uint16_t turns = 0;
 	uint16_t max_turns = 5;
 	uint32_t delay = 300000;
+	uint32_t oldColors[pixels_indexes_size];
+	for (int i = 0; i < pixels_indexes_size; i++)
+	{
+		oldColors[i] = get_pixel_color(pixels, pixels_indexes[i]);
+	}
 
 	delay /= pixels_indexes_size;
 	
@@ -94,7 +106,7 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 
 		for (int i = 0; i < pixels_indexes_size && i <= drawned_index; i++)
 		{
-			color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color);
+			color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color, oldColors[i]);
 			pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
 			pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
 			pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
@@ -116,9 +128,9 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 			for (int i = 0; i < pixels_indexes_size; i++)
 			{
 				if (undraw_index >= i)
-					color_tmp = 0;
+					color_tmp = oldColors[i];
 				else
-					color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color);
+					color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color, oldColors[i]);
 				pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
 				pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
 				pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
@@ -548,7 +560,7 @@ void reverse_array(uint16_t *pixels_to_draw, int size)
 
 void manage_array_of_pixels(uint8_t animate, uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
-		animate = WAWE;//DEBUG
+		// animate = WAWE;//DEBUG
 
 		if (animate == TRUE)
 		{
@@ -653,10 +665,33 @@ void led_draw_animation(uint16_t pixels_number)
 	for (int i = 0; i < 5; i++)
 	{
 		clear_led_buffer(buffer, 0x000000);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, FALSE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, FALSE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, FALSE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 4) % 5) + 1, FALSE, interactions_color);
+		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		for (int32_t i = 0; i < 200000; i++)
+			;
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		clear_led_buffer(buffer, 0x000000);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, TRUE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, TRUE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, TRUE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 4) % 5) + 1, TRUE, interactions_color);
+		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		for (int32_t i = 0; i < 100000; i++)
+			;
+	}
+	interactions_color = 0x000010;
+	for (int i = 0; i < 5; i++)
+	{
+		clear_led_buffer(buffer, 0x001000);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, WAWE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, WAWE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, WAWE, interactions_color);
+		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 4) % 5) + 1, WAWE, interactions_color);
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 		for (int32_t i = 0; i < 100000; i++)
 			;
