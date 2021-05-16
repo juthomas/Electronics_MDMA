@@ -112,6 +112,8 @@ int main()
 {
 	init_turn();
 
+
+
 	int16_t x = 0;
 	int16_t y = 0;
 	int8_t delay = 2;
@@ -119,6 +121,8 @@ int main()
 	int16_t counter = 0;
 	int8_t buttonGreenState = FT_LOW;
 	int8_t buttonRedState = FT_LOW;
+
+
 	initSPI();
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
@@ -128,8 +132,18 @@ int main()
 	display_intro();
 	display_menu();
 	display_selection();
+
 	for (;;)
 	{
+		//demo du fonctionnement des boutons
+   		if (touch[0])
+			{
+				PORTC |= (1 << DDC6);
+			} 
+			else 
+			{
+				PORTC &= ~(1 << 6);
+			}
 		//display_menu();
 		// display_selection();
 		//if (*((volatile uint8_t *)38) & (1 << 1))

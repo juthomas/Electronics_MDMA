@@ -2,9 +2,11 @@
 #include <avr/interrupt.h>
 #include "../../inc/mdma.h"
 
+
+
 static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
-int touch[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void bouton_state(int now, int index)
 {
@@ -55,10 +57,10 @@ ISR(PCINT2_vect)
 
 ISR(TIMER2_COMPA_vect)
 {
-	static const uint8_t tab[15] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
-	static const volatile uint8_t* value[15] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
+	static const uint8_t tab[NB_T] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
+	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
 
-	for (int i = 0; i < 15 ;i++)
+	for (int i = 0; i < 1 ;i++)
 	{
 		if (!((*(value[i]) & (1 << tab[i])))) {
 			touch[i] = 1;
@@ -71,7 +73,6 @@ ISR(TIMER2_COMPA_vect)
     }
 
 }
-
 
 
 void setupTimer(uint32_t ocr, uint8_t prescaler)
@@ -90,13 +91,8 @@ void setupTimer(uint32_t ocr, uint8_t prescaler)
 	// Prescaler 1024
 	TCCR2B = (TCCR2B & 0b11111000) | prescaler;
 	
-    //TCCR0B = prescaler & 0x07;
-
-	//TCCR0B |= (1 << CS02) | (1 << CS00);
-	//Output Compare Match A Interrupt Enable
 	TIMSK2 |= (1 << OCIE2A);
 }
-
 
 
 void init_turn()
@@ -131,17 +127,6 @@ void init_turn()
 
 	sei();
 
-while (1){
-   
-			if (touch[0])
-			{
-				PORTC |= (1 << DDC6);
-			} 
-			else 
-			{
-				PORTC &= ~(1 << 6);
-			}
-}
 
 	return ;
 }
