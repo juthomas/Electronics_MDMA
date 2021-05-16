@@ -1,21 +1,13 @@
 #include <avr/io.h>
-#include "../../inc/mdma.h"
 #include <avr/interrupt.h>
-
-
+#include "../../inc/mdma.h"
 
 static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
-int touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-
-
-//bouton state vas geree si le bouton vas actuellment vers + ou -
-//on as pris le partie pris de sous diviser chaque if en 4 cela permet de contrer le saut detat
+int touch[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void bouton_state(int now, int index)
 {
-
 	if ((old_state[index] == 0 && now == 2) || (old_state[index] == 2 && now == 3) || (old_state[index] == 3 && now == 1) || (old_state[index] == 1 && now == 0))
 	{
 		nb[index]++;
@@ -63,59 +55,71 @@ ISR(PCINT2_vect)
 
 ISR(TIMER2_COMPA_vect)
 {
-	static const uint8_t tab[NB_T] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
-	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
+	static const uint8_t tab[15] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
+	static const volatile uint8_t* value[15] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
 
-	for (int i = 0; i < 1 ;i++)
+	for (int i = 0; i < 15 ;i++)
 	{
 		if (!((*(value[i]) & (1 << tab[i])))) {
 			touch[i] = 1;
+			PORTA |= (1 << 7);
 		}
-		else
+		else{
 			touch[i] = 0;
-	}
+			PORTA &= ~(1 << 7);
+		}
+    }
 
 }
 
 
 
-void setupTimer2(uint32_t ocr, uint8_t prescaler)
+void setupTimer(uint32_t ocr, uint8_t prescaler)
 {
-	cli();
 	// Clear registers
 	TCCR2A = 0;
 	TCCR2B = 0;
 	TCNT2 = 0;
+
 	// 100.16025641025641 Hz (16000000/((155+1)*1024))
 	OCR2A = ocr;
+
 	// CTC
 	TCCR2A |= (1 << WGM21);
+
 	// Prescaler 1024
 	TCCR2B = (TCCR2B & 0b11111000) | prescaler;
 	
-	// TCCR0B = prescaler & 0x07;
+    //TCCR0B = prescaler & 0x07;
 
 	//TCCR0B |= (1 << CS02) | (1 << CS00);
-	// Output Compare Match A Interrupt Enable
+	//Output Compare Match A Interrupt Enable
 	TIMSK2 |= (1 << OCIE2A);
-	sei();
 }
 
 
 
 void init_turn()
 {
-	
-	DDRA |= (1 << DDA7);
-	setupTimer2(3000, 100);
-	cli();
-
-
-	//DDRB = 0b00000000;
-	// PB0,PB1,PB2 (PCINT0, PCINT1, PCINT2 pin) are now inputs
-	PORTB |= ((1 << PORTB7) | (1 << PORTB5) | (1 << PORTB4) | (1 << PORTB6)); // turn On the Pull-up
+		cli();
 	DDRC |= (1 << DDC6);
 	DDRA |= (1 << DDA7);
+    DDRL |= (1 << DDA6);
+	DDRC &= ~(1 << DDC0);
+
+
+	setupTimer(3000, 100);
+
+	DDRB = 0b00000000;
+	//PB0,PB1,PB2 (PCINT0, PCINT1, PCINT2 pin) are now inputs
+
+
+	PORTB |= ((1 << PORTB7) | (1 << PORTB5) | (1 << PORTB4) | (1 << PORTB6)); // turn On the Pull-up
+	//set led
+	DDRC |= (1 << DDC6);
+	DDRA |= (1 << DDA7);
+	//set bouton
+	DDRC &= ~(1 << DDC0);
 
 	PORTK |= 0b00111111;
 	// activer de portk0 as portk5
@@ -125,19 +129,19 @@ void init_turn()
 
 	PCMSK2 |= 0b00111111;
 
+	sei();
 
-	sei(); 
-					DDRC |= (1 << DDC6);
 while (1){
+   
 			if (touch[0])
 			{
-				PINC = (1 << DDC6);
+				PORTC |= (1 << DDC6);
 			} 
 			else 
 			{
-				PINC = 0;
+				PORTC &= ~(1 << 6);
 			}
 }
 
-	return;
+	return ;
 }

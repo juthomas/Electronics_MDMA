@@ -11,7 +11,6 @@ void ft_pin_mode(enum e_pins pin, enum e_modes mode)
 	}
 	else if (mode == FT_INPUT)
 		*addr &= ~g_pin_associations[pin].register_mask;
-	
 }
 
 void ft_digital_write(enum e_pins pin, enum e_states state)

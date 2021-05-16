@@ -143,7 +143,7 @@ void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_
 
 void ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
 {
-    int16_t posY = 0;
+    int16_t posY = y;
     int16_t posX = 0;
     spi_begin_transaction();
     for (int16_t j = 0; j < height; j++, y++)

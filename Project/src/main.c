@@ -110,7 +110,7 @@ void display_intro()
 
 int main()
 {
-	//init_turn();
+	init_turn();
 
 	int16_t x = 0;
 	int16_t y = 0;
