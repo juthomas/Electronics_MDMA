@@ -105,6 +105,8 @@ void display_intro()
 		ili9341_draw_256IMG(DevilSmile2,0, 120, 32, 12, 10);
 	}
 	ili9341_draw_256IMG(baphomet,0, 0, 32, 24, 10);
+	ili9341_draw_256IMG(KingCrimson,0, 0, 32, 24, 10);
+	ili9341_draw_256IMG(Corridor,0, 0, 32, 24, 10);
 	ili9341_draw_256IMG(pentacle,0, 0, 32, 24, 10);
 }
 
