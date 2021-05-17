@@ -19,12 +19,14 @@ USELESS_DIR = useless
 LEDS_MANAGER_DIR = leds_manager
 SERIAL_DIR = serial
 MOZART_DIR = mozart
+MATH_DIR = math
 
 #defines of files in directories
 # PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
+MATH_FT = math
 SERIAL_FT = serial_uart serial_nbr_base
 
 SRC_FT = main
@@ -35,7 +37,8 @@ SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
 	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
 	  $(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
 	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c) \
-	  $(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c)
+	  $(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
+	  $(MATH_FT:%=$(SRC_DIR)/$(MATH_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -44,7 +47,8 @@ OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(USELESS_DIR:%=$(OBJ_DIR)/%) \
 			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
 			$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
-			$(MOZART_DIR:%=$(OBJ_DIR)/%)
+			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
+			$(MATH_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 
