@@ -4,6 +4,9 @@
 #include "../../inc/matrix_progmem.h"
 
 #define WAWE 2
+#define CLOCKWISE 2
+#define COUNTERCLOCKWISE 3
+#define WAWES 4
 
 enum e_led_rows
 {
@@ -399,7 +402,7 @@ void wawe_on_segment(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uin
 	}
 }
 
-void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint32_t rows_activation, uint32_t color1, uint32_t color2)
+void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t animation, uint32_t rows_activation, uint32_t color1, uint32_t color2)
 {
 	for (int position = 0; position < max_ticks; position += ticks_increment)
 	{
@@ -411,7 +414,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == COUNTERCLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 
@@ -426,7 +436,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == COUNTERCLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
@@ -438,7 +455,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == CLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
@@ -450,7 +474,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == CLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
@@ -462,7 +493,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == COUNTERCLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
@@ -474,7 +512,14 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 
 			for (int i = 0; i < 5; i++)
 			{
-				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				if (animation == WAWES || animation == COUNTERCLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				}
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 		}
@@ -766,7 +811,7 @@ void led_draw_animation(uint16_t pixels_number)
 	// led_test();
 	draw_satanic_circle();
 
-	draw_cirle_pit(buffer, 1000, 15, LED_ROW_ALL, 0x100000, 0x000000);
+	draw_cirle_pit(buffer, 5000, 5, WAWES, LED_ROW_ALL, 0x001f24, 0x010008);
 
 
 	// for (int32_t i = 0; i < 200000; i++)
