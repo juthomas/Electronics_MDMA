@@ -5,7 +5,8 @@
 
 #define WAWE 2
 
-enum e_led_rows{
+enum e_led_rows
+{
 	LED_ROW_1 = 1 << 0,
 	LED_ROW_2 = 1 << 1,
 	LED_ROW_3 = 1 << 2,
@@ -14,7 +15,6 @@ enum e_led_rows{
 	LED_ROW_6 = 1 << 5,
 	LED_ROW_ALL = LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6
 };
-
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
@@ -85,30 +85,28 @@ uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 uint32_t get_pixel_color(uint8_t *pixels, uint16_t index)
 {
 	return ((uint32_t)(pixels[index * 3] << 8) +
-	((uint32_t)pixels[index * 3 + 1] << 16) +
-	((uint32_t)pixels[index * 3 + 2]));
+			((uint32_t)pixels[index * 3 + 1] << 16) +
+			((uint32_t)pixels[index * 3 + 2]));
 }
 
 uint32_t led_map_color()
 {
-
 }
-
 
 uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
 {
-	if (pos > 50)
-	{
-		return (((int32_t)  ((((color & 0xFF0000 ) >> 16)  * (100 - pos) / 50) + (((background_color & 0xFF0000 ) >> 16)  * (1 - (100 - pos) / 50))    )  << (int32_t)16)
-		+ ((int32_t)         ((((color & 0x00FF00) >> 8)  * (100 - pos) / 50)  + (((background_color & 0x00FF00 ) >> 8)  * (1 - (100 - pos) / 50))    )   << (int32_t)8)
-		+ (int32_t)          (((color & 0x0000FF) * (100 - pos) / 50)   )      + ((background_color & 0x0000FF )  * (1 - (100 - pos) / 50))     );
-	}
-	else
-	{
-		return (((int32_t)    ((((color & 0xFF0000 ) >> 16)  * (pos) / 50) + (((background_color & 0xFF0000 ) >> 16)  * (1 - (pos) / 50))    ) << (int32_t)16)
-				+ ((int32_t)  ((((color & 0x00FF00) >> 8)  * (pos) / 50)   + (((background_color & 0x00FF00 ) >> 8)  * (1 - (pos) / 50))     ) << (int32_t)8)
-				+ (int32_t)    (((color & 0x0000FF) * (pos) / 50))         + ((background_color & 0x0000FF )  * (1 - (pos) / 50))    );
-	}
+  if (pos > 50)
+  {
+    return (((uint32_t)(((double)((color & 0xFF0000) >> 16) * (double)((double)100 - pos) / 50) + ((double)((background_color & 0xFF0000) >> 16) * (1. - ((double)100 - pos) / 50))) << (uint32_t)16)\
+      + ((uint32_t)(((double)((color & 0x00FF00) >> 8) * (double)((double)100 - pos) / 50) + ((double)((background_color & 0x00FF00) >> 8) * (1. - ((double)100 - pos) / 50))) << (uint32_t)8)\
+      + (uint32_t)((double)((color & 0x0000FF) * (double)((double)100 - pos) / 50)) + ((double)(background_color & 0x0000FF) * (1. - ((double)100 - pos) / 50)));
+  }
+  else
+  {
+    return (((uint32_t)(((double)((color & 0xFF0000) >> 16) * (double)((double)pos) / 50) + ((double)((background_color & 0xFF0000) >> 16) * (1. - ((double)pos) / 50))) << (uint32_t)16)\
+      + ((uint32_t)(((double)((color & 0x00FF00) >> 8) * (double)((double)pos) / 50) + ((double)((background_color & 0x00FF00) >> 8) * (1. - ((double)pos) / 50))) << (uint32_t)8)\
+      + (uint32_t)((double)((color & 0x0000FF) * (double)((double)pos) / 50)) + ((double)(background_color & 0x0000FF) * (1. - ((double)pos) / 50)));
+  }
 }
 
 uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
@@ -127,46 +125,46 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	}
 
 	delay /= pixels_indexes_size;
-	
+
 	for (int u = 0; u < 1000; u++)
 	{
 
 		for (int i = 0; i < pixels_indexes_size && i <= drawned_index; i++)
 		{
-			color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color, oldColors[i]);
+			color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size) % 100, color, oldColors[i]);
 			pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
 			pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
 			pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 		}
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
 		for (int32_t z = 0; z < delay; z++)
-				;
-			position++;
+			;
+		position++;
 		if (drawned_index <= pixels_indexes_size)
 		{
 			drawned_index++;
 		}
-		
+
 		if (turns == max_turns && (position % pixels_indexes_size) == 0)
 		{
-			while(undraw_index < pixels_indexes_size)
+			while (undraw_index < pixels_indexes_size)
 			{
 
-			for (int i = 0; i < pixels_indexes_size; i++)
-			{
-				if (undraw_index >= i)
-					color_tmp = oldColors[i];
-				else
-					color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size)% 100, color, oldColors[i]);
-				pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
-				pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
-				pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
-			}
-			led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-			for (int32_t z = 0; z < delay; z++)
-				;
-			position++;
-			undraw_index++;
+				for (int i = 0; i < pixels_indexes_size; i++)
+				{
+					if (undraw_index >= i)
+						color_tmp = oldColors[i];
+					else
+						color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size) % 100, color, oldColors[i]);
+					pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
+					pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
+					pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
+				}
+				led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
+				for (int32_t z = 0; z < delay; z++)
+					;
+				position++;
+				undraw_index++;
 			}
 			return (pixels);
 		}
@@ -229,9 +227,6 @@ int32_t ft_sqrt(int32_t x)
 	}
 	return i - 1;
 }
-
-
-
 
 void led_matrix_draw_line(uint8_t *pixels, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -388,129 +383,103 @@ void led_matrix_send_progmem(enum e_matrix_activation activation, const uint8_t 
 	matrix_send_data(activation, (uint8_t *)buffer, 64);
 }
 
-																																			// ?
+// ?
 void wawe_on_segment(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint8_t progression, uint32_t color1, uint32_t color2)
 {
-
+	uint32_t color_tmp;
 
 	for (int i = 0; i < pixels_indexes_size; i++)
 	{
-		led_wawe_color(map(i, 0, pixels_indexes_size, 0, 100), color1, color2);
-		pixels[pixels_indexes[i] * 3] = (color1 & 0x00FF00) >> 8;
-		pixels[pixels_indexes[i] * 3 + 1] = (color1 & 0xFF0000) >> 16;
-		pixels[pixels_indexes[i] * 3 + 2] = color1 & 0x0000FF;
+		color_tmp = led_wawe_color((map(i, 0, pixels_indexes_size, 0, 100) + progression) % 100, color1, color2);
+		// color_tmp = led_wawe_color((progression) % 100, 0x100000, 0x001000);
+		// color_tmp = map(i, 0, pixels_indexes_size, 0x100000, 0x000000);
+		pixels[pixels_indexes[i] * 3] = (color_tmp & 0x00FF00) >> 8;
+		pixels[pixels_indexes[i] * 3 + 1] = (color_tmp & 0xFF0000) >> 16;
+		pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 	}
-
 }
 
-
-void draw_cirle_pit(uint8_t *buffer, uint32_t rows_activation, uint32_t color)
+void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint32_t rows_activation, uint32_t color1, uint32_t color2)
 {
-	if (rows_activation & LED_ROW_1)
+	for (int position = 0; position < max_ticks; position += ticks_increment)
 	{
-								/*     I    II     II      IV     V */
-		uint16_t pixels_to_draw[] = {1 - 1, 2 - 1, 3 - 1, 4 - 1, 5 - 1};
 
-		for (int i = 0; i < 5; i++)
+		if (rows_activation & LED_ROW_1)
 		{
+			/*     I    II     II      IV     V */
+			uint16_t pixels_to_draw[] = {1 - 1, 2 - 1, 3 - 1, 4 - 1, 5 - 1};
 
-			feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-			rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-			// feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-			// rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-			// feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-			// rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-			// feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-			// rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-			// feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		}
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
 
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 
 			//  pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		}
+		if (rows_activation & LED_ROW_2)
+		{
+			/*     VI    VII    VIII    IX      X      XI      XII    XIII   */
+			uint16_t pixels_to_draw[] = {6 - 1, 7 - 1, 8 - 1, 9 - 1, 10 - 1, 11 - 1, 12 - 1, 13 - 1};
 
-	}
-	if (rows_activation & LED_ROW_2)
-	{
-								/*     VI    VII    VIII    IX      X      XI      XII    XIII   */
-		uint16_t pixels_to_draw[] = {6 - 1, 7 - 1, 8 - 1, 9 - 1, 10 - 1, 11 - 1, 12 - 1, 13 - 1};
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		}
+		if (rows_activation & LED_ROW_3)
+		{
+			/*     XIV     XV      XVI     XVII   XVIII    IXX     XX      XXI     XXII   */
+			uint16_t pixels_to_draw[] = {14 - 1, 15 - 1, 16 - 1, 17 - 1, 18 - 1, 19 - 1, 20 - 1, 21 - 1, 22 - 1};
 
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		}
+		if (rows_activation & LED_ROW_4)
+		{
+			/*    XXIII    XXIV    XXV    XXVI    XXVII   XXVIII   XXIX    XXX     XXXI   */
+			uint16_t pixels_to_draw[] = {23 - 1, 24 - 1, 25 - 1, 26 - 1, 27 - 1, 28 - 1, 29 - 1, 30 - 1, 31 - 1};
+
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		}
+		if (rows_activation & LED_ROW_5)
+		{
+			/*    XXXII  XXXIII   XXXIV   XXXV    XXXVI    XXXVII   */
+			uint16_t pixels_to_draw[] = {32 - 1, 33 - 1, 34 - 1, 35 - 1, 36 - 1, 37 - 1};
+
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+			// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		}
+		if (rows_activation & LED_ROW_6)
+		{
+			/*   XXXVIII XXXXIX     XL   */
+			uint16_t pixels_to_draw[] = {38 - 1, 39 - 1, 40 - 1};
+
+			for (int i = 0; i < 5; i++)
+			{
+				wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, position % 100, color1, color2);
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+		}
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 	}
-	if (rows_activation & LED_ROW_3)
-	{
-								/*     XIV     XV      XVI     XVII   XVIII    IXX     XX      XXI     XXII   */
-		uint16_t pixels_to_draw[] = {14 - 1, 15 - 1, 16 - 1, 17 - 1, 18 - 1, 19 - 1, 20 - 1, 21 - 1, 22 - 1};
-
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-	}
-	if (rows_activation & LED_ROW_4)
-	{
-								/*    XXIII    XXIV    XXV    XXVI    XXVII   XXVIII   XXIX    XXX     XXXI   */
-		uint16_t pixels_to_draw[] = {23 - 1, 24 - 1, 25 - 1, 26 - 1, 27 - 1, 28 - 1, 29 - 1, 30 - 1, 31 - 1};
-
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-	}
-	if (rows_activation & LED_ROW_5)
-	{
-								/*    XXXII  XXXIII   XXXIV   XXXV    XXXVI    XXXVII   */
-		uint16_t pixels_to_draw[] = {32 - 1, 33 - 1, 34 - 1, 35 - 1, 36 - 1, 37 - 1};
-
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-	}
-	if (rows_activation & LED_ROW_6)
-	{
-								/*   XXXVIII XXXXIX     XL   */
-		uint16_t pixels_to_draw[] = {38 - 1, 39 - 1, 40 - 1};
-
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
-		feed_arraw_of_pixels( pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-	}
-
 }
 
 void draw_satanic_circle()
@@ -692,8 +661,6 @@ void launch_dice()
 	};
 }
 
-
-
 void reverse_array(uint16_t *pixels_to_draw, int size)
 {
 	// uint16_t high;
@@ -708,24 +675,21 @@ void reverse_array(uint16_t *pixels_to_draw, int size)
 
 void manage_array_of_pixels(uint8_t animate, uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
-		// animate = WAWE;//DEBUG
+	// animate = WAWE;//DEBUG
 
-		if (animate == TRUE)
-		{
-			animate_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
-
-		}
-		else if (animate == WAWE)
-		{
-			wawe_animate_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
-		}
-		else
-		{
-			feed_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
-		}
-
+	if (animate == TRUE)
+	{
+		animate_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
+	}
+	else if (animate == WAWE)
+	{
+		wawe_animate_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
+	}
+	else
+	{
+		feed_arraw_of_pixels(pixels_indexes, pixels_indexes_size, pixels, color);
+	}
 }
-
 
 void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_t animate, uint32_t color)
 {
@@ -738,9 +702,8 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
 
-			manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-			// animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-
+		manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		// animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 	}
 	//Counter Clockwise interations
 	else if ((from == 2 && to == 1) || (from == 3 && to == 2) || (from == 4 && to == 3) || (from == 5 && to == 4) || (from == 1 && to == 5))
@@ -751,8 +714,7 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 
 		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 3);
-			manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-
+		manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 	}
 	//Clockwise Star interations
 	else if ((from == 1 && to == 3) || (from == 2 && to == 4) || (from == 3 && to == 5) || (from == 4 && to == 1) || (from == 5 && to == 2))
@@ -764,8 +726,7 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 
 		// reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
-			manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-
+		manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 	}
 	//Counter Clockwise Star interations
 	else if ((from == 3 && to == 1) || (from == 4 && to == 2) || (from == 5 && to == 3) || (from == 1 && to == 4) || (from == 2 && to == 5))
@@ -777,8 +738,7 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 
 		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 2);
-			manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-
+		manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 	}
 }
 
@@ -806,9 +766,9 @@ void led_draw_animation(uint16_t pixels_number)
 	// led_test();
 	draw_satanic_circle();
 
-	draw_cirle_pit(buffer, LED_ROW_ALL, 0x000010);
-	for (int32_t i = 0; i < 2000000; i++)
-		;
+	draw_cirle_pit(buffer, 1000, 15, LED_ROW_ALL, 0x100000, 0x000000);
+
+
 	// for (int32_t i = 0; i < 200000; i++)
 	// ;
 
