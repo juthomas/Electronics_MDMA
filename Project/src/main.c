@@ -110,10 +110,45 @@ void display_intro()
 
 int main()
 {
+// DDRC |=(1 << 6);
+// 	PORTC |= (1 << 6);
 	init_turn();
 
 
-
+	DDRC |=(1 << 6);
+	for (;;)
+	{
+		//demo du fonctionnement des boutons
+   		if (touch[0])
+			{
+				PORTC |= (1 << 6);
+			} 
+			else 
+			{
+				PORTC &= ~(1 << 6);
+			}
+		//display_menu();
+		// display_selection();
+				// PORTC |= (1 << 6);
+		
+		//if (*((volatile uint8_t *)38) & (1 << 1))
+		//{
+		// 	ili9341_setCursor(0,0);
+		// 	ili9341_putnbr(counter, ILI9341_BLACK, 2);
+		// 	counter++;
+		// 	ili9341_setCursor(0,0);
+		// 	ili9341_putnbr(counter, ILI9341_WHITE, 2, 0);
+		//}
+		// if (*((volatile uint8_t *)38) & (1 << 0))
+		// {
+		// 	ili9341_setCursor(0,0);
+		// 	ili9341_putnbr(counter, ILI9341_BLACK, 2, 0);
+		// 	counter--;
+		// 	ili9341_setCursor(0,0);
+		// 	ili9341_putnbr(counter, ILI9341_WHITE, 2, 0);
+		// }
+		custom_delay(2000);
+	}
 	int16_t x = 0;
 	int16_t y = 0;
 	int8_t delay = 2;
@@ -132,13 +167,13 @@ int main()
 	display_intro();
 	display_menu();
 	display_selection();
-
+	DDRC |=(1 << 6);
 	for (;;)
 	{
 		//demo du fonctionnement des boutons
    		if (touch[0])
 			{
-				PORTC |= (1 << DDC6);
+				PORTC |= (1 << 6);
 			} 
 			else 
 			{
@@ -146,6 +181,8 @@ int main()
 			}
 		//display_menu();
 		// display_selection();
+				PORTC |= (1 << 6);
+		
 		//if (*((volatile uint8_t *)38) & (1 << 1))
 		//{
 		// 	ili9341_setCursor(0,0);
@@ -162,7 +199,7 @@ int main()
 		// 	ili9341_setCursor(0,0);
 		// 	ili9341_putnbr(counter, ILI9341_WHITE, 2, 0);
 		// }
-		custom_delay(100);
+		custom_delay(2000);
 	}
 	return (0);
 }
