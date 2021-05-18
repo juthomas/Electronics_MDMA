@@ -25,6 +25,16 @@ enum e_led_rows
 	LED_ROW_MAX = LED_ROW_ALL | LED_ROW_7 | LED_ROW_8
 };
 
+enum e_players
+{
+	PLAYER_1 = 1 << 0,
+	PLAYER_2 = 1 << 1,
+	PLAYER_3 = 1 << 2,
+	PLAYER_4 = 1 << 3,
+	PLAYER_5 = 1 << 4,
+	PLAYER_ALL = PLAYER_1 | PLAYER_2 | PLAYER_3 | PLAYER_4 | PLAYER_5
+};
+
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
 	// ((((color & 0xFF0000) >> (int32_t)16) * percentage / 100) << (int32_t)16) +
@@ -96,10 +106,6 @@ uint32_t get_pixel_color(uint8_t *pixels, uint16_t index)
 	return ((uint32_t)(pixels[index * 3] << 8) +
 			((uint32_t)pixels[index * 3 + 1] << 16) +
 			((uint32_t)pixels[index * 3 + 2]));
-}
-
-uint32_t led_map_color()
-{
 }
 
 uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
@@ -412,6 +418,16 @@ void wawe_on_segment(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uin
 	}
 }
 
+void draw_interactions_with_screen(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t player, uint32_t color)
+{
+	if (player & PLAYER_1)
+	{
+			uint16_t pixels_to_draw[] = {47 - 1, 39 - 1, 35 - 1, 28 - 1, 5 - 1};
+
+	}
+
+}
+
 void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t animation, uint32_t rows_activation, uint32_t color1, uint32_t color2)
 {
 	for (int position = 0; position < max_ticks; position += ticks_increment)
@@ -539,8 +555,8 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 		}
 		if (rows_activation & LED_ROW_7)
 		{
-			/*   XXXVIII XXXXIX     XL   */
-			uint16_t pixels_to_draw[] = {41 - 1, 42 - 1, 42 - 1 , 43 - 1, 44 - 1, 45 - 1, 46 - 1, 47 - 1, 48 - 1, 49 - 1, 50 - 1, 51 - 1, 52 - 1, 53 - 1};
+									/*    XLI     XLII    XLIII   XLIV     XLV    XLVI    XLVII  XLVIII    IL      L      LI      LII     LIII */
+			uint16_t pixels_to_draw[] = {41 - 1, 42 - 1, 43 - 1, 44 - 1, 45 - 1, 46 - 1, 47 - 1, 48 - 1, 49 - 1, 50 - 1, 51 - 1, 52 - 1, 53 - 1};
 
 			for (int i = 0; i < 5; i++)
 			{
@@ -557,7 +573,7 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 		}
 		if (rows_activation & LED_ROW_8)
 		{
-			/*   XXXVIII XXXXIX     XL   */
+									/*    LIV      LV      LVI     LVII    LVIII   LIX      LX      LXI    LXII*/
 			uint16_t pixels_to_draw[] = {54 - 1, 55 - 1, 56 - 1 , 57 - 1, 58 - 1, 59 - 1, 60 - 1, 61 - 1, 62 - 1};
 
 			for (int i = 0; i < 5; i++)
@@ -629,8 +645,8 @@ void draw_satanic_circle()
 		}
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 		// led_send_data(27, buffer, 62 * 5);
-		led_matrix_send_progmem(MAT_1, SAT_SYMB_1RE);
-		led_matrix_send_progmem(MAT_2, SAT_SYMB_2RE);
+		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
+		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
 		led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
 		led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
 		led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
