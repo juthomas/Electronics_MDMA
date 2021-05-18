@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-14410
+PORT		= /dev/tty.usbmodem144101
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
@@ -148,9 +148,9 @@ $(FILENAME): $(OBJ_DIRS) $(SRC)
 
 flash:
 	@if [ $(MUTE) = FALSE ];then\
-		avrdude -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
+		avrdude -V -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
 	else\
-		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
+		avrdude -V -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
 	fi
 	@echo "$(COLOR)Black Magic \033[100D\033[40C\0033[1;32m[I̶̢͇͎͉͙͒̉n̸̛͖̣͒̓͒̊͆̉͜v̶̰̉̀́̓͠ǒ̵̜̰̝̼̤͉k̴͎̠̪͙̐̈́̔͑̇e̶̖̰͘d̸̻͛͊̎̀͒̚]\0033[1;37m"
 	@echo "$(COLOR)$(DEVICE) \033[100D\033[40C\0033[1;32m[Flashed]\0033[1;37m"

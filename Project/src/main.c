@@ -2,6 +2,7 @@
 #include "../inc/mdma.h"
 #include <avr/interrupt.h>
 #include "devilface.h"
+#include "background.h"
 //#include "ili9341/dragon.h"
 
 // #define CLK 3
@@ -71,43 +72,96 @@ void srand(unsigned int seed)
     next = seed;
 }
 
+void ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
+{
+    int16_t posY = y;
+    int16_t posX = 0;
+    spi_begin_transaction();
+	short color;
+    for (int16_t j = 0; j < height; j++, y++)
+    {
+        for (int16_t i = 0; i < width; i++)
+        {
+			color = pgm_read_byte((&bitmap[(j * width + i) / 2]));
+			if(!(i & 1))
+				color >>= 4;
+			color &= 0xf;
+			color = palette[color];
+
+            if(scale > 1)
+                ili9341_drawfillRect(x + posX, posY, scale, scale, color, 0);
+            else
+                writePixel(i, y, color, 0);
+            posX += 1 * scale;
+        }
+        posX = 0;
+        posY += 1 * scale;
+    }
+    spi_end_transaction();
+}
+
 
 void display_intro()
 {
-	uint8_t red = 255;
-	uint8_t green = 255;
-	uint8_t blue = 255;
-	int position = height / 2 - 10;
-	ili9341_setCursor(0, position);
-	ili9341_println("    What do you seek ?\n", createRGB(255, 255, 255), 2, 2);
-	custom_delay(2000);
-	for(int timer = 0; timer < 10; timer++)
-	{
-		ili9341_setCursor(0, position);
-		ili9341_println("    What do you seek ?\n", createRGB(0, 0, 0), 2, 0);
-		ili9341_setCursor(0, position);
-		ili9341_println("    What do you seek ?\n", createRGB(255, 255, 255), 2, 0);
-	}
-	ili9341_setCursor(0, position);
-	ili9341_print("    What do you seek ?", ILI9341_RED, 2, 0);
-	for(int timer = 0; timer < 80; timer++)
-	{
-		red = (255 - timer * 4) >= 0 ? 255 - timer * 4 : 0;
-		ili9341_setCursor(cursor_x, cursor_y);
-		ili9341_print("    What do you seek ?", createRGB(red, 0, 0), 2, 0);
-		cursor_y = rand() % height;
-		cursor_x = rand() % width; 
-	}
-	ili9341_draw_256IMG(DevilEyes,0,0, 32, 12, 10);
-	for(int timer = 0; timer < 3; timer++)
-	{
-		ili9341_draw_256IMG(DevilSmile,0, 120, 32, 12, 10);
-		ili9341_draw_256IMG(DevilSmile2,0, 120, 32, 12, 10);
-	}
-	ili9341_draw_256IMG(baphomet,0, 0, 32, 24, 10);
-	ili9341_draw_256IMG(KingCrimson,0, 0, 32, 24, 10);
-	ili9341_draw_256IMG(Corridor,0, 0, 32, 24, 10);
-	ili9341_draw_256IMG(pentacle,0, 0, 32, 24, 10);
+	// uint8_t red = 255;
+	// uint8_t green = 255;
+	// uint8_t blue = 255;
+	// int position = height / 2 - 10;
+	// ili9341_setCursor(0, position);
+	// ili9341_println("    What do you seek ?\n", createRGB(255, 255, 255), 2, 2);
+	// custom_delay(2000);
+	// for(int timer = 0; timer < 10; timer++)
+	// {
+	// 	ili9341_setCursor(0, position);
+	// 	ili9341_println("    What do you seek ?\n", createRGB(0, 0, 0), 2, 0);
+	// 	ili9341_setCursor(0, position);
+	// 	ili9341_println("    What do you seek ?\n", createRGB(255, 255, 255), 2, 0);
+	// }
+	// ili9341_setCursor(0, position);
+	// ili9341_print("    What do you seek ?", ILI9341_RED, 2, 0);
+	// for(int timer = 0; timer < 80; timer++)
+	// {
+	// 	red = (255 - timer * 4) >= 0 ? 255 - timer * 4 : 0;
+	// 	ili9341_setCursor(cursor_x, cursor_y);
+	// 	ili9341_print("    What do you seek ?", createRGB(red, 0, 0), 2, 0);
+	// 	cursor_y = rand() % height;
+	// 	cursor_x = rand() % width; 
+	// }
+	// ili9341_draw_256IMG(DevilEyes,0,0, 32, 12, 10);
+	// for(int timer = 0; timer < 3; timer++)
+	// {
+	// 	ili9341_draw_256IMG(DevilSmile,0, 120, 32, 12, 10);
+	// 	ili9341_draw_256IMG(DevilSmile2,0, 120, 32, 12, 10);
+	// }
+	// ili9341_draw_256IMG(baphomet,0, 0, 32, 24, 10);
+	// ili9341_draw_256IMG(KingCrimson,0, 0, 32, 24, 10);
+	// ili9341_draw_256IMG(Corridor,0, 0, 32, 24, 10);
+	// ili9341_draw_256IMG(pentacle,0, 0, 32, 24, 10);
+	// ili9341_draw_256IMG(ChoiceBG,0, 0, 80, 60, 4);
+	// custom_delay(1000);
+	// for(int i = 0; i < sizeof(TimerBGPalette) / sizeof(*TimerBGPalette); i++)
+	// {
+	// 	ili9341_fillScreen(TimerBGPalette[i]);
+	// 	custom_delay(250);
+	// }
+	ili9341_draw_IMG(TimerBG, TimerBGPalette, 0, 0, 80, 60, 4);
+		custom_delay(1000);
+	// ili9341_draw_256IMG(HighScoreBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// 	ili9341_draw_256IMG(RouletteBG2,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// ili9341_draw_256IMG(LeftHandBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// 		ili9341_draw_256IMG(RouletteBG3,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// ili9341_draw_256IMG(LiarBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// ili9341_draw_256IMG(LuckyBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// ili9341_draw_256IMG(RockBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
+	// ili9341_draw_256IMG(RouletteBG,0, 0, 80, 60, 4);
+	// 	custom_delay(1000);
 }
 
 int main()
