@@ -16,7 +16,10 @@ enum e_led_rows
 	LED_ROW_4 = 1 << 3,
 	LED_ROW_5 = 1 << 4,
 	LED_ROW_6 = 1 << 5,
-	LED_ROW_ALL = LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6
+	LED_ROW_7 = 1 << 6,
+	LED_ROW_8 = 1 << 7,
+	LED_ROW_ALL = LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6,
+	LED_ROW_MAX = LED_ROW_ALL | LED_ROW_7 | LED_ROW_8
 };
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
@@ -523,6 +526,45 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
 			}
 		}
+		if (rows_activation & LED_ROW_7)
+		{
+			/*   XXXVIII XXXXIX     XL   */
+			uint16_t pixels_to_draw[] = {41 - 1, 42 - 1, 42 - 1 , 43 - 1, 44 - 1, 45 - 1, 46 - 1, 47 - 1, 48 - 1, 49 - 1, 50 - 1, 51 - 1, 52 - 1, 53 - 1};
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (animation == WAWES || animation == CLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+		}
+		if (rows_activation & LED_ROW_8)
+		{
+			/*   XXXVIII XXXXIX     XL   */
+			uint16_t pixels_to_draw[] = {54 - 1, 55 - 1, 56 - 1 , 57 - 1, 58 - 1, 59 - 1, 60 - 1, 61 - 1, 62 - 1};
+
+			for (int i = 0; i < 5; i++)
+			{
+				if (animation == WAWES || animation == CLOCKWISE)
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, (position % 100), color1, color2);
+				}
+				else
+				{
+					wawe_on_segment(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, 100 - (position % 100), color1, color2);
+				}
+				rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, 1);
+			}
+		}
+
+
+
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 	}
 }
@@ -576,15 +618,17 @@ void draw_satanic_circle()
 		}
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 		// led_send_data(27, buffer, 62 * 5);
-		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
-		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
+		led_matrix_send_progmem(MAT_1, SAT_SYMB_1RE);
+		led_matrix_send_progmem(MAT_2, SAT_SYMB_2RE);
 		led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
 		led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
 		led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
+		// led_matrix_send_progmem(MAT_5, SAT_SYMB_1RE);
+		// SAT_SYMB_1HD
 		// led_matrix_send_progmem(MAT_1 | MAT_2 | MAT_3 |MAT_4 | MAT_5, SAT_SYMB_4);
 
-		// for (int32_t i = 0; i < 900000; i++)
-		// 	;
+		for (int32_t i = 0; i < 900000; i++)
+			;
 		// led_matrix_send_progmem(MAT_5, LINK);
 	}
 }
@@ -811,7 +855,8 @@ void led_draw_animation(uint16_t pixels_number)
 	// led_test();
 	draw_satanic_circle();
 
-	draw_cirle_pit(buffer, 5000, 5, WAWES, LED_ROW_ALL, 0x001f24, 0x010008);
+	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x001113, 0x000108);
+	draw_cirle_pit(buffer, 2000, 5, WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 
 	// for (int32_t i = 0; i < 200000; i++)
