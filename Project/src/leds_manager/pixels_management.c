@@ -627,8 +627,8 @@ void draw_satanic_circle()
 		// SAT_SYMB_1HD
 		// led_matrix_send_progmem(MAT_1 | MAT_2 | MAT_3 |MAT_4 | MAT_5, SAT_SYMB_4);
 
-		for (int32_t i = 0; i < 900000; i++)
-			;
+		// for (int32_t i = 0; i < 900000; i++)
+		// 	;
 		// led_matrix_send_progmem(MAT_5, LINK);
 	}
 }
@@ -856,7 +856,7 @@ void led_draw_animation(uint16_t pixels_number)
 	draw_satanic_circle();
 
 	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x001113, 0x000108);
-	draw_cirle_pit(buffer, 2000, 5, WAWES, LED_ROW_MAX, 0x110000, 0x000000);
+	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 
 	// for (int32_t i = 0; i < 200000; i++)

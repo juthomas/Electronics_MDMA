@@ -70,9 +70,16 @@ diff test1 test2;
 endef
 
 
-all: hex flash
+all: compile_matrix_items hex flash
 
-coffee: hex flash clean
+compile_matrix_items:
+	@make -C ./res/compile_matrix_items
+	@echo "$(COLOR)inc/matrix_progmem.h \033[100D\033[40C\0033[1;32m[Updated]\0033[1;37m"
+	@./res/compile_matrix_items/compile_matrix_items 2 100 100 100 inc/matrix_progmem.h
+	@sleep 1
+	@make -C ./res/compile_matrix_items fclean
+
+coffee: compile_matrix_items hex flash clean
 	@echo ""
 	@echo "                    {"
 	@echo "                 {   }"
