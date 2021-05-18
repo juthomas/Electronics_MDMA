@@ -110,7 +110,7 @@ void    graphic_test(void);
 void	ili9341_putnbr(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 void	ili9341_putnbrln(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 
-void    ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
+void ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
 void    writeColor(uint16_t color, uint32_t len, uint8_t delay);
 void    ili9341_putnbr_base(int32_t nbr, char *base, int16_t color, uint8_t size, uint8_t delay);
 void    ili9341_putnbr_baseln(int32_t nbr, char *base, int16_t color, uint8_t size, uint8_t delay);

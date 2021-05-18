@@ -1,11 +1,10 @@
 /* GIMP RGBA C-Source image dump (TimerBG.c) */
 
 #include <stdio.h>
-#include "image.c"
+#include "/Users/tmp/Desktop/MDMA_Images/BG_C/DevilEyes.h"
 
 int main()
 {
-
   unsigned short color_palette[16];
   int nb_color = 0;
 

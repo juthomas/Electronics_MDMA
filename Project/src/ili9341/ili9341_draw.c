@@ -141,25 +141,32 @@ void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_
     ili9341_drawLine(x2, y2, x0, y0, color, 0);
 }
 
-void ili9341_draw_256IMG(const uint16_t *bitmap, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
+void ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
 {
-    int16_t posY = y;
-    int16_t posX = 0;
-    spi_begin_transaction();
-    for (int16_t j = 0; j < height; j++, y++)
-    {
-        for (int16_t i = 0; i < width; i++)
-        {
-            if(scale > 1)
-                ili9341_drawfillRect(x + posX, posY, scale, scale, pgm_read_word((&bitmap[j * width + i])), 0);
-            else
-                writePixel(i, y, pgm_read_word((&bitmap[j * width + i])), 0);
-            posX += 1 * scale;
-        }
-        posX = 0;
-        posY += 1 * scale;
-    }
-    spi_end_transaction();
+	int16_t posY = y;
+	int16_t posX = 0;
+	spi_begin_transaction();
+	short color;
+	for (int16_t j = 0; j < height; j++, y++)
+	{
+		for (int16_t i = 0; i < width; i++)
+		{
+			color = pgm_read_byte((&bitmap[(j * width + i) / 2]));
+			if (!(i & 1))
+				color >>= 4;
+			color &= 0xf;
+			color = palette[color];
+
+			if (scale > 1)
+				ili9341_drawfillRect(x + posX, posY, scale, scale, color, 0);
+			else
+				writePixel(i, y, color, 0);
+			posX += 1 * scale;
+		}
+		posX = 0;
+		posY += 1 * scale;
+	}
+	spi_end_transaction();
 }
 
 void ili9341_fillScreen(uint16_t color)
