@@ -9,9 +9,18 @@ COLOR		= \0033[1;35m
 
 MUTE		= TRUE #FALSE to unmute
 
+
+#LED MATRIX MODIFIERS, Make update to update
+MATRIX_BRIGHTNESS		= 1		# 0-100
+MATRIX_RED_MODIFIER		= 100	# 0-100
+MATRIX_GREEN_MODIFIER	= 100	# 0-100
+MATRIX_BLUE_MODIFIER	= 100	# 0-100
+
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
+
+INC_H = leds math matrix_progmem mdma pin_registers tone
 
 #defines of directories names
 PIN_REGISTER_DIR = pin_registers
@@ -52,6 +61,8 @@ OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 
 INC = $(INC_DIR:%=-I ./%)
 
+INCLUDES = $(INC_H:%=./$(INC_DIR)/%.h)
+
 CC	= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU} $(INC)
 
 
@@ -70,16 +81,18 @@ diff test1 test2;
 endef
 
 
-all: compile_matrix_items hex flash
+all: hex flash
+
+update: compile_matrix_items coffee
 
 compile_matrix_items:
 	@make -C ./res/compile_matrix_items
 	@echo "$(COLOR)inc/matrix_progmem.h \033[100D\033[40C\0033[1;32m[Updated]\0033[1;37m"
-	@./res/compile_matrix_items/compile_matrix_items 2 100 100 100 inc/matrix_progmem.h
-	@sleep 1
+	@./res/compile_matrix_items/compile_matrix_items $(MATRIX_BRIGHTNESS) \
+	$(MATRIX_RED_MODIFIER) $(MATRIX_GREEN_MODIFIER) $(MATRIX_BLUE_MODIFIER) inc/matrix_progmem.h
 	@make -C ./res/compile_matrix_items fclean
 
-coffee: compile_matrix_items hex flash clean
+coffee: hex flash clean
 	@echo ""
 	@echo "                    {"
 	@echo "                 {   }"
@@ -106,12 +119,12 @@ $(OBJ_DIRS):
 
 
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES)
 	@$(CC) -c $< -o $@
 
 hex: $(FILENAME)
 
-$(FILENAME): $(OBJ_DIRS) $(SRC)
+$(FILENAME): $(OBJ_DIRS) $(SRC) $(INCLUDES)
 	@if [ $(MUTE) = FALSE ];then\
 		$(MAKE) -j $(OBJ);\
 	else\

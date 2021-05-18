@@ -6,7 +6,6 @@
 // #endif
 
 
-
 typedef void(*t_asm_sender)(uint8_t mask, uint8_t *, uint16_t);
 
 void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);

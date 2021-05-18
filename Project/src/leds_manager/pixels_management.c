@@ -8,6 +8,9 @@
 #define COUNTERCLOCKWISE 3
 #define WAWES 4
 
+uint8_t g_led_exit_animation;
+
+
 enum e_led_rows
 {
 	LED_ROW_1 = 1 << 0,
@@ -134,7 +137,11 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 
 	for (int u = 0; u < 1000; u++)
 	{
-
+		if (g_led_exit_animation == 1)
+		{
+			g_led_exit_animation = 0;
+			break;
+		}
 		for (int i = 0; i < pixels_indexes_size && i <= drawned_index; i++)
 		{
 			color_tmp = led_wawe_color(((pixels_indexes_size - ((position - i) % pixels_indexes_size)) * 100 / pixels_indexes_size) % 100, color, oldColors[i]);
@@ -409,7 +416,11 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 {
 	for (int position = 0; position < max_ticks; position += ticks_increment)
 	{
-
+		if (g_led_exit_animation == 1)
+		{
+			g_led_exit_animation = 0;
+			break;
+		}
 		if (rows_activation & LED_ROW_1)
 		{
 			/*     I    II     II      IV     V */
@@ -839,7 +850,7 @@ void led_draw_animation(uint16_t pixels_number)
 {
 	// uint8_t pixels[pixels_number * 3];
 	// uint32_t colors = 0xFF0000;
-
+	g_led_exit_animation = 0;
 	uint8_t buffer[62 * 3 * 5];
 	for (int i = 0; i < 62 * 3 * 5; i++)
 	{
@@ -854,8 +865,8 @@ void led_draw_animation(uint16_t pixels_number)
 	DDRA |= 1 << PIN5;
 	// led_test();
 	draw_satanic_circle();
-
-	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x001113, 0x000108);
+	g_led_exit_animation = 1;
+	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x001113, 0x000003);
 	draw_cirle_pit(buffer, 500, 5, WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 

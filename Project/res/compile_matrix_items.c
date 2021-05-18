@@ -546,6 +546,7 @@ int main(int argc, char **argv)
 	else if (argc == 2 || argc == 3)
 	{
 		//help
+		
 		print_usage();
 	}
 	else if (argc == 4)

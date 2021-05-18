@@ -35,6 +35,9 @@
  * 
 */
 
+extern uint8_t g_led_exit_animation;
+
+
 // pins manipulation
 // void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
 // void	ft_digital_write(enum e_pins pin, enum e_states state);
