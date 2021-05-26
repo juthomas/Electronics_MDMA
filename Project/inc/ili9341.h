@@ -13,7 +13,7 @@
 #define TFT_CS 53
 #define TFT_RST 48
 #define TFT_MOSI 51
-#define TFT_CLK 52
+#define TFT_CLK 52 
 #define TFT_MISO 50
 
 #ifndef _BV(bit)

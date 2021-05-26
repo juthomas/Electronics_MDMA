@@ -643,11 +643,13 @@ void PICC_WriteData()
 
 int test_rfid()
 {
-
-  //init_rfid();
+  PORTC= 0;
+  init_rfid();
   //ft_digital_write(13, FT_HIGH);
   if (PcdRequest(main_buf))
   {
+    PORTC | (11 << 6);
+    custom_delay(2000); 
     if (PcdAnticoll(main_buf))
     {
       if (PcdSelect(main_buf))

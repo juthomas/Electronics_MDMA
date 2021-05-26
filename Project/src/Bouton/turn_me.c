@@ -6,7 +6,8 @@
 
 static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
-int touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+uint8_t touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int hit_but = 0;
 
 void bouton_state(int now, int index)
 {
@@ -57,18 +58,20 @@ ISR(PCINT2_vect)
 
 ISR(TIMER2_COMPA_vect)
 {
-	static const uint8_t tab[NB_T] = {PC0,PC1,PE2,PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
-	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC, &PINE, &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
+	static const uint8_t tab[NB_T] = {PC0,PC1,/*PE2,*/PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
+	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC,/* &PINE,*/ &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
 
-	for (int i = 0; i < 1 ;i++)
+	for (int i = 0; i < 3 ;i++)
 	{
-		if (!((*(value[i]) & (1 << tab[i])))) {
-			touch[i] = 1;
-			PORTA |= (1 << 7);
+		if (!((*(value[i]) & (1 << tab[i]))) && !(touch[i])) {
+			hit_but++;
+			touch[i] = hit_but;
+			if (hit_but >= 250)
+				hit_but = 0;
 		}
 		else{
-			touch[i] = 0;
-			PORTA &= ~(1 << 7);
+			// touch[i] = 0;
+			// PORTA &= ~(1 << 7);
 		}
     }
 
@@ -98,9 +101,7 @@ void setupTimer(uint32_t ocr, uint8_t prescaler)
 void init_turn()
 {
 		cli();
-	DDRC |= (1 << DDC6);
 	DDRA |= (1 << DDA7);
-    DDRL |= (1 << DDA6);
 	DDRC &= ~(1 << DDC0);
 
 

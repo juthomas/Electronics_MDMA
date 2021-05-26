@@ -13,8 +13,8 @@
 #include <stddef.h>
 #define RFID_MOSI   51
 #define RFID_MISO   50
-#define RFID_CS     47
-#define RFID_RST    49
+#define RFID_CS     53
+#define RFID_RST    5
 #define CLK         52
 //#define SPCR        0x2C;
 //#define SPSR        0x2D;

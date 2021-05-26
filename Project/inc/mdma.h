@@ -44,7 +44,8 @@ void	custom_delay(uint32_t milli);
 
 //bouton
 void    init_turn();
-extern int touch[NB_T];
+extern uint8_t touch[NB_T];
+extern int hit_but;
 
 
 
