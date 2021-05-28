@@ -116,11 +116,14 @@ void reset_button()
 	}
 }
 
-void bouncs(int bounce){
+void mini_gun(){
+DDRA = 0b11111111;
+while(1)
+	PORTA = test[0]
 
 }
 
-void lucky_luck(int bounce)
+void lucky_luck()
 {
 	uint8_t low = 251;
 	uint8_t addr = 20;
@@ -177,9 +180,10 @@ int main()
 	DDRA |= (1 << 6);
 	initSPI();
 	PORTC = 0;
-	while(1)
-		test_rfid();  
-	lucky_luck(5);
+	//while(1)
+	//	test_rfid();  
+	//lucky_luck(5);
+	mini_gun();
 	// for (;;)
 	// {
 	// 	//demo du fonctionnement des boutons

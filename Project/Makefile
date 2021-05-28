@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-14210
+PORT		= /dev/tty.usbserial-14430
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)

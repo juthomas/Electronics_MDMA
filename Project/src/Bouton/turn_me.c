@@ -7,6 +7,7 @@
 static int old_state[5] = {0, 0, 0, 0, 0};
 static int nb[5] = {0, 0, 0, 0, 0};
 uint8_t touch[NB_T] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+uint32_t spam[NB_T/3] = {0,0,0,0,0};
 int hit_but = 0;
 
 void bouton_state(int now, int index)
@@ -60,6 +61,8 @@ ISR(TIMER2_COMPA_vect)
 {
 	static const uint8_t tab[NB_T] = {PC0,PC1,/*PE2,*/PC2,PC3,PE5,PE0,PE1,PE6,PC6,PC7,PG5,PC4,PC5,PE7};
 	static const volatile uint8_t* value[NB_T] = {&PINC, &PINC,/* &PINE,*/ &PINC, &PINC, &PINE, &PINE, &PINE, &PINE, &PINC, &PINC, &PING, &PINC, &PINC, &PINE};
+	static uint8_t test[NB_T/3] = {0,0,0,0,0};
+	
 
 	for (int i = 0; i < 3 ;i++)
 	{
@@ -68,9 +71,17 @@ ISR(TIMER2_COMPA_vect)
 			touch[i] = hit_but;
 			if (hit_but >= 250)
 				hit_but = 0;
+			if (!(test[i/3]))
+			{
+				test[i/3] = 1;
+				spam[i/3]++;
+			}
 		}
 		else{
+			if(test[i/3])
+				test[i/3] = 0;
 			// touch[i] = 0;
+
 			// PORTA &= ~(1 << 7);
 		}
     }
