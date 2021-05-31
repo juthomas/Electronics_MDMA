@@ -1,0 +1,395 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 66
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:Rotary_Encoder_Switch SW1
+U 1 1 6047B9F1
+P 6800 3450
+F 0 "SW1" H 6800 3817 50  0000 C CNN
+F 1 "Rotary_Encoder_Switch" H 6800 3726 50  0000 C CNN
+F 2 "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm" H 6650 3610 50  0001 C CNN
+F 3 "~" H 6800 3710 50  0001 C CNN
+	1    6800 3450
+	0    1    1    0   
+$EndComp
+$Sheet
+S 4950 4500 300  900 
+U 60484C27
+F0 "leds" 50
+F1 "leds.sch" 50
+F2 "DATA_IN" I T 5100 4500 50 
+F3 "DATA_OUT" O B 5100 5400 50 
+$EndSheet
+$Comp
+L my_lib:Matrice8x8_WS2812 U1
+U 1 1 604D080E
+P 6600 5100
+F 0 "U1" H 6650 5215 50  0000 C CNN
+F 1 "Matrice8x8_WS2812" H 6650 5124 50  0000 C CNN
+F 2 "my_lib:Matrice8x8_WS2812" H 6700 5050 50  0001 C CNN
+F 3 "" H 6700 5050 50  0001 C CNN
+	1    6600 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR02
+U 1 1 604D1C32
+P 5650 5400
+F 0 "#PWR02" H 5650 5250 50  0001 C CNN
+F 1 "+5V" V 5650 5550 50  0000 L CNN
+F 2 "" H 5650 5400 50  0001 C CNN
+F 3 "" H 5650 5400 50  0001 C CNN
+	1    5650 5400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR01
+U 1 1 604D2EB6
+P 5650 5900
+F 0 "#PWR01" H 5650 5650 50  0001 C CNN
+F 1 "GND" V 5650 5750 50  0000 R CNN
+F 2 "" H 5650 5900 50  0001 C CNN
+F 3 "" H 5650 5900 50  0001 C CNN
+	1    5650 5900
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+5V #PWR07
+U 1 1 6050D35D
+P 6900 3750
+F 0 "#PWR07" H 6900 3600 50  0001 C CNN
+F 1 "+5V" V 6915 3878 50  0000 L CNN
+F 2 "" H 6900 3750 50  0001 C CNN
+F 3 "" H 6900 3750 50  0001 C CNN
+	1    6900 3750
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+5V #PWR010
+U 1 1 60514D95
+P 6800 2950
+F 0 "#PWR010" H 6800 2800 50  0001 C CNN
+F 1 "+5V" V 6800 3100 50  0000 L CNN
+F 2 "" H 6800 2950 50  0001 C CNN
+F 3 "" H 6800 2950 50  0001 C CNN
+	1    6800 2950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6800 2950 6800 3150
+$Comp
+L power:GND #PWR05
+U 1 1 60528106
+P 3950 4550
+F 0 "#PWR05" H 3950 4300 50  0001 C CNN
+F 1 "GND" V 3950 4350 50  0000 C CNN
+F 2 "" H 3950 4550 50  0001 C CNN
+F 3 "" H 3950 4550 50  0001 C CNN
+	1    3950 4550
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4600 3700 4600 3650
+Wire Wire Line
+	4600 3650 3950 3650
+Wire Wire Line
+	5100 4500 5100 4350
+Wire Wire Line
+	5100 4350 4800 4350
+Wire Wire Line
+	3950 4450 4350 4450
+Wire Wire Line
+	5100 5550 5100 5400
+$Sheet
+S 7600 3950 600  200 
+U 6057181B
+F0 "switch_led" 50
+F1 "switch_led.sch" 50
+F2 "SW_OUTPUT" O L 7600 4050 50 
+$EndSheet
+$Sheet
+S 7600 4400 600  200 
+U 60585011
+F0 "switch_led2" 50
+F1 "switch_led.sch" 50
+F2 "SW_OUTPUT" O L 7600 4500 50 
+$EndSheet
+Wire Wire Line
+	7600 4500 7350 4500
+Wire Wire Line
+	7350 4150 3950 4150
+Wire Wire Line
+	5450 4250 3950 4250
+Wire Wire Line
+	6700 3050 6550 3050
+Wire Wire Line
+	6550 3050 6550 3750
+Wire Wire Line
+	3950 3750 6550 3750
+Wire Wire Line
+	6700 3050 6700 3150
+Wire Wire Line
+	7350 4500 7350 4150
+Wire Wire Line
+	3950 3950 6700 3950
+Wire Wire Line
+	6700 3950 6700 3750
+Wire Wire Line
+	6900 3050 7150 3050
+Wire Wire Line
+	7150 3050 7150 2450
+Wire Wire Line
+	7150 2450 6200 2450
+Wire Wire Line
+	6200 2450 6200 3850
+Wire Wire Line
+	6200 3850 3950 3850
+Wire Wire Line
+	6900 3050 6900 3150
+$Comp
+L MDMA-rescue:Switch_Pin_out-my_lib P1
+U 1 1 60523547
+P 3400 4000
+F 0 "P1" H 2422 3838 50  0000 R CNN
+F 1 "Switch_Pin_out" H 2422 3747 50  0000 R CNN
+F 2 "my_lib:Pizza_Pin_Out" H 3550 4000 50  0001 C CNN
+F 3 "" H 3550 4000 50  0001 C CNN
+	1    3400 4000
+	0    -1   1    0   
+$EndComp
+$Comp
+L power:+3.3V #PWR0154
+U 1 1 6049569B
+P 5650 3450
+F 0 "#PWR0154" H 5650 3300 50  0001 C CNN
+F 1 "+3.3V" V 5650 3750 50  0000 C CNN
+F 2 "" H 5650 3450 50  0001 C CNN
+F 3 "" H 5650 3450 50  0001 C CNN
+	1    5650 3450
+	0    1    1    0   
+$EndComp
+$Comp
+L my_lib:RFID_Module T1
+U 1 1 604C9DE4
+P 5150 2800
+F 0 "T1" H 5175 2865 50  0000 C CNN
+F 1 "RFID_Module" H 5175 2774 50  0000 C CNN
+F 2 "my_lib:RFID_RC522" H 5150 2800 50  0001 C CNN
+F 3 "" H 5150 2800 50  0001 C CNN
+	1    5150 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR09
+U 1 1 604CB2C9
+P 5650 3250
+F 0 "#PWR09" H 5650 3000 50  0001 C CNN
+F 1 "GND" V 5650 3050 50  0000 R CNN
+F 2 "" H 5650 3250 50  0001 C CNN
+F 3 "" H 5650 3250 50  0001 C CNN
+	1    5650 3250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4600 3700 5800 3700
+Wire Wire Line
+	3950 3150 4700 3150
+Wire Wire Line
+	4700 3250 3950 3250
+Wire Wire Line
+	4700 3350 3950 3350
+Wire Wire Line
+	4700 3450 3950 3450
+Wire Wire Line
+	4700 3550 3950 3550
+$Comp
+L power:+3.3V #PWR0153
+U 1 1 604B5C60
+P 3950 4650
+F 0 "#PWR0153" H 3950 4500 50  0001 C CNN
+F 1 "+3.3V" V 3950 4850 50  0000 C CNN
+F 2 "" H 3950 4650 50  0001 C CNN
+F 3 "" H 3950 4650 50  0001 C CNN
+	1    3950 4650
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+5V #PWR0155
+U 1 1 604BB7BA
+P 3950 4750
+F 0 "#PWR0155" H 3950 4600 50  0001 C CNN
+F 1 "+5V" V 3965 4923 50  0000 C CNN
+F 2 "" H 3950 4750 50  0001 C CNN
+F 3 "" H 3950 4750 50  0001 C CNN
+	1    3950 4750
+	0    1    1    0   
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 604911FC
+P 9150 1850
+F 0 "#FLG0101" H 9150 1925 50  0001 C CNN
+F 1 "PWR_FLAG" H 9150 2023 50  0000 C CNN
+F 2 "" H 9150 1850 50  0001 C CNN
+F 3 "~" H 9150 1850 50  0001 C CNN
+	1    9150 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0151
+U 1 1 604862C2
+P 9150 1850
+F 0 "#PWR0151" H 9150 1600 50  0001 C CNN
+F 1 "GND" H 9155 1677 50  0000 C CNN
+F 2 "" H 9150 1850 50  0001 C CNN
+F 3 "" H 9150 1850 50  0001 C CNN
+	1    9150 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C63
+U 1 1 612AC965
+P 5850 5650
+F 0 "C63" V 5595 5650 50  0000 C CNN
+F 1 "470uF" V 5686 5650 50  0000 C CNN
+F 2 "Capacitor_SMD:CP_Elec_6.3x7.7" H 5888 5500 50  0001 C CNN
+F 3 "~" H 5850 5650 50  0001 C CNN
+	1    5850 5650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5450 5300 5450 4250
+Wire Wire Line
+	5850 5500 5850 5400
+Connection ~ 5850 5400
+Wire Wire Line
+	5850 5400 5650 5400
+Wire Wire Line
+	5650 5900 5850 5900
+Wire Wire Line
+	5850 5800 5850 5900
+Connection ~ 5850 5900
+Wire Wire Line
+	6250 5900 6250 5500
+Wire Wire Line
+	6250 5500 6350 5500
+Wire Wire Line
+	5850 5900 6100 5900
+Wire Wire Line
+	5450 5300 5850 5300
+Wire Wire Line
+	5850 5400 6100 5400
+$Comp
+L Device:CP C64
+U 1 1 612CD5C3
+P 6100 5650
+F 0 "C64" V 6300 5650 50  0000 C CNN
+F 1 "470uf" V 6400 5550 50  0000 C CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N" H 6138 5500 50  0001 C CNN
+F 3 "~" H 6100 5650 50  0001 C CNN
+	1    6100 5650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 5500 6100 5400
+Connection ~ 6100 5400
+Wire Wire Line
+	6100 5400 6350 5400
+Wire Wire Line
+	6100 5800 6100 5900
+Connection ~ 6100 5900
+Wire Wire Line
+	6100 5900 6250 5900
+Wire Wire Line
+	3950 4050 7600 4050
+$Comp
+L Mechanical:MountingHole H3
+U 1 1 60E753EA
+P 10000 2800
+F 0 "H3" H 10100 2846 50  0000 L CNN
+F 1 "MountingHole" H 10100 2755 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 10000 2800 50  0001 C CNN
+F 3 "~" H 10000 2800 50  0001 C CNN
+	1    10000 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H2
+U 1 1 60E75943
+P 9350 2800
+F 0 "H2" H 9450 2891 50  0000 L CNN
+F 1 "MountingHole" H 9450 2800 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 9450 2709 50  0000 L CNN
+F 3 "~" H 9350 2800 50  0001 C CNN
+	1    9350 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H4
+U 1 1 60E76040
+P 10250 3400
+F 0 "H4" H 10350 3446 50  0000 L CNN
+F 1 "MountingHole" H 10350 3355 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 10250 3400 50  0001 C CNN
+F 3 "~" H 10250 3400 50  0001 C CNN
+	1    10250 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H1
+U 1 1 60E76507
+P 9250 3400
+F 0 "H1" H 9350 3446 50  0000 L CNN
+F 1 "MountingHole" H 9350 3355 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3" H 9250 3400 50  0001 C CNN
+F 3 "~" H 9250 3400 50  0001 C CNN
+	1    9250 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 6077A2E6
+P 6000 5300
+F 0 "R2" V 5793 5300 50  0000 C CNN
+F 1 "300 Ohm" V 5884 5300 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5930 5300 50  0001 C CNN
+F 3 "~" H 6000 5300 50  0001 C CNN
+	1    6000 5300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6150 5300 6350 5300
+Wire Wire Line
+	4500 4350 3950 4350
+$Comp
+L Device:R R1
+U 1 1 6077BA65
+P 4650 4350
+F 0 "R1" V 4750 4350 50  0000 C CNN
+F 1 "300/0 Ohm" V 4850 4350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4580 4350 50  0001 C CNN
+F 3 "~" H 4650 4350 50  0001 C CNN
+	1    4650 4350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4350 5550 4350 4450
+Wire Wire Line
+	4350 5550 5100 5550
+Wire Wire Line
+	5650 3350 5800 3350
+Wire Wire Line
+	5800 3350 5800 3700
+$EndSCHEMATC
