@@ -6,41 +6,15 @@
 // #define WAWE 2
 
 
-uint8_t g_led_exit_animation;
 
-enum e_led_directions
-{
-	D_PLAYERS = 1,
-	D_SCREEN,
-	D_CLOCKWISE,
-	D_COUNTERCLOCKWISE,
-	D_WAWES,
-};
 
-enum e_led_rows
-{
-	LED_ROW_1 = 1 << 0,
-	LED_ROW_2 = 1 << 1,
-	LED_ROW_3 = 1 << 2,
-	LED_ROW_4 = 1 << 3,
-	LED_ROW_5 = 1 << 4,
-	LED_ROW_6 = 1 << 5,
-	LED_ROW_7 = 1 << 6,
-	LED_ROW_8 = 1 << 7,
-	LED_ROW_ALL = LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6,
-	LED_ROW_MAX = LED_ROW_ALL | LED_ROW_7 | LED_ROW_8
-};
-
-enum e_players
-{
-	PLAYER_1 = 1 << 0,
-	PLAYER_2 = 1 << 1,
-	PLAYER_3 = 1 << 2,
-	PLAYER_4 = 1 << 3,
-	PLAYER_5 = 1 << 4,
-	PLAYER_ALL = PLAYER_1 | PLAYER_2 | PLAYER_3 | PLAYER_4 | PLAYER_5
-};
-
+/**
+ * @brief Feed one pixel at desired index with hexa color
+ * @param pixel_index Current pixel index
+ * @param pixel Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @return Pixels array
+ */
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 {
 	// ((((color & 0xFF0000) >> (int32_t)16) * percentage / 100) << (int32_t)16) +
@@ -61,6 +35,14 @@ uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 	return (pixels);
 }
 
+
+/**
+ * @brief Rotate pixels selected by X pizzas parts
+ * @param pixels_to_draw Array of pixels to draws (array of indexes)
+ * @param pixels_to_draw_size pixels_to_draw Array size
+ * @param fifths Number of pizzas parts to rotate
+ * @return pixels_to_draw
+ */
 uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_size, uint8_t fifths)
 {
 	fifths = fifths % 5;
@@ -68,25 +50,6 @@ uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_si
 	fifths = 5 - fifths;
 	
 	fifths = fifths % 5;
-
-	// if (fifths == 4)
-	// {
-	// 	fifths = 1;
-	// }
-	// else if (fifths == 3)
-	// {
-	// 	fifths = 2;
-	// }
-	// else if (fifths == 2)
-	// {
-	// 	fifths = 3;
-	// }
-	// else if (fifths == 1)
-	// {
-	// 	fifths = 4;
-	// }
-	// fifths = 0;
-
 
 
 	for (int i = 0; i < pixels_to_draw_size; i++)
@@ -96,6 +59,15 @@ uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_si
 	return (pixels_to_draw);
 }
 
+
+/**
+ * @brief Feed color to pixels indexed in pixels_index
+ * @param pixels_indexes Array of pixels to draws (array of indexes)
+ * @param pixels_indexes_size pixels_indexes Array size
+ * @param pixels Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @return pixels_to_draw
+ */
 uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
 	for (int i = 0; i < pixels_indexes_size; i++)
@@ -107,6 +79,12 @@ uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_
 	return (pixels);
 }
 
+/**
+ * @brief Clear pixels array with color
+ * @param pixels Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @return pixels_to_draw
+ */
 uint8_t *clear_led_buffer(uint8_t *pixels, uint32_t color)
 {
 	for (int i = 0; i < 62 * 5; i++)
@@ -118,6 +96,14 @@ uint8_t *clear_led_buffer(uint8_t *pixels, uint32_t color)
 	return (pixels);
 }
 
+/**
+ * @brief Animate pixels indexed with color
+ * @param pixels_indexes Array of pixels to draws (array of indexes)
+ * @param pixels_indexes_size pixels_indexes Array size
+ * @param pixels Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @return pixels_to_draw
+ */
 uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
 
@@ -133,6 +119,12 @@ uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 	return (pixels);
 }
 
+/**
+ * @brief Get pixel color in pixels array at index
+ * @param index index to search
+ * @param pixels Pixels array
+ * @return color with Hexadecimal 0xRRGGBB format
+ */
 uint32_t get_pixel_color(uint8_t *pixels, uint16_t index)
 {
 	return ((uint32_t)(pixels[index * 3] << 8) +
@@ -140,6 +132,13 @@ uint32_t get_pixel_color(uint8_t *pixels, uint16_t index)
 			((uint32_t)pixels[index * 3 + 2]));
 }
 
+/**
+ * @brief Get color for wawe effect
+ * @param pos Current wawe position (between 0 and 100)
+ * @param color Wawe color
+ * @param background_color Background of wawe color (secondary color)
+ * @return color with Hexadecimal 0xRRGGBB format
+ */
 uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
 {
   if (pos > 50)
@@ -156,6 +155,14 @@ uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
   }
 }
 
+/**
+ * @brief Create a wawe effect on pixels indexed
+ * @param pixels_indexes Array of pixels to draws (array of indexes)
+ * @param pixels_indexes_size pixels_indexes Array size
+ * @param pixels Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @return pixels
+ */
 uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
 	uint32_t color_tmp = 0x000000;
@@ -227,6 +234,11 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	return (pixels);
 }
 
+/**
+ * @brief Get a color in rainbow
+ * @param pos color position (between 0 and 255)
+ * @return color with Hexadecimal 0xRRGGBB format
+ */
 uint32_t led_rainbow_wheel(uint8_t pos)
 {
 	uint8_t red;
@@ -256,6 +268,12 @@ uint32_t led_rainbow_wheel(uint8_t pos)
 	return (((int32_t)red << (int32_t)16) + ((int32_t)green << (int32_t)8) + (int32_t)blue);
 }
 
+/**
+ * @brief Reduce color luminosity
+ * @param color color to reduce
+ * @param percentage luminosity desired between 0 and 100 (0 = off, 100 = max luminosity)
+ * @return color with Hexadecimal 0xRRGGBB format
+ */
 uint32_t led_reduce_luminosity(uint32_t color, uint8_t percentage)
 {
 	return (
@@ -264,6 +282,11 @@ uint32_t led_reduce_luminosity(uint32_t color, uint8_t percentage)
 		((((color & 0x0000FF) >> (int32_t)0) * percentage / 100) << (int32_t)0));
 }
 
+/**
+ * @brief Get square root of x
+ * @param x
+ * @return Square root
+ */
 int32_t ft_sqrt(int32_t x)
 {
 	if (x == 0 || x == 1)
@@ -279,6 +302,9 @@ int32_t ft_sqrt(int32_t x)
 	return i - 1;
 }
 
+/**
+ * @brief Draw line on led matrix
+ */
 void led_matrix_draw_line(uint8_t *pixels, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t red, uint8_t green, uint8_t blue)
 {
 	int dx = ABS(x1 - x0), sx = x0 < x1 ? 1 : -1;
@@ -923,6 +949,25 @@ void draw_players_interactions()
 {
 }
 
+/**
+ * @brief Init led library
+ * @param led_buffer buffer for leds (must have a size of 62 * 3 * 5)
+ */
+void init_leds(uint8_t *led_buffer)
+{
+	g_led_exit_animation = 0;
+	DDRA |= 1 << PIN0;
+	DDRA |= 1 << PIN1;
+	DDRA |= 1 << PIN2;
+	DDRA |= 1 << PIN3;
+	DDRA |= 1 << PIN4;
+	DDRA |= 1 << PIN5;
+	for (int i = 0; i < 62 * 3 * 5; i++)
+	{
+		led_buffer[i] = 0;
+	}
+}
+
 void led_draw_animation(uint16_t pixels_number)
 {
 	// uint8_t pixels[pixels_number * 3];
@@ -943,20 +988,20 @@ void led_draw_animation(uint16_t pixels_number)
 	// led_test();
 	draw_satanic_circle();
 	// g_led_exit_animation = 1;
-		draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_2 | PLAYER_5, 0x101010);
-		for (int32_t i = 0; i < 1000000; i++)
-			;
-	draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_1 | PLAYER_3 | PLAYER_4, 0x101010);
-		for (int32_t i = 0; i < 1000000; i++)
-			;
+	// 	draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_2 | PLAYER_5, 0x101010);
+	// 	for (int32_t i = 0; i < 1000000; i++)
+	// 		;
+	// draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_1 | PLAYER_3 | PLAYER_4, 0x101010);
+	// 	for (int32_t i = 0; i < 1000000; i++)
+	// 		;
 
-	draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_ALL, 0x101010);
-		for (int32_t i = 0; i < 1000000; i++)
-			;
+	// draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_ALL, 0x101010);
+	// 	for (int32_t i = 0; i < 1000000; i++)
+	// 		;
 
 
-	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
-	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
+	draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
+	draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 
 	// for (int32_t i = 0; i < 200000; i++)

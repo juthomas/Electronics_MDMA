@@ -9,23 +9,7 @@
 typedef void(*t_asm_sender)(uint8_t mask, uint8_t *, uint16_t);
 
 void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTB(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTC(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTD(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTE(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTF(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTG(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTH(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-// void led_send_data_PORTI(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTJ(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTK(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
-void led_send_data_PORTL(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
 
-// typedef struct	s_asm_attr_sender{
-// 	enum e_pins		pin_number;
-// 	t_asm_sender	func;
-
-// }				t_asm_attr_sender;
 
 enum			e_matrix_activation{
 	MAT_1 = 1 << 4,
@@ -36,227 +20,86 @@ enum			e_matrix_activation{
 	MAT_ALL = MAT_1 | MAT_2 | MAT_3 | MAT_4 | MAT_5
 };
 
-// static const t_asm_attr_sender g_asm_sender[1] = {
-// (t_asm_attr_sender){
-// 	.pin_number=FT_D0,
-// 	.func = led_send_data_PORTB
-// }
-// };
+enum e_led_directions
+{
+	D_PLAYERS = 1,
+	D_SCREEN,
+	D_CLOCKWISE,
+	D_COUNTERCLOCKWISE,
+	D_WAWES,
+};
 
-// static const t_asm_attr_sender g_asm_sender[FT_DMAX] = {
-// (t_asm_attr_sender){
-// .pin_number=FT_D0,
-// .func = led_send_data_PORTE},
-// (t_asm_attr_sender){
-// .pin_number=FT_D1,
-// .func = led_send_data_PORTE},
-// (t_asm_attr_sender){
-// .pin_number=FT_D2,
-// .func = led_send_data_PORTE},
-// (t_asm_attr_sender){
-// .pin_number=FT_D3,
-// .func = led_send_data_PORTE},
-// (t_asm_attr_sender){
-// .pin_number=FT_D4,
-// .func = led_send_data_PORTG},
-// (t_asm_attr_sender){
-// .pin_number=FT_D5,
-// .func = led_send_data_PORTE},
-// (t_asm_attr_sender){
-// .pin_number=FT_D6,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D7,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D8,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D9,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D10,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D11,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D12,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D13,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D14,
-// .func = led_send_data_PORTJ},
-// (t_asm_attr_sender){
-// .pin_number=FT_D15,
-// .func = led_send_data_PORTJ},
-// (t_asm_attr_sender){
-// .pin_number=FT_D16,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D17,
-// .func = led_send_data_PORTH},
-// (t_asm_attr_sender){
-// .pin_number=FT_D18,
-// .func = led_send_data_PORTD},
-// (t_asm_attr_sender){
-// .pin_number=FT_D19,
-// .func = led_send_data_PORTD},
-// (t_asm_attr_sender){
-// .pin_number=FT_D20,
-// .func = led_send_data_PORTD},
-// (t_asm_attr_sender){
-// .pin_number=FT_D21,
-// .func = led_send_data_PORTD},
-// (t_asm_attr_sender){
-// .pin_number=FT_D22,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D23,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D24,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D25,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D26,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D27,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D28,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D29,
-// .func = led_send_data_PORTA},
-// (t_asm_attr_sender){
-// .pin_number=FT_D30,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D31,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D32,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D33,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D34,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D35,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D36,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D37,
-// .func = led_send_data_PORTC},
-// (t_asm_attr_sender){
-// .pin_number=FT_D38,
-// .func = led_send_data_PORTD},
-// (t_asm_attr_sender){
-// .pin_number=FT_D39,
-// .func = led_send_data_PORTG},
-// (t_asm_attr_sender){
-// .pin_number=FT_D40,
-// .func = led_send_data_PORTG},
-// (t_asm_attr_sender){
-// .pin_number=FT_D41,
-// .func = led_send_data_PORTG},
-// (t_asm_attr_sender){
-// .pin_number=FT_D42,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D43,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D44,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D45,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D46,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D47,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D48,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D49,
-// .func = led_send_data_PORTL},
-// (t_asm_attr_sender){
-// .pin_number=FT_D50,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D51,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D52,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_D53,
-// .func = led_send_data_PORTB},
-// (t_asm_attr_sender){
-// .pin_number=FT_A0,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A1,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A2,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A3,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A4,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A5,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A6,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A7,
-// .func = led_send_data_PORTF},
-// (t_asm_attr_sender){
-// .pin_number=FT_A8,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A9,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A10,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A11,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A12,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A13,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A14,
-// .func = led_send_data_PORTK},
-// (t_asm_attr_sender){
-// .pin_number=FT_A15,
-// .func = led_send_data_PORTK},
-// };
+enum e_led_rows
+{
+	LED_ROW_1 = 1 << 0,
+	LED_ROW_2 = 1 << 1,
+	LED_ROW_3 = 1 << 2,
+	LED_ROW_4 = 1 << 3,
+	LED_ROW_5 = 1 << 4,
+	LED_ROW_6 = 1 << 5,
+	LED_ROW_7 = 1 << 6,
+	LED_ROW_8 = 1 << 7,
+	LED_ROW_ALL = LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6,
+	LED_ROW_MAX = LED_ROW_ALL | LED_ROW_7 | LED_ROW_8
+};
+
+enum e_players
+{
+	PLAYER_1 = 1 << 0,
+	PLAYER_2 = 1 << 1,
+	PLAYER_3 = 1 << 2,
+	PLAYER_4 = 1 << 3,
+	PLAYER_5 = 1 << 4,
+	PLAYER_ALL = PLAYER_1 | PLAYER_2 | PLAYER_3 | PLAYER_4 | PLAYER_5
+};
 
 void	matrix_send_data(enum e_matrix_activation activation, uint8_t *pixels, uint16_t pixels_number);
+
+
+
+uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
+uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_size, uint8_t fifths);
+uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
+uint8_t *clear_led_buffer(uint8_t *pixels, uint32_t color);
+
+uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
+uint32_t get_pixel_color(uint8_t *pixels, uint16_t index);
+uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color);
+uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
+uint32_t led_rainbow_wheel(uint8_t pos);
+uint32_t led_reduce_luminosity(uint32_t color, uint8_t percentage);
+int32_t ft_sqrt(int32_t x);
+void led_matrix_draw_line(uint8_t *pixels, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_draw_filled_rectangle(uint8_t *pixels, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_draw_rectangle(uint8_t *pixels, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_fill_screen(uint8_t *pixels, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_draw_circle(uint8_t *pixels, int8_t xm, int8_t ym, int8_t r, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_send_progmem(enum e_matrix_activation activation, const uint8_t *progmem);
+void wawe_on_segment(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint8_t progression, uint32_t color1, uint32_t color2);
+void draw_interactions_with_screen(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t direction, uint8_t player, uint32_t color);
+void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t animation, uint32_t rows_activation, uint32_t color1, uint32_t color2);
+void draw_satanic_circle();
+void draw_roulette();
+void led_test();
+void launch_dice();
+void reverse_array(uint16_t *pixels_to_draw, int size);
+void manage_array_of_pixels(uint8_t animate, uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
+void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_t animate, uint32_t color);
+void init_leds(uint8_t *led_buffer);
+void led_draw_animation(uint16_t pixels_number);
+
+
+
+
+
+
+
+
+
+void draw_satanic_circle();
+
+uint8_t g_led_exit_animation;
 
 
 #endif
