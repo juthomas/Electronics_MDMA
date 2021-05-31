@@ -108,10 +108,10 @@ void display_intro()
 	ili9341_draw_IMG(KingCrimsonBG, KingCrimsonBGPalette, 0, 0, 32, 24, 10);
 	ili9341_draw_IMG(CorridorBG, CorridorBGPalette, 0, 0, 32, 24, 10);
 	ili9341_draw_IMG(PentacleBG, PentacleBGPalette, 0, 0, 32, 24, 10);
+
 	ili9341_draw_IMG(TimerBG, TimerBGPalette, 0, 0, 80, 60, 4);
 	ili9341_draw_IMG(ChoiceBG, ChoiceBGPalette, 0, 0, 80, 60, 4);
 	ili9341_draw_IMG(HighScoreBG, HighScoreBGPalette, 0, 0, 80, 60, 4);
-	ili9341_draw_IMG(LuckyBG, LuckyBGPalette, 0, 0, 80, 60, 4);
 	ili9341_draw_IMG(LiarBG, LiarBGPalette, 0, 0, 80, 60, 4);
 	ili9341_draw_IMG(LeftHandBG, LeftHandBGPalette, 0, 0, 80, 60, 4);
 	ili9341_draw_IMG(SnailBG, SnailBGPalette, 0, 0, 80, 60, 4);
@@ -138,9 +138,16 @@ int main()
 	ili9341_setRotation(1);
 	*((volatile uint8_t *)39) &= ~(1 << 1);
 	*((volatile uint8_t *)39) &= ~(1 << 0);
-	display_intro();
-	display_menu();
-	display_selection();
+	// display_intro();
+	// display_menu();
+	ili9341_draw_IMG(HighScoreBG, HighScoreBGPalette, 0, 0, 80, 60, 4);
+	ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette,0, 0, 60, 50, 4);
+	// ili9341_setCursor(100, 140);
+	// ili9341_println("HIGH", ILI9341_WHITE, 4, 0);
+	// ili9341_setCursor(100, 180);
+	// ili9341_println("SCORE", ILI9341_RED, 4, 0);
+	for(;;)
+	//display_selection();
 	for (;;)
 	{
 		//display_menu();
