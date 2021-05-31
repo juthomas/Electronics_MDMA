@@ -63,6 +63,32 @@ uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color)
 
 uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_size, uint8_t fifths)
 {
+	fifths = fifths % 5;
+
+	fifths = 5 - fifths;
+	
+	fifths = fifths % 5;
+
+	// if (fifths == 4)
+	// {
+	// 	fifths = 1;
+	// }
+	// else if (fifths == 3)
+	// {
+	// 	fifths = 2;
+	// }
+	// else if (fifths == 2)
+	// {
+	// 	fifths = 3;
+	// }
+	// else if (fifths == 1)
+	// {
+	// 	fifths = 4;
+	// }
+	// fifths = 0;
+
+
+
 	for (int i = 0; i < pixels_to_draw_size; i++)
 	{
 		pixels_to_draw[i] = (pixels_to_draw[i] + (62 * fifths)) % (62 * 5);
@@ -849,19 +875,19 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 	{
 		//                           LVII     LVI     LV     LIV
 		uint16_t pixels_to_draw[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, /*  LXII         LXI          LX           LIX           LIIX */
-									 62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
+									 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 *4};
+	
 
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
 
 		manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
-		// animate_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
 	}
 	//Counter Clockwise interations
 	else if ((from == 2 && to == 1) || (from == 3 && to == 2) || (from == 4 && to == 3) || (from == 5 && to == 4) || (from == 1 && to == 5))
 	{
 		//                           LVII     LVI     LV     LIV
 		uint16_t pixels_to_draw[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, /*  LXII         LXI          LX           LIX           LIIX */
-									 62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
+									 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 * 4};
 
 		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 3);
@@ -872,8 +898,8 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 	{
 		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
 		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1, 25 - 1, 15 - 1, 6 - 1,				 /*   V           IV          III        II           I    */
-									 5 - 1 + 62, 4 - 1 + 62, 3 - 1 + 62, 2 - 1 + 62, 1 - 1 + 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
-									 5 - 1 + 124, 12 - 1 + 124, 20 - 1 + 124, 29 - 1 + 124, 36 - 1 + 124, 40 - 1 + 124, 47 - 1 + 124};
+									 5 - 1 + 310 - 62, 4 - 1 + 310 - 62, 3 - 1 + 310 - 62, 2 - 1 + 310 - 62, 1 - 1 + 310 - 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
+									 5 - 1 + 310 - 124, 12 - 1 + 310 - 124, 20 - 1 + 310 - 124, 29 - 1 + 310 - 124, 36 - 1 + 310 - 124, 40 - 1 + 310 - 124, 47 - 1 + 310 - 124};
 
 		// reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
@@ -884,8 +910,8 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 	{
 		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
 		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1, 25 - 1, 15 - 1, 6 - 1,				 /*   V           IV          III        II           I    */
-									 5 - 1 + 62, 4 - 1 + 62, 3 - 1 + 62, 2 - 1 + 62, 1 - 1 + 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
-									 5 - 1 + 124, 12 - 1 + 124, 20 - 1 + 124, 29 - 1 + 124, 36 - 1 + 124, 40 - 1 + 124, 47 - 1 + 124};
+									 5 - 1 + 310 - 62, 4 - 1 + 310 - 62, 3 - 1 + 310 - 62, 2 - 1 + 310 - 62, 1 - 1 + 310 - 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
+									 5 - 1 + 310 - 124, 12 - 1 + 310 - 124, 20 - 1 + 310 - 124, 29 - 1 + 310 - 124, 36 - 1 + 310 - 124, 40 - 1 + 310 - 124, 47 - 1 + 310 - 124};
 
 		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
 		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 2);
@@ -929,8 +955,8 @@ void led_draw_animation(uint16_t pixels_number)
 			;
 
 
-	draw_cirle_pit(buffer, 500, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
-	draw_cirle_pit(buffer, 500, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
+	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
+	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 
 	// for (int32_t i = 0; i < 200000; i++)
@@ -941,6 +967,7 @@ void led_draw_animation(uint16_t pixels_number)
 	for (int i = 0; i < 5; i++)
 	{
 		clear_led_buffer(buffer, 0x000000);
+		// draw_line_between_players(buffer, 1, 2, FALSE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, FALSE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, FALSE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, FALSE, interactions_color);
