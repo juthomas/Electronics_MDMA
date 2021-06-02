@@ -1,8 +1,10 @@
 #ifndef LEDS_H
 # define LEDS_H
-// # include <stdint.h>
+# include <stdint.h>
+# include <avr/io.h>
+# include <avr/interrupt.h>
 // #ifndef MDMA_H
-# include <./mdma.h>
+//# include <./mdma.h>
 // #endif
 
 

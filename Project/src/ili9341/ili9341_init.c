@@ -1,4 +1,4 @@
-#include "../../inc/mdma.h"
+#include "../../inc/ili9341.h"
 
 /* 
 ** Okay here is all commands that we are going to feed our ILI9341 LCD Screen.
@@ -8,6 +8,8 @@
 ** Let's trust Adafruit about that and even if there are two commands undocumented, we should follow there wisdomness.
 ** //https://forums.adafruit.com/viewtopic.php?f=47&t=63229
 */
+
+void custom_delay(uint32_t milli);
 
 static const uint8_t PROGMEM initcmd[] = {
     0xEF, 3, 0x03, 0x80, 0x02,                                                              //Undocumented but necessary
