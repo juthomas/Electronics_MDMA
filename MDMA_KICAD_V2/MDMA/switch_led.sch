@@ -1,0 +1,78 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 66 66
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Switch:SW_Push_LED SW?
+U 1 1 60573ACD
+P 5350 3600
+AR Path="/60573ACD" Ref="SW?"  Part="1" 
+AR Path="/6057181B/60573ACD" Ref="SW2"  Part="1" 
+AR Path="/60585011/60573ACD" Ref="SW3"  Part="1" 
+F 0 "SW3" H 5350 3985 50  0000 C CNN
+F 1 "SW_Push_LED" H 5350 3894 50  0000 C CNN
+F 2 "my_lib:SW_LED_16mm" H 5350 3900 50  0001 C CNN
+F 3 "~" H 5350 3900 50  0001 C CNN
+	1    5350 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60573AD3
+P 5150 3600
+AR Path="/60573AD3" Ref="#PWR?"  Part="1" 
+AR Path="/6057181B/60573AD3" Ref="#PWR0144"  Part="1" 
+AR Path="/60585011/60573AD3" Ref="#PWR0148"  Part="1" 
+F 0 "#PWR0148" H 5150 3350 50  0001 C CNN
+F 1 "GND" V 5155 3472 50  0000 R CNN
+F 2 "" H 5150 3600 50  0001 C CNN
+F 3 "" H 5150 3600 50  0001 C CNN
+	1    5150 3600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5550 3500 5700 3500
+$Comp
+L power:+5V #PWR?
+U 1 1 60573AE7
+P 5150 3500
+AR Path="/60573AE7" Ref="#PWR?"  Part="1" 
+AR Path="/6057181B/60573AE7" Ref="#PWR0143"  Part="1" 
+AR Path="/60585011/60573AE7" Ref="#PWR0147"  Part="1" 
+F 0 "#PWR0147" H 5150 3350 50  0001 C CNN
+F 1 "+5V" V 5165 3628 50  0000 L CNN
+F 2 "" H 5150 3500 50  0001 C CNN
+F 3 "" H 5150 3500 50  0001 C CNN
+	1    5150 3500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 60573AED
+P 5550 3600
+AR Path="/60573AED" Ref="#PWR?"  Part="1" 
+AR Path="/6057181B/60573AED" Ref="#PWR0145"  Part="1" 
+AR Path="/60585011/60573AED" Ref="#PWR0149"  Part="1" 
+F 0 "#PWR0149" H 5550 3450 50  0001 C CNN
+F 1 "+5V" V 5565 3728 50  0000 L CNN
+F 2 "" H 5550 3600 50  0001 C CNN
+F 3 "" H 5550 3600 50  0001 C CNN
+	1    5550 3600
+	0    1    1    0   
+$EndComp
+Text HLabel 5700 2900 1    50   Output ~ 0
+SW_OUTPUT
+Wire Wire Line
+	5700 3500 5700 2900
+$EndSCHEMATC

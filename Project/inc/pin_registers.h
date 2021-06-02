@@ -126,11 +126,11 @@ enum e_pins {
 };
 
 typedef struct	s_pin_registers{
-	int		pin_number;
-	int		register_pin_addr;
-	int		register_ddr_addr;
-	int		register_port_addr;
-	int		register_mask;
+	uint8_t		pin_number;
+	uint8_t		register_pin_addr;
+	uint8_t		register_ddr_addr;
+	uint8_t		register_port_addr;
+	uint8_t		register_mask;
 }				t_pin_registers;
 
 static const t_pin_registers g_pin_associations[FT_DMAX] = {
@@ -145,6 +145,7 @@ static const t_pin_registers g_pin_associations[FT_DMAX] = {
 .register_pin_addr=FT_PINE,
 .register_ddr_addr=FT_DDRE,
 .register_port_addr=FT_PORTE,
+
 .register_mask=(1 << 1)},
 (t_pin_registers){
 .pin_number=FT_D2,
@@ -172,27 +173,27 @@ static const t_pin_registers g_pin_associations[FT_DMAX] = {
 .register_mask=(1 << 3)},
 (t_pin_registers){
 .pin_number=FT_D6,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 3)},
 (t_pin_registers){
 .pin_number=FT_D7,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 4)},
 (t_pin_registers){
 .pin_number=FT_D8,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 5)},
 (t_pin_registers){
 .pin_number=FT_D9,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 6)},
 (t_pin_registers){
 .pin_number=FT_D10,
@@ -220,27 +221,27 @@ static const t_pin_registers g_pin_associations[FT_DMAX] = {
 .register_mask=(1 << 7)},
 (t_pin_registers){
 .pin_number=FT_D14,
-.register_pin_addr=FT_PINJ,
-.register_ddr_addr=FT_DDRJ,
-.register_port_addr=FT_PORTJ,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 1)},
 (t_pin_registers){
 .pin_number=FT_D15,
-.register_pin_addr=FT_PINJ,
-.register_ddr_addr=FT_DDRJ,
-.register_port_addr=FT_PORTJ,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 0)},
 (t_pin_registers){
 .pin_number=FT_D16,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 1)},
 (t_pin_registers){
 .pin_number=FT_D17,
-.register_pin_addr=FT_PINH,
-.register_ddr_addr=FT_DDRH,
-.register_port_addr=FT_PORTH,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 0)},
 (t_pin_registers){
 .pin_number=FT_D18,
@@ -388,51 +389,51 @@ static const t_pin_registers g_pin_associations[FT_DMAX] = {
 .register_mask=(1 << 0)},
 (t_pin_registers){
 .pin_number=FT_D42,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 7)},
 (t_pin_registers){
 .pin_number=FT_D43,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 6)},
 (t_pin_registers){
 .pin_number=FT_D44,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 5)},
 (t_pin_registers){
 .pin_number=FT_D45,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 4)},
 (t_pin_registers){
 .pin_number=FT_D46,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 3)},
 (t_pin_registers){
 .pin_number=FT_D47,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 2)},
 (t_pin_registers){
 .pin_number=FT_D48,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 1)},
 (t_pin_registers){
 .pin_number=FT_D49,
-.register_pin_addr=FT_PINL,
-.register_ddr_addr=FT_DDRL,
-.register_port_addr=FT_PORTL,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 0)},
 (t_pin_registers){
 .pin_number=FT_D50,
@@ -508,51 +509,51 @@ static const t_pin_registers g_pin_associations[FT_DMAX] = {
 .register_mask=(1 << 7)},
 (t_pin_registers){
 .pin_number=FT_A8,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 0)},
 (t_pin_registers){
 .pin_number=FT_A9,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 1)},
 (t_pin_registers){
 .pin_number=FT_A10,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 2)},
 (t_pin_registers){
 .pin_number=FT_A11,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 3)},
 (t_pin_registers){
 .pin_number=FT_A12,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 4)},
 (t_pin_registers){
 .pin_number=FT_A13,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 5)},
 (t_pin_registers){
 .pin_number=FT_A14,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 6)},
 (t_pin_registers){
 .pin_number=FT_A15,
-.register_pin_addr=FT_PINK,
-.register_ddr_addr=FT_DDRK,
-.register_port_addr=FT_PORTK,
+.register_pin_addr=0,
+.register_ddr_addr=0,
+.register_port_addr=0,
 .register_mask=(1 << 7)},
 };
 

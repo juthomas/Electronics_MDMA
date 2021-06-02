@@ -1,12 +1,15 @@
 #ifndef LEDS_H
 # define LEDS_H
-// # include <stdint.h>
+# include <stdint.h>
+# include <avr/io.h>
+# include <avr/interrupt.h>
 // #ifndef MDMA_H
-# include <./mdma.h>
+//# include <./mdma.h>
 // #endif
 
 
 typedef void(*t_asm_sender)(uint8_t mask, uint8_t *, uint16_t);
+void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
 
 void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
 

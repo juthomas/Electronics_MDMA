@@ -1,7 +1,11 @@
-#include "../../inc/mdma.h"
+//#include "../../inc/mdma.h"
 #include "../../inc/leds.h"
 #include "../../inc/math.h"
 #include "../../inc/matrix_progmem.h"
+
+# define TRUE 1
+# define FALSE 0
+# define ABS(x) x < 0 ? -x : x
 
 // #define WAWE 2
 

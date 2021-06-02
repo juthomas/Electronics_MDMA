@@ -1,4 +1,0 @@
-void null_test()
-{
-
-}

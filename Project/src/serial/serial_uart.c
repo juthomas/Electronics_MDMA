@@ -4,32 +4,25 @@
     void vector (void) __attribute__ ((signal,__INTR_ATTRS)) __VA_ARGS__; \
     void vector (void)
 
-
-static void	wait_x_cpu_clocks(int32_t cpu_clocks)
-{
-	while (cpu_clocks > 0)
-	{
-		cpu_clocks-=3;
-	}
-}
-
-static void	custom_delay(int32_t milli)
-{
-	//milli = 0,001s
-	milli = milli *	2000;
-	wait_x_cpu_clocks(milli - 5);
-}
-
 static void uart_init(uint32_t baud, uint8_t config)
 {
   // enable UDRE interrupt and enable transmit
-  UCSR0B |= (1 << UDRIE0) | (1 << TXEN0);
+  /*UCSR0B |= (1 << UDRIE0) | (1 << TXEN0);
 
   // set character data size to 8
   UCSR0C |= (1 << UCSZ00) | (1 << UCSZ01);
 
   // baud rate 9600
-	UBRR0 = 103;
+	UBRR0 = 103;*/
+
+	uint16_t baud_setting = (1600000UL / 4 / baud - 1) / 2;
+	UCSR0A = (1 << U2X0);
+	UBRR0H = baud_setting >> 8;
+	UBRR0L = baud_setting;
+
+	UCSR0C = config;
+	UCSR0B |= (1 << RXEN0) | (1 << TXEN0) | (1 << RXCIE0);
+	UCSR0B &= ~(1 << (UDRIE0));
 }
 
 void serial_putchar(char c)
@@ -40,18 +33,22 @@ void serial_putchar(char c)
 	UDR0 = c;
 }
 
+void serial_putstrln(const char* str)
+{
+	while (*str)
+	{
+		serial_putchar(*str++);
+	}
+	serial_putstr("\r\n'");
+}
+
 void serial_putstr(const char* str)
 {
 	while (*str)
 	{
 		serial_putchar(*str++);
 	}
-}
-
-void serial_putstrln(const char* str)
-{
-	serial_putstr(str);
-	serial_putstr("\r\n");
+	serial_putchar('c');
 }
 
 char serial_rx(void)
@@ -78,12 +75,6 @@ void	serial_putnbr(int32_t n)
 			serial_putnbr(n / 10);
 		serial_putchar(n % 10 + 48);
 	}
-}
-
-void	serial_putnbrln(int32_t n)
-{
-	serial_putnbr(n);
-	serial_putstr("\r\n");
 }
 
 void	serial_init()

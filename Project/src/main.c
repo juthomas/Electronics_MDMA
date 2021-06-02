@@ -1,3 +1,4 @@
+#include <avr/io.h>
 #include "../inc/mdma.h"
 #include "../inc/tone.h"
 #include "../inc/leds.h"
@@ -36,9 +37,42 @@ void draw_buttons(uint8_t *led_buffer)
 	led_send_data_PORTA(1 << PIN5, led_buffer, 62 * 5);
 }
 
+void wait_x_cpu_clocks(int32_t cpu_clocks)
+{
+	while (cpu_clocks > 0)
+	{
+		cpu_clocks -= 3;
+	}
+}
+
+void custom_delay(uint32_t milli)
+{
+	milli = milli * 2000;
+	wait_x_cpu_clocks(milli - 5);
+}
+
 int main()
 {
-	// serial_init();
+	//init_turn();
+
+	// int16_t x = 0;
+	// int16_t y = 0;
+	// int8_t delay = 2;
+	// int8_t set = 0;
+	// int16_t counter = 0;
+	// int8_t buttonGreenState = FT_LOW;
+	// int8_t buttonRedState = FT_LOW;
+
+	
+	initSPI();
+	ili9341_begin();
+	ili9341_fillScreen(ILI9341_BLACK);
+	ili9341_setRotation(1);
+		display_intro();
+	*((volatile uint8_t *)39) &= ~(1 << 1);
+	*((volatile uint8_t *)39) &= ~(1 << 0);
+	//display_intro_game(0, 1);
+		// serial_init();
 	// serial_putstr("Reboot\n\r");
 	uint8_t led_buffer[62 * 3 * 5];
 	init_leds(led_buffer);
@@ -56,18 +90,11 @@ int main()
 		for (uint32_t i = 0; i < 100000; i++)
 			;
 	}
-	//    ft_pin_mode(33, FT_OUTPUT);
-	DDRC |= 1 << PIN4;
-
-	// uint8_t pixels[3];
-	// uint16_t pixels_number = 1;
-	// pixels[0] = 0xFF;//green
-	// pixels[1] = 0xFF;//red
-	// pixels[2] = 0xFF;//blue
-	// led_send_data(pixels, pixels_number);
-
-	//70 fps loop (88 leds)
-	led_draw_animation(64);
-
-	return 0;
+	// //    ft_pin_mode(33, FT_OUTPUT);
+	// DDRC |= 1 << PIN4;
+	// for (;;)
+	// {
+	// 	custom_delay(100);
+	// }
+	return (0);
 }
