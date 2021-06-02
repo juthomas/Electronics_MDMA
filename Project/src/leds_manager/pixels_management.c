@@ -1000,8 +1000,8 @@ void led_draw_animation(uint16_t pixels_number)
 	// 		;
 
 
-	draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
-	draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
+	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x001113, 0x000003);
+	// draw_cirle_pit(buffer, 5000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
 
 
 	// for (int32_t i = 0; i < 200000; i++)
@@ -1033,17 +1033,17 @@ void led_draw_animation(uint16_t pixels_number)
 			;
 	}
 	// interactions_color = 0x000010;
-	for (int i = 0; i < 5; i++)
-	{
-		clear_led_buffer(buffer, 0x000000);
-		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, D_WAWES, interactions_color);
-		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, D_WAWES, interactions_color);
-		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, D_WAWES, interactions_color);
-		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 4) % 5) + 1, D_WAWES, interactions_color);
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-		for (int32_t i = 0; i < 100000; i++)
-			;
-	}
+	// for (int i = 0; i < 5; i++)
+	// {
+	// 	clear_led_buffer(buffer, 0x000000);
+	// 	draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, D_WAWES, interactions_color);
+	// 	draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, D_WAWES, interactions_color);
+	// 	draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, D_WAWES, interactions_color);
+	// 	draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 4) % 5) + 1, D_WAWES, interactions_color);
+	// 	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+	// 	for (int32_t i = 0; i < 100000; i++)
+	// 		;
+	// }
 	// // Counter-Clockwise interactions
 	// for (int i = 0; i < 10; i++)
 	// {

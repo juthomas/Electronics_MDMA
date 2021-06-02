@@ -1,5 +1,5 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-1410 #tty.usbserial-14410
+PORT		= /dev/ttyUSB0 #tty.usbserial-14410
 DEVICE		= atmega2560 #atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= arduino #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
@@ -20,9 +20,10 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-INC_H = leds math matrix_progmem mdma pin_registers tone
+INC_H = leds math matrix_progmem mdma pin_registers tone buttons
 
 #defines of directories names
+BUTTONS_DIR = buttons
 PIN_REGISTER_DIR = pin_registers
 USELESS_DIR = useless
 LEDS_MANAGER_DIR = leds_manager
@@ -33,6 +34,7 @@ MATH_DIR = math
 #defines of files in directories
 # PIN_REGISTER_FT = pins_manipulation 
 USELESS_FT = useless
+BUTTONS_FT = buttons
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
 MATH_FT = math
@@ -42,6 +44,7 @@ SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
+	  $(BUTTONS_FT:%=$(SRC_DIR)/$(BUTTONS_DIR)/%.c) \
 	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
 	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
 	  $(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
@@ -53,6 +56,7 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
 OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
+			$(BUTTONS_DIR:%=$(OBJ_DIR)/%) \
 			$(USELESS_DIR:%=$(OBJ_DIR)/%) \
 			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
 			$(SERIAL_DIR:%=$(OBJ_DIR)/%) \
