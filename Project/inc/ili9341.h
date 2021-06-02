@@ -1,6 +1,7 @@
 #ifndef ILI9341_H
 # define ILI9341_H
 
+# include <avr/interrupt.h>
 # include <avr/io.h>
 #include <avr/pgmspace.h>
 #include "./ili9341command.h"
@@ -90,9 +91,9 @@ void    spiWrite(uint8_t b);
 void    ili9341_setCursor(int16_t x, int16_t y);
 void    ili9341_setTextColor(uint16_t c);
 void    ili9341_setTextSize(uint8_t s);
-void    write(uint8_t c, int16_t color, uint8_t size, uint8_t delay);
+void    write(uint8_t c, int16_t color, uint8_t size, uint8_t delay, int16_t startX, int16_t endX);
 void    ili9341_println(char *str, int16_t color, uint8_t size, uint8_t delay);
-void    ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay);
+void    ili9341_print(char *str, int16_t color, uint8_t size, uint8_t delay, int16_t startX, int16_t endX);
 void    setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint8_t delay);
 void    SPI_WRITE16(uint16_t w, uint8_t delay);
 void    ili9341_setRotation(uint8_t m);
@@ -110,7 +111,7 @@ void    graphic_test(void);
 void	ili9341_putnbr(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 void	ili9341_putnbrln(int8_t n, int16_t color, uint8_t size, uint8_t delay);
 
-void ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
+void    ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale);
 void    writeColor(uint16_t color, uint32_t len, uint8_t delay);
 void    ili9341_putnbr_base(int32_t nbr, char *base, int16_t color, uint8_t size, uint8_t delay);
 void    ili9341_putnbr_baseln(int32_t nbr, char *base, int16_t color, uint8_t size, uint8_t delay);

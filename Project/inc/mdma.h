@@ -71,6 +71,11 @@ void led_matrix_fill_screen(uint8_t *pixels, uint8_t red, uint8_t green, uint8_t
 void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_draw_circle(uint8_t *pixels, int8_t xm, int8_t ym, int8_t r, uint8_t red, uint8_t green, uint8_t blue);
 
+void display_menu();
+void display_selection();
+void display_intro();
+void display_intro_game(int8_t index, int8_t side);
+
 
 
 

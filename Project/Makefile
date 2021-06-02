@@ -1,7 +1,7 @@
 FILENAME	= main
-PORT		= /dev/tty.usbmodem144101
+PORT		= /dev/tty.usbserial-14120
 DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
-PROGRAMMER	= wiring #arduino #wiring for atmega2560
+PROGRAMMER	= arduino #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc -Os -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
@@ -21,6 +21,7 @@ RFID_DIR = rfid
 MOZART_DIR = mozart
 LEDS_MANAGER_DIR = leds_manager
 BOUTON_DIR = Bouton
+GAMES_DIR = Game
 
 #defines of files in directories
 PIN_REGISTER_FT = pins_manipulation 
@@ -31,6 +32,7 @@ LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
 SERIAL_FT = serial_uart serial_nbr_base
 RFID_FT = rfid
+GAMES_FT = game
 
 SRC_FT = main
 
@@ -41,7 +43,8 @@ SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
 		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
 		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
 		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
-		$(BOUTON_FT:%=$(SRC_DIR)/$(BOUTON_DIR)/%.c) 
+		$(BOUTON_FT:%=$(SRC_DIR)/$(BOUTON_DIR)/%.c) \
+		$(GAMES_FT:%=$(SRC_DIR)/$(GAMES_DIR)/%.c) 
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
@@ -51,7 +54,8 @@ OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
 			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
 			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
-			$(BOUTON_DIR:%=$(OBJ_DIR)/%) 
+			$(BOUTON_DIR:%=$(OBJ_DIR)/%)  \
+			$(GAMES_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
 
