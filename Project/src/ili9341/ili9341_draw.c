@@ -1,4 +1,4 @@
-#include "../../inc/mdma.h"
+#include "../../inc/ili9341.h"
 
 /*
 ** Welcome in the file that save the different geometric form drawable.
@@ -7,27 +7,27 @@
 ** FillScreen is a drawRectangle with the size of the screen.
 */
 
-void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay)
-{
-    if (x1 == x2)
-    {
-        if (y1 > y2)
-            _swap_int16_t(y1, y2);
-        writeLine(x1, y1, x1, y2, color, delay);
-    }
-    else if (y1 == y2)
-    {
-        if (x1 > x2)
-            _swap_int16_t(x1, x2);
-        writeLine(x1, y1, x2, y1, color, delay);
-    }
-    else
-    {
-        spi_begin_transaction();
-        writeLine(x1, y1, x2, y2, color, delay);
-        spi_end_transaction();
-    }
-}
+// void ili9341_drawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color, uint8_t delay)
+// {
+//     if (x1 == x2)
+//     {
+//         if (y1 > y2)
+//             _swap_int16_t(y1, y2);
+//         writeLine(x1, y1, x1, y2, color, delay);
+//     }
+//     else if (y1 == y2)
+//     {
+//         if (x1 > x2)
+//             _swap_int16_t(x1, x2);
+//         writeLine(x1, y1, x2, y1, color, delay);
+//     }
+//     else
+//     {
+//         spi_begin_transaction();
+//         writeLine(x1, y1, x2, y2, color, delay);
+//         spi_end_transaction();
+//     }
+// }
 
 void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color, uint8_t delay)
 {
@@ -78,68 +78,68 @@ void ili9341_drawfillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t c
     }
 }
 
-void ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
-{
-    spi_begin_transaction();
-    drawFastHLine(x, y, w, color, 0);
-    drawFastHLine(x, y + h - 1, w, color, 0);
-    drawFastVLine(x, y, h, color, 0);
-    drawFastVLine(x + w - 1, y, h, color, 0);
-    spi_end_transaction();
-}
+// void ili9341_drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
+// {
+//     spi_begin_transaction();
+//     drawFastHLine(x, y, w, color, 0);
+//     drawFastHLine(x, y + h - 1, w, color, 0);
+//     drawFastVLine(x, y, h, color, 0);
+//     drawFastVLine(x + w - 1, y, h, color, 0);
+//     spi_end_transaction();
+// }
 
-void ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
-{
-    spi_begin_transaction();
-    drawFastVLine(x0, y0 - r, 2 * r + 1, color, delay);
-    fillCircleHelper(x0, y0, r, 3, 0, color, delay);
-    spi_end_transaction();
-}
+// void ili9341_drawfillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
+// {
+//     spi_begin_transaction();
+//     drawFastVLine(x0, y0 - r, 2 * r + 1, color, delay);
+//     fillCircleHelper(x0, y0, r, 3, 0, color, delay);
+//     spi_end_transaction();
+// }
 
-void ili9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
-{
-    int16_t f = 1 - r;
-    int16_t ddF_x = 1;
-    int16_t ddF_y = -2 * r;
-    int16_t x = 0;
-    int16_t y = r;
+// void ili9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color, uint8_t delay)
+// {
+//     int16_t f = 1 - r;
+//     int16_t ddF_x = 1;
+//     int16_t ddF_y = -2 * r;
+//     int16_t x = 0;
+//     int16_t y = r;
 
-    spi_begin_transaction();
-    writePixel(x0, y0 + r, color, delay);
-    writePixel(x0, y0 - r, color, delay);
-    writePixel(x0 + r, y0, color, delay);
-    writePixel(x0 - r, y0, color, delay);
+//     spi_begin_transaction();
+//     writePixel(x0, y0 + r, color, delay);
+//     writePixel(x0, y0 - r, color, delay);
+//     writePixel(x0 + r, y0, color, delay);
+//     writePixel(x0 - r, y0, color, delay);
 
-    while (x < y)
-    {
-        if (f >= 0)
-        {
-            y--;
-            ddF_y += 2;
-            f += ddF_y;
-        }
-        x++;
-        ddF_x += 2;
-        f += ddF_x;
+//     while (x < y)
+//     {
+//         if (f >= 0)
+//         {
+//             y--;
+//             ddF_y += 2;
+//             f += ddF_y;
+//         }
+//         x++;
+//         ddF_x += 2;
+//         f += ddF_x;
 
-        writePixel(x0 + x, y0 + y, color, delay);
-        writePixel(x0 - x, y0 + y, color, delay);
-        writePixel(x0 + x, y0 - y, color, delay);
-        writePixel(x0 - x, y0 - y, color, delay);
-        writePixel(x0 + y, y0 + x, color, delay);
-        writePixel(x0 - y, y0 + x, color, delay);
-        writePixel(x0 + y, y0 - x, color, delay);
-        writePixel(x0 - y, y0 - x, color, delay);
-    }
-    spi_end_transaction();
-}
+//         writePixel(x0 + x, y0 + y, color, delay);
+//         writePixel(x0 - x, y0 + y, color, delay);
+//         writePixel(x0 + x, y0 - y, color, delay);
+//         writePixel(x0 - x, y0 - y, color, delay);
+//         writePixel(x0 + y, y0 + x, color, delay);
+//         writePixel(x0 - y, y0 + x, color, delay);
+//         writePixel(x0 + y, y0 - x, color, delay);
+//         writePixel(x0 - y, y0 - x, color, delay);
+//     }
+//     spi_end_transaction();
+// }
 
-void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color)
-{
-    ili9341_drawLine(x0, y0, x1, y1, color, 0);
-    ili9341_drawLine(x1, y1, x2, y2, color, 0);
-    ili9341_drawLine(x2, y2, x0, y0, color, 0);
-}
+// void ili9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color)
+// {
+//     ili9341_drawLine(x0, y0, x1, y1, color, 0);
+//     ili9341_drawLine(x1, y1, x2, y2, color, 0);
+//     ili9341_drawLine(x2, y2, x0, y0, color, 0);
+// }
 
 void ili9341_draw_IMG(const uint8_t *bitmap, const uint16_t *palette, int16_t x, int16_t y, int16_t width, int16_t height, int16_t scale)
 {

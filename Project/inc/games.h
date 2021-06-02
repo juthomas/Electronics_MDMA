@@ -3,6 +3,7 @@
 
 #include "background.h"
 #include "intro.h"
+#include <stdint.h>
 
 typedef struct  s_game
 {

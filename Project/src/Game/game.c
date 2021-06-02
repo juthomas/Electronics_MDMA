@@ -2,6 +2,7 @@
 #include "../../inc/games.h"
 
 unsigned long int next = 56345345540;
+void custom_delay(uint32_t milli);
 
 int rand(void)
 {

@@ -1,4 +1,6 @@
-#include "../../inc/mdma.h"
+//#include "../../inc/mdma.h"
+#include "../../inc/ili9341.h"
+custom_delay(uint32_t milli);
 
 void writeCommand(uint8_t cmd)
 {

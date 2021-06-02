@@ -4,6 +4,7 @@
 # include <avr/interrupt.h>
 # include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <stdint.h>
 #include "./ili9341command.h"
 #include "./ili9341_font.h"
 
@@ -17,9 +18,9 @@
 #define TFT_CLK 52
 #define TFT_MISO 50
 
-#ifndef _BV(bit)
-#define _BV(bit) (1<<(bit))
-#endif
+//#ifndef _BV(bit)
+// #define _BV(bit) (1<<(bit))
+//#endif
 
 #define AVR_WRITESPI(x) for (SPDR = (x); (!(SPSR & _BV(SPIF)));)
 #define abs(x) ((x) < 0 ? -(x) : (x))
