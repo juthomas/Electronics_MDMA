@@ -21,6 +21,8 @@
 # define SERIAL_8N1 0x06
 #define ABS(x) x < 0 ? -x : x
 #define NB_T 15
+# define TRUE 1
+# define FALSE 0
 
 /*
  *
@@ -36,6 +38,9 @@
  * 
 */
 
+extern uint8_t g_led_exit_animation;
+
+
 // pins manipulation
 void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
 void	ft_digital_write(enum e_pins pin, enum e_states state);
@@ -47,6 +52,9 @@ void    init_turn();
 extern int touch[NB_T];
 
 
+// void	ft_pin_mode(enum e_pins pin, enum e_modes mode);
+// void	ft_digital_write(enum e_pins pin, enum e_states state);
+// int		ft_digital_read(enum e_pins pin);
 
 // Leds 
 
@@ -59,7 +67,10 @@ extern int touch[NB_T];
 
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
 void	led_draw_animation(uint16_t pixels_number);
-void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
+// void	led_send_data(enum e_pins pin, uint8_t *pixels, uint16_t pixels_number);
+
+
+
 uint32_t	led_rainbow_wheel(uint8_t pos);
 uint32_t	led_reduce_luminosity(uint32_t color, uint8_t percentage);
 int32_t ft_sqrt(int32_t x);

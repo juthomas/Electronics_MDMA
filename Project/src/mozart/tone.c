@@ -10,7 +10,7 @@
 #define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
 
-static volatile uint8_t *tone_port_addr;
+// static volatile uint8_t *tone_port_addr;
 static volatile uint8_t tone_port_mask;
 static volatile uint32_t duration_ticks = 0x00;
 
@@ -68,7 +68,7 @@ ISR(TIMER0_COMPA_vect)
 	}
 	else
 	{
-		*tone_port_addr ^= tone_port_mask;
+		PORTC ^= tone_port_mask;
 		duration_ticks--;
 	}
 }
@@ -106,12 +106,12 @@ void timer_freq_prescale(uint32_t a_freq, uint32_t *a_ocr, uint8_t *a_prescaler)
 	*a_prescaler = prescaler;
 }
 
-void tone(enum e_pins pin, uint32_t frequence, uint32_t duration)
+void tone(uint8_t mask , uint32_t frequence, uint32_t duration)
 {
 	duration *= 8;
 	frequence /= 6;
-	tone_port_addr = (volatile uint8_t *)g_pin_associations[pin].register_port_addr;
-	tone_port_mask = g_pin_associations[pin].register_mask;
+	// tone_port_addr = (volatile uint8_t *)addr;
+	tone_port_mask = mask;
 	uint32_t ocr = 0;
 	uint8_t prescaler = 0;
 	duration_ticks =  2 * frequence * duration / 1000;
