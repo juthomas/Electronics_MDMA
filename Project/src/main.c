@@ -162,25 +162,28 @@ int main()
 	// int8_t buttonRedState = FT_LOW;
 
 
-	uint8_t led_buffer[62 * 3 * 5];
-	init_buttons();
-	init_leds(led_buffer);
+	// uint8_t led_buffer[62 * 3 * 5];
+	// init_buttons();
+	// init_leds(led_buffer);
 
 	initSPI();
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
-	draw_satanic_circle();
-	ili9341_setRotation(1);
-		// display_intro();
-		display_menu();
-	ili9341_fillScreen(ILI9341_BLACK);
+	// draw_satanic_circle();
+	// ili9341_setRotation(1);
+	// 	// display_intro();
+	// 	display_menu();
+	// ili9341_fillScreen(ILI9341_BLACK);
 
 	
 	
-	uint8_t dice_result_1 = dice_game(1);
-	uint8_t dice_result_2 = dice_game(1);
-	display_intro_game(5, 1);
-	do_you_rather(led_buffer);
+	// uint8_t dice_result_1 = dice_game(1);
+	// uint8_t dice_result_2 = dice_game(1);
+	for(int i = 3; i < 10; i++)
+	{
+		display_intro_game(i, 1);
+	}
+	//do_you_rather(led_buffer);
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);
@@ -201,17 +204,17 @@ int main()
 	// 	;
 	// draw_satanic_circle();
 
-	for (;;)
-	{
-		// draw_cirle_pit(led_buffer, 1000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
-		// play_music();
+	// for (;;)
+	// {
+	// 	// draw_cirle_pit(led_buffer, 1000, 5, D_WAWES, LED_ROW_MAX, 0x110000, 0x000000);
+	// 	// play_music();
 
-		draw_buttons(led_buffer);
-		// led_draw_animation(64);
-		clear_buttons();
-		for (uint32_t i = 0; i < 100000; i++)
-			;
-	}
+	// 	draw_buttons(led_buffer);
+	// 	// led_draw_animation(64);
+	// 	clear_buttons();
+	// 	for (uint32_t i = 0; i < 100000; i++)
+	// 		;
+	// }
 	// //    ft_pin_mode(33, FT_OUTPUT);
 	// DDRC |= 1 << PIN4;
 	// for (;;)
