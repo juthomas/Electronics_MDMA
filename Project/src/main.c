@@ -162,28 +162,25 @@ int main()
 	// int8_t buttonRedState = FT_LOW;
 
 
-	// uint8_t led_buffer[62 * 3 * 5];
-	// init_buttons();
-	// init_leds(led_buffer);
+	uint8_t led_buffer[62 * 3 * 5];
+	init_buttons();
+	init_leds(led_buffer);
 
 	initSPI();
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
-	// draw_satanic_circle();
-	// ili9341_setRotation(1);
-	// 	// display_intro();
-	// 	display_menu();
-	// ili9341_fillScreen(ILI9341_BLACK);
+	draw_satanic_circle();
+	ili9341_setRotation(3);
+	display_intro();
+	display_menu();
+	ili9341_fillScreen(ILI9341_BLACK);
 
 	
 	
-	// uint8_t dice_result_1 = dice_game(1);
-	// uint8_t dice_result_2 = dice_game(1);
-	for(int i = 3; i < 10; i++)
-	{
-		display_intro_game(i, 1);
-	}
-	//do_you_rather(led_buffer);
+	uint8_t dice_result_1 = dice_game(1);
+	uint8_t dice_result_2 = dice_game(1);
+	display_intro_game(5, 3);
+	do_you_rather(led_buffer);
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);

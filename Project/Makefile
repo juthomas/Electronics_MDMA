@@ -40,7 +40,6 @@ BUTTONS_FT = buttons
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
-BOUTON_FT = turn_me
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
 MATH_FT = math

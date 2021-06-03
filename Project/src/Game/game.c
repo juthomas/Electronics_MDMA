@@ -197,11 +197,13 @@ void display_intro_game(int8_t index, int8_t side)
     ili9341_print(games[index].name2, ILI9341_WHITE, 4, 0, 80, width - 40);
     // while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
     // ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
-    custom_delay(1000);
+    clear_buttons();
+    while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
     ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 40, 60, 50, 4);
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
-    custom_delay(5000);
+    clear_buttons();
+    while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
     ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
     ili9341_draw_IMG(CadreSquareBG, CadreSquareBGPalette, 100, 60, 30, 30, 4);
     ili9341_setCursor(140, 90);
@@ -216,4 +218,5 @@ void display_intro_game(int8_t index, int8_t side)
     ili9341_drawfillRect(120, 80, 80, 80, ILI9341_BLACK, 0);
     ili9341_setCursor(120, 100);
     ili9341_print("GO", ILI9341_RED, 7, 0, 0, width);
+    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
 }
