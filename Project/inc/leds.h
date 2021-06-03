@@ -1,8 +1,13 @@
 #ifndef LEDS_H
 # define LEDS_H
+# ifndef __AVR_ATmega2560__
+#  define __AVR_ATmega2560__
+#  define F_CPU 16000000
+# endif
 # include <stdint.h>
 # include <avr/io.h>
 # include <avr/interrupt.h>
+
 // #ifndef MDMA_H
 //# include <./mdma.h>
 // #endif
@@ -16,10 +21,10 @@ void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
 
 enum			e_matrix_activation{
 	MAT_1 = 1 << 4,
-	MAT_2 = 1 << 3,
-	MAT_3 = 1 << 0,
-	MAT_4 = 1 << 1,
-	MAT_5 = 1 << 2,
+	MAT_5 = 1 << 3,
+	MAT_4 = 1 << 0,
+	MAT_3 = 1 << 1,
+	MAT_2 = 1 << 2,
 	MAT_ALL = MAT_1 | MAT_2 | MAT_3 | MAT_4 | MAT_5
 };
 

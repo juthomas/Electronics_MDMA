@@ -1,5 +1,8 @@
 #include "../../inc/ili9341.h"
 #include "../../inc/games.h"
+#include "../inc/leds.h"
+#include "../inc/buttons.h"
+
 
 unsigned long int next = 56345345540;
 void custom_delay(uint32_t milli);
@@ -15,6 +18,119 @@ void srand(unsigned int seed)
 	next = seed;
 }
 
+void do_you_rather(uint8_t *led_buffer)
+{
+	uint8_t *pixels = (uint8_t[64 * 3]){};
+clear_buttons();
+	clear_led_buffer(led_buffer, 0x000000);
+	led_matrix_fill_screen(pixels, 0, 0, 0);
+		// led_send_data(3, pixels, 64);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, pixels, 64);
+	while ((!buttons_clicks_order[0] && !buttons_clicks_order[1])
+		||	(!buttons_clicks_order[3] && !buttons_clicks_order[4])
+		||	(!buttons_clicks_order[6] && !buttons_clicks_order[7])
+		||	(!buttons_clicks_order[9] && !buttons_clicks_order[10])
+		||	(!buttons_clicks_order[12] && !buttons_clicks_order[13])
+	)
+	{
+
+	if (buttons_clicks_order[0] || buttons_clicks_order[1])
+	{
+		led_matrix_fill_screen(pixels, 8, 8, 8);
+	led_send_data_PORTA(MAT_1, pixels, 64);
+	}
+	
+	if (buttons_clicks_order[3] || buttons_clicks_order[4])
+	{
+		led_matrix_fill_screen(pixels, 8, 8, 8);
+	led_send_data_PORTA(MAT_2, pixels, 64);
+	}
+
+	if (buttons_clicks_order[6] || buttons_clicks_order[7])
+	{
+		led_matrix_fill_screen(pixels, 8, 8, 8);
+	led_send_data_PORTA(MAT_3, pixels, 64);
+	}
+
+	if (buttons_clicks_order[9] || buttons_clicks_order[10])
+	{
+		led_matrix_fill_screen(pixels, 8, 8, 8);
+	led_send_data_PORTA(MAT_4, pixels, 64);
+	}
+
+
+	if (buttons_clicks_order[12] || buttons_clicks_order[13])
+	{
+		led_matrix_fill_screen(pixels, 8, 8, 8);
+	led_send_data_PORTA(MAT_5, pixels, 64);
+	}
+
+
+
+
+
+
+
+
+
+
+	}
+	if (buttons_clicks_order[0] > buttons_clicks_order[1])
+	{
+		led_matrix_fill_screen(pixels, 10, 0, 0);
+	}
+	else
+	{
+		led_matrix_fill_screen(pixels, 0, 10, 0);
+	}
+	led_send_data_PORTA(MAT_1, pixels, 64);
+	
+	if (buttons_clicks_order[3] > buttons_clicks_order[4])
+	{
+		led_matrix_fill_screen(pixels, 10, 0, 0);
+	}
+	else
+	{
+		led_matrix_fill_screen(pixels, 0, 10, 0);
+	}
+	led_send_data_PORTA(MAT_2, pixels, 64);
+
+	if (buttons_clicks_order[6] > buttons_clicks_order[7])
+	{
+		led_matrix_fill_screen(pixels, 10, 0, 0);
+	}
+	else
+	{
+		led_matrix_fill_screen(pixels, 0, 10, 0);
+	}
+	led_send_data_PORTA(MAT_3, pixels, 64);
+
+	if (buttons_clicks_order[9] > buttons_clicks_order[10])
+	{
+		led_matrix_fill_screen(pixels, 10, 0, 0);
+	}
+	else
+	{
+		led_matrix_fill_screen(pixels, 0, 10, 0);
+	}
+	led_send_data_PORTA(MAT_4, pixels, 64);
+
+
+	if (buttons_clicks_order[12] > buttons_clicks_order[13])
+	{
+		led_matrix_fill_screen(pixels, 10, 0, 0);
+	}
+	else
+	{
+		led_matrix_fill_screen(pixels, 0, 10, 0);
+	}
+	led_send_data_PORTA(MAT_5, pixels, 64);
+
+for (uint32_t i = 0; i < 1000000; i++);
+clear_buttons();
+
+}
+
 void display_menu()
 {
 	int16_t clign = ILI9341_WHITE;
@@ -25,7 +141,8 @@ void display_menu()
 	ili9341_print("ADVENTURE\n\n", ILI9341_WHITE, 5, 2, 0, width);
 	int32_t x = cursor_x;
 	int32_t y = cursor_y;
-	for (int timer = 0; timer < 3; timer++)
+	clear_buttons();
+	while (!buttons_clicks_order[15])
 	{
 		ili9341_setCursor(x, y);
 		ili9341_println("    - Start -", clign = (clign == ILI9341_YELLOW ? ILI9341_WHITE : ILI9341_YELLOW), 3, 2);
@@ -96,8 +213,10 @@ void display_intro_game(int8_t index, int8_t side)
     ili9341_print(games[index].name1,ILI9341_WHITE, 4, 0, 80, width - 40);
     ili9341_setCursor(80, 180);
     ili9341_print(games[index].name2,ILI9341_WHITE, 4, 0, 80, width - 40);
-    custom_delay(1000);
-    ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 30, 60, 50, 4);
-    ili9341_setCursor(60, 30);
-    ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 80, width - 40);
+	while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
+	ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
+    // custom_delay(1000);
+    // ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 30, 60, 50, 4);
+    // ili9341_setCursor(60, 30);
+    // ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 80, width - 40);
 }

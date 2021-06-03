@@ -691,50 +691,112 @@ void draw_satanic_circle()
 {
 	uint8_t buffer[62 * 3 * 5];
 	// uint8_t color = 10;
+	uint32_t interactions_color = 0x100000;
+	clear_led_buffer(buffer, 0x000000);
+	uint8_t pixels[64 * 3];
+	led_matrix_fill_screen(pixels, 0, 0, 0);
+	// led_send_data(3, pixels, 64);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, pixels, 64);
 
-	for (int u = 0; u < 10; u++)
-	{
-		for (int i = 0; i < 62 * 5; i++)
-		{
-			if (i % 62 == 37 ||
-				i % 62 == 32 ||
-				i % 62 == 24 ||
-				i % 62 == 14 ||
-				i % 62 == 5 ||
-				i % 62 == 39 ||
-				i % 62 == 35 ||
-				i % 62 == 28 ||
-				i % 62 == 19 ||
-				i % 62 == 11 ||
-				i % 62 == 4 ||
-				i % 62 == 45 ||
-				i % 62 == 46)
-			{
-				buffer[i * 3] = 0;
-				buffer[i * 3 + 1] = 0x10;
-				buffer[i * 3 + 2] = 0;
-			}
-			else if (i % 62 >= 53 && i % 62 <= 61)
-			{
-				buffer[i * 3] = 0;
-				buffer[i * 3 + 1] = 0x10;
-				buffer[i * 3 + 2] = 0;
-			}
-			else if (i % 62 >= 0 && i % 62 <= 5)
-			{
-				buffer[i * 3] = 0;
-				buffer[i * 3 + 1] = 0x10;
-				buffer[i * 3 + 2] = 0;
-			}
-			else
-			{
-				buffer[i * 3] = 0;
-				buffer[i * 3 + 1] = 0x0;
-				buffer[i * 3 + 2] = 0;
-			}
-			// feed_one_pixel(i, buffer, led_rainbow_wheel((colors + i * 60) % 256) + 0x10000000 );
-		}
+
+
+		
 		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+		// for (int32_t i = 0; i < 100000; i++)
+		// 	;
+			for (int32_t i = 0; i < 100000; i++);
+
+		draw_line_between_players(buffer, 1, 3, TRUE, interactions_color);
+		led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
+				for (int32_t i = 0; i < 100000; i++);
+
+		draw_line_between_players(buffer, 3, 5, TRUE, interactions_color);
+		led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
+
+				for (int32_t i = 0; i < 100000; i++);
+
+		draw_line_between_players(buffer, 5, 2, TRUE, interactions_color);
+		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
+
+				for (int32_t i = 0; i < 100000; i++);
+
+		draw_line_between_players(buffer, 2, 4, TRUE, interactions_color);
+		led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
+				for (int32_t i = 0; i < 100000; i++);
+
+		draw_line_between_players(buffer, 4, 1, TRUE, interactions_color);
+		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
+				for (int32_t i = 0; i < 100000; i++);
+		draw_line_between_players(buffer, 1, 2, TRUE, interactions_color);
+		draw_line_between_players(buffer, 2, 3, TRUE, interactions_color);
+		draw_line_between_players(buffer, 3, 4, TRUE, interactions_color);
+		draw_line_between_players(buffer, 4, 5, TRUE, interactions_color);
+		draw_line_between_players(buffer, 5, 1, TRUE, interactions_color);
+
+		
+		// if (i == 0)
+		// {
+		// 	led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
+		// }
+		// else if (i == 1)
+		// {
+		// 	led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
+		// }
+		// else if (i == 2)
+		// {
+		// 	led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
+		// }
+		// else if (i == 3)
+		// {
+		// 	led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
+		// }
+		// else if (i == 4)
+		// {
+		// 	led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
+		// }
+	
+
+		// for (int i = 0; i < 62 * 5; i++)
+		// {
+		// 	if (i % 62 == 37 ||
+		// 		i % 62 == 32 ||
+		// 		i % 62 == 24 ||
+		// 		i % 62 == 14 ||
+		// 		i % 62 == 5 ||
+		// 		i % 62 == 39 ||
+		// 		i % 62 == 35 ||
+		// 		i % 62 == 28 ||
+		// 		i % 62 == 19 ||
+		// 		i % 62 == 11 ||
+		// 		i % 62 == 4 ||
+		// 		i % 62 == 45 ||
+		// 		i % 62 == 46)
+		// 	{
+		// 		buffer[i * 3] = 0;
+		// 		buffer[i * 3 + 1] = 0x10;
+		// 		buffer[i * 3 + 2] = 0;
+		// 	}
+		// 	else if (i % 62 >= 53 && i % 62 <= 61)
+		// 	{
+		// 		buffer[i * 3] = 0;
+		// 		buffer[i * 3 + 1] = 0x10;
+		// 		buffer[i * 3 + 2] = 0;
+		// 	}
+		// 	else if (i % 62 >= 0 && i % 62 <= 5)
+		// 	{
+		// 		buffer[i * 3] = 0;
+		// 		buffer[i * 3 + 1] = 0x10;
+		// 		buffer[i * 3 + 2] = 0;
+		// 	}
+		// 	else
+		// 	{
+		// 		buffer[i * 3] = 0;
+		// 		buffer[i * 3 + 1] = 0x0;
+		// 		buffer[i * 3 + 2] = 0;
+		// 	}
+		// 	// feed_one_pixel(i, buffer, led_rainbow_wheel((colors + i * 60) % 256) + 0x10000000 );
+		// }
+		// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 		// led_send_data(27, buffer, 62 * 5);
 		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
 		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
@@ -748,7 +810,7 @@ void draw_satanic_circle()
 		// for (int32_t i = 0; i < 900000; i++)
 		// 	;
 		// led_matrix_send_progmem(MAT_5, LINK);
-	}
+	
 }
 
 void draw_roulette()

@@ -217,6 +217,7 @@ void ili9341_begin()
     const uint8_t *addr = initcmd;
     while ((cmd = pgm_read_byte(addr++)) > 0)
     {
+        
         x = pgm_read_byte(addr++);
         numArgs = x & 0x7F;
         sendCommand_init(cmd, addr, numArgs);
