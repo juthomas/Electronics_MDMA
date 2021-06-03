@@ -4,7 +4,8 @@
 #include "../inc/leds.h"
 #include "../inc/buttons.h"
 #include "../inc/matrix_progmem.h"
-
+#include "../inc/millis.h"
+#include "../inc/encoders.h"
 #define CPU_CLOCK 2000000
 
 void draw_buttons(uint8_t *led_buffer)
@@ -161,15 +162,19 @@ int main()
 	// int8_t buttonGreenState = FT_LOW;
 	// int8_t buttonRedState = FT_LOW;
 
-
+	init_millis();
 	uint8_t led_buffer[62 * 3 * 5];
 	init_buttons();
 	init_leds(led_buffer);
+
+	// while(1)
+	// 	led_draw_animation(64);
 
 	initSPI();
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
 	draw_satanic_circle();
+	for (uint32_t i = 0; i < 1000000; i++);
 	ili9341_setRotation(3);
 	display_intro();
 	display_menu();

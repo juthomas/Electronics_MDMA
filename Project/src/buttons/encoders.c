@@ -3,15 +3,17 @@
 #define F_CPU 16000000
 #endif
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <stdint.h>
+#include "../../inc/millis.h"
+#include "../../inc/encoders.h"
 
-int encoder1 = 0;
-int encoder2 = 0;
-int encoder3 = 0;
-int encoder4 = 0;
-int encoder5 = 0;
+// int encoder1 = 0;
+// int encoder2 = 0;
+// int encoder3 = 0;
+// int encoder4 = 0;
+// int encoder5 = 0;
 
-uint32_t milli = 0;
 static uint32_t time_encoder1 = 0;
 static uint32_t time_encoder2 = 0;
 static uint32_t time_encoder3 = 0;
@@ -24,9 +26,9 @@ static uint8_t last_state_encoder3 = 0;
 static uint8_t last_state_encoder4 = 0;
 static uint8_t last_state_encoder5 = 0;
 
-void setup()
+void init_encoders()
 {
-	setup_millis();
+	init_millis();
 	//   Serial.begin(9600);
 	DDRB &= !(0b11110000);
 	PCICR |= 0b00000101;
@@ -36,30 +38,6 @@ void setup()
 	PCMSK2 |= (1 << PCINT16) | (1 << PCINT18) | (1 << PCINT20);
 }
 
-void setup_millis()
-{
-	noInterrupts();
-	// Clear registers
-	TCCR4A = 0;
-	TCCR4B = 0;
-	TCNT4 = 0;
-
-	// 1000 Hz (16000000/((249+1)*64))
-	OCR4A = 249;
-	// CTC
-	TCCR4B |= (1 << WGM42);
-	// Prescaler 64
-	TCCR4B |= (1 << CS41) | (1 << CS40);
-	// Output Compare Match A Interrupt Enable
-	TIMSK4 |= (1 << OCIE4A);
-	interrupts();
-}
-
-ISR(TIMER4_COMPA_vect)
-{
-	milli++;
-}
-
 ISR(PCINT0_vect)
 {
 
@@ -67,7 +45,7 @@ ISR(PCINT0_vect)
 	{
 		uint8_t state_encoder1 = (PINB & (1 << 4)) >> 4;
 
-		if (milli - time_encoder1 > 50)
+		if (millis - time_encoder1 > 50)
 		{
 			if ((PINB & (1 << 5)) >> 5 != last_state_encoder1)
 			{
@@ -78,7 +56,7 @@ ISR(PCINT0_vect)
 				encoder1++;
 			}
 
-			time_encoder1 = milli;
+			time_encoder1 = millis;
 		}
 		last_state_encoder1 = state_encoder1;
 	}
@@ -87,7 +65,7 @@ ISR(PCINT0_vect)
 	{
 		uint8_t state_encoder2 = (PINB & (1 << 6)) >> 6;
 
-		if (milli - time_encoder2 > 50)
+		if (millis - time_encoder2 > 50)
 		{
 			if ((PINB & (1 << 7)) >> 7 != last_state_encoder2)
 			{
@@ -98,7 +76,7 @@ ISR(PCINT0_vect)
 				encoder2++;
 			}
 
-			time_encoder2 = milli;
+			time_encoder2 = millis;
 		}
 		last_state_encoder2 = state_encoder2;
 	}
@@ -110,7 +88,7 @@ ISR(PCINT2_vect)
 	{
 		uint8_t state_encoder3 = (PINK & (1 << 0)) >> 0;
 
-		if (milli - time_encoder3 > 50)
+		if (millis - time_encoder3 > 50)
 		{
 			if ((PINK & (1 << 1)) >> 1 != last_state_encoder3)
 			{
@@ -121,7 +99,7 @@ ISR(PCINT2_vect)
 				encoder3++;
 			}
 
-			time_encoder3 = milli;
+			time_encoder3 = millis;
 		}
 		last_state_encoder3 = state_encoder3;
 	}
@@ -130,7 +108,7 @@ ISR(PCINT2_vect)
 	{
 		uint8_t state_encoder4 = (PINK & (1 << 2)) >> 2;
 
-		if (milli - time_encoder4 > 50)
+		if (millis - time_encoder4 > 50)
 		{
 			if ((PINK & (1 << 3)) >> 3 != last_state_encoder4)
 			{
@@ -141,7 +119,7 @@ ISR(PCINT2_vect)
 				encoder4++;
 			}
 
-			time_encoder1 = milli;
+			time_encoder1 = millis;
 		}
 		last_state_encoder4 = state_encoder4;
 	}
@@ -150,7 +128,7 @@ ISR(PCINT2_vect)
 	{
 		uint8_t state_encoder5 = (PINK & (1 << 4)) >> 4;
 
-		if (milli - time_encoder5 > 50)
+		if (millis - time_encoder5 > 50)
 		{
 			if ((PINK & (1 << 5)) >> 5 != last_state_encoder5)
 			{
@@ -161,7 +139,7 @@ ISR(PCINT2_vect)
 				encoder5++;
 			}
 
-			time_encoder5 = milli;
+			time_encoder5 = millis;
 		}
 		last_state_encoder5 = state_encoder5;
 	}
