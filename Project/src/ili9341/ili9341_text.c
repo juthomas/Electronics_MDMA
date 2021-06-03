@@ -43,7 +43,7 @@ void write(uint8_t c, int16_t color, uint8_t text_size, uint8_t delay, int16_t s
 {
   if (c == '\n')
   {                            // Newline?
-    cursor_x = 0;              // Reset x to zero,
+    cursor_x = startX;              // Reset x to zero,
     cursor_y += text_size * 8; // advance y one line
   }
   else if (c != '\r')
