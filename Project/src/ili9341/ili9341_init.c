@@ -60,16 +60,12 @@ void spi_end_transaction(void)
 {
     if (TFT_CS >= 0)
         *portSPI |= (1 << 0);
-    sei();
+   // sei();
 }
-
-//Please add here if ~dear reader~ you understand why it's necessary to stop all interruptions ?
 
 void spi_begin_transaction(void)
 {
-    cli();
-    SPCR = spcr;
-    SPSR = spsr;
+    //cli();
     if (TFT_CS >= 0)
         *portSPI &= ~(1 << 0);
 }
@@ -105,15 +101,6 @@ void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t num
     spi_end_transaction();
 }
 
-/*      
-**      It's kind of brutal to assign spcr and spsr values like that
-**      spcr = _BV(SPE) | _BV(MSTR) | ((bitOrder == LSBFIRST) ? _BV(DORD) : 0) |
-**      (dataMode & SPI_MODE_MASK) | ((clockDiv >> 1) & SPI_CLOCK_MASK);
-**      spsr = clockDiv & SPI_2XCLOCK_MASK;
-**      The only params that worked with our atmega2560 and our LCD screen on the SPI.h library returned 81 for spcr and 1 for spsr
-**      The frequency is set at 3000000 for the Hardware SPI communication.
-*/
-
 // void old_initSPI_RIP_Danslecoeur()
 // {
 //     spcr = 81;
@@ -147,6 +134,20 @@ void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t num
 //     }
 // }
 
+// https://github.com/adafruit/Adafruit_ILI9341/issues/65
+// Sur la version finale remettre a 16Mhz, probleme de design avec les 10k < Level Shifter
+
+// On est a 3Mhz actuellement 
+
+/*      
+**      It's kind of brutal to assign spcr and spsr values like that
+**      spcr = _BV(SPE) | _BV(MSTR) | ((bitOrder == LSBFIRST) ? _BV(DORD) : 0) |
+**      (dataMode & SPI_MODE_MASK) | ((clockDiv >> 1) & SPI_CLOCK_MASK);
+**      spsr = clockDiv & SPI_2XCLOCK_MASK;
+**      The only params that worked with our atmega2560 and our LCD screen on the SPI.h library returned 81 for spcr and 1 for spsr
+**      The frequency is set at 3000000 for the Hardware SPI communication.
+*/
+
 void initSPI()
 {
     spcr = 81;
@@ -159,6 +160,8 @@ void initSPI()
     *((volatile uint8_t *)266) |= (1 << 3);
     *((volatile uint8_t *)267) |= (1 << 3);
     cli();
+    SPCR = spcr;
+    SPSR = spsr;
     *((volatile uint8_t *)36) |= (1 << 0);
     *((volatile uint8_t *)266) |= (1 << 2);
     *((volatile uint8_t *)36) |= (1 << 1);
