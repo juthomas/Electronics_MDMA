@@ -168,9 +168,10 @@ int main()
 	init_encoders();
 
 	init_leds(led_buffer);
-	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	clear_led_buffer(led_buffer, 0x000000);
+	// led_matrix_fill_screen(led_buffer, 0, 0, 0);
 	// led_send_data(3, pixels, 64);
-	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 64*5);
 
 	for (int i = 0; i < 100; i++)
 	{
@@ -180,36 +181,7 @@ int main()
 		for (uint32_t i = 0; i < 20000; i++);
 	}
 
-	uint8_t blue = 0;
-	for (;;)
-	{
-		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder1, 0x101000 | blue);
-		led_send_data_PORTA(MAT_1, led_buffer, 64);
 
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder2, 0x101000 | blue);
-		led_send_data_PORTA(MAT_2, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder3, 0x101000 | blue);
-		led_send_data_PORTA(MAT_3, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder4, 0x101000 | blue);
-		led_send_data_PORTA(MAT_4, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder5, 0x101000 | blue);
-		led_send_data_PORTA(MAT_5, led_buffer, 64);
-		blue++;
-		if (blue > 0xF)
-			blue = 0;
-
-		for (uint32_t i = 0; i < 400000; i++);
-
-	}
 
 
 	// draw_satanic_circle();
@@ -240,6 +212,33 @@ int main()
 	uint8_t dice_result_2 = dice_game(1);
 	display_intro_game(5, 3);
 	do_you_rather(led_buffer);
+		for (;;)
+	{
+		
+		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		draw_numbers(led_buffer, encoder1, 0x101010);
+		led_send_data_PORTA(MAT_1, led_buffer, 64);
+
+		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		draw_numbers(led_buffer, encoder2, 0x101010);
+		led_send_data_PORTA(MAT_2, led_buffer, 64);
+		
+		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		draw_numbers(led_buffer, encoder3, 0x101010);
+		led_send_data_PORTA(MAT_3, led_buffer, 64);
+		
+		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		draw_numbers(led_buffer, encoder4, 0x101010);
+		led_send_data_PORTA(MAT_4, led_buffer, 64);
+		
+		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		draw_numbers(led_buffer, encoder5, 0x101010);
+		led_send_data_PORTA(MAT_5, led_buffer, 64);
+
+
+		for (uint32_t i = 0; i < 400000; i++);
+
+	}
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);
