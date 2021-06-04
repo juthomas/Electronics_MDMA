@@ -166,16 +166,28 @@ int main()
 	uint8_t led_buffer[62 * 3 * 5];
 	init_buttons();
 	init_leds(led_buffer);
+	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// led_send_data(3, pixels, 64);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
+
+	// draw_satanic_circle();
+
 
 	// while(1)
 	// 	led_draw_animation(64);
 
 	initSPI();
 	ili9341_begin();
+	// draw_satanic_circle();
+	// for (uint32_t i = 0; i < 1000000; i++);
 	ili9341_fillScreen(ILI9341_BLACK);
+	// draw_satanic_circle();
 	draw_satanic_circle();
-	for (uint32_t i = 0; i < 1000000; i++);
+	// for (uint32_t i = 0; i < 1000000; i++);
 	ili9341_setRotation(3);
+	// draw_satanic_circle();
+	// for (uint32_t i = 0; i < 1000000; i++);
+
 	display_intro();
 	display_menu();
 	ili9341_fillScreen(ILI9341_BLACK);
