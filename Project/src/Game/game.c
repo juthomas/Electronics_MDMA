@@ -189,7 +189,7 @@ void display_intro()
 void display_intro_game(int8_t index, int8_t side)
 {
     ili9341_setRotation(side);
-    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
+    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, games[index].ratio);
     ili9341_draw_IMG(CadreBG, CadreBGPalette, 40, 120, 60, 30, 4);
     ili9341_setCursor(80, 140);
     ili9341_print(games[index].name1, ILI9341_WHITE, 4, 0, 80, width - 40);
@@ -202,7 +202,7 @@ void display_intro_game(int8_t index, int8_t side)
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
     custom_delay(5000);
-    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
+    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, games[index].ratio);
     ili9341_draw_IMG(CadreSquareBG, CadreSquareBGPalette, 100, 60, 30, 30, 4);
     ili9341_setCursor(140, 90);
     ili9341_putnbr(3, ILI9341_WHITE, 8, 0);

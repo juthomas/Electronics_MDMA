@@ -1,7 +1,7 @@
 /* GIMP RGBA C-Source image dump (TimerBG.c) */
 
 #include <stdio.h>
-#include "/Users/tmp/Desktop/MDMA_Images/BG_C/DevilEyes.h"
+#include "../Images/MDMA_Images/BG_C/Coin.h"
 
 int main()
 {

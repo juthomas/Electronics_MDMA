@@ -179,7 +179,7 @@ int main()
 	
 	// uint8_t dice_result_1 = dice_game(1);
 	// uint8_t dice_result_2 = dice_game(1);
-	for(int i = 3; i < 10; i++)
+	for(int i = 6; i < 10; i++)
 	{
 		display_intro_game(i, 1);
 	}
