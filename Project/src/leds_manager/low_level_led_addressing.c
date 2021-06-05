@@ -14,8 +14,8 @@ void	led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 	ptr = pixels;
 	b = (*ptr);
 	ptr++;
-	hi = DDRB | mask;
-	lo = DDRB & ~mask;
+	hi = PORTB | mask;
+	lo = PORTB & ~mask;
 	next = lo;
 	if ((int)b & 0x80)
 	{
@@ -75,6 +75,7 @@ void	led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number)
 		  [hi]     "r" (hi),
 		  [lo]     "r" (lo));
 		  sei();
+	PORTB = lo;
 }
 
 void	matrix_send_data(enum e_matrix_activation activation,uint8_t *pixels, uint16_t pixels_number)

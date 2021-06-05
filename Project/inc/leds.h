@@ -96,6 +96,9 @@ void manage_array_of_pixels(uint8_t animate, uint16_t *pixels_indexes, uint16_t 
 void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_t animate, uint32_t color);
 void init_leds(uint8_t *led_buffer);
 void led_draw_animation(uint16_t pixels_number);
+void draw_numbers(uint8_t *pixels, uint8_t number, uint32_t color);
+void draw_segment(uint8_t *pixels, uint8_t segment, uint8_t x_offset, uint8_t y_offset, uint32_t color);
+void draw_numeral(uint8_t *pixels, uint8_t numeral, uint8_t x_offset, uint8_t y_offset, uint32_t color);
 
 
 

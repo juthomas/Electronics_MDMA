@@ -942,6 +942,228 @@ void reverse_array(uint16_t *pixels_to_draw, int size)
 	}
 }
 
+
+void draw_segment(uint8_t *pixels, uint8_t segment, uint8_t x_offset, uint8_t y_offset, uint32_t color)
+{
+	uint8_t x;
+	uint8_t y;
+	if (segment == 1)
+	{
+		x = x_offset + 0;
+		y = y_offset + 0;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 1;
+		y = y_offset + 0;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 0;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 2)
+	{
+		x = x_offset + 0;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 1;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 3)
+	{
+		x = x_offset + 0;
+		y = y_offset + 4;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 1;
+		y = y_offset + 4;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 4;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 4)
+	{
+		x = x_offset + 0;
+		y = y_offset + 0;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 0;
+		y = y_offset + 1;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 0;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 5)
+	{
+		x = x_offset + 2;
+		y = y_offset + 0;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 1;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 6)
+	{
+		x = x_offset + 0;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 0;
+		y = y_offset + 3;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 0;
+		y = y_offset + 4;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+	else if (segment == 7)
+	{
+		x = x_offset + 2;
+		y = y_offset + 2;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 3;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+		x = x_offset + 2;
+		y = y_offset + 4;
+		pixels[(y * 8 + x) * 3] = (color & 0x00FF00) >> 8;
+		pixels[(y * 8 + x) * 3 + 1] = (color & 0xFF0000) >> 16;
+		pixels[(y * 8 + x) * 3 + 2] = color & 0x0000FF;
+	}
+}
+
+void draw_numeral(uint8_t *pixels, uint8_t numeral, uint8_t x_offset, uint8_t y_offset, uint32_t color)
+{
+	if (numeral == 0)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 6, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 1)
+	{
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 2)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 6, x_offset, y_offset, color);
+	}
+	else if (numeral == 3)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 4)
+	{
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 5)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 6)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 6, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 7)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 8)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 6, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+	else if (numeral == 9)
+	{
+		draw_segment(pixels, 1, x_offset, y_offset, color);
+		draw_segment(pixels, 2, x_offset, y_offset, color);
+		draw_segment(pixels, 3, x_offset, y_offset, color);
+		draw_segment(pixels, 4, x_offset, y_offset, color);
+		draw_segment(pixels, 5, x_offset, y_offset, color);
+		draw_segment(pixels, 7, x_offset, y_offset, color);
+	}
+}
+void draw_numbers(uint8_t *pixels, uint8_t number, uint32_t color)
+{
+	draw_numeral(pixels, number / 10, 1, 2, color);
+	draw_numeral(pixels, number % 10, 5, 2, color);
+}
+
+
 void manage_array_of_pixels(uint8_t animate, uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
 {
 	// animate = WAWE;//DEBUG
