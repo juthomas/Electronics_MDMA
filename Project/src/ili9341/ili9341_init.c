@@ -4,6 +4,12 @@
 # endif
 #include "../../inc/ili9341.h"
 #include <avr/io.h>
+
+#define SPI_MODE_MASK 0x0C
+#define SPI_CLOCK_MASK 0x03
+#define SPI_MODE3 0x0C
+#define SPI_MODE2 0x08
+#define SPI_2XCLOCK_MASK 0x01
 /* 
 ** Okay here is all commands that we are going to feed our ILI9341 LCD Screen.
 ** The Datasheet is a pain in the ass to understand and even have some errors according to Adafruit itself.
@@ -114,11 +120,12 @@ void sendCommand_init(uint8_t commandByte, const uint8_t *dataBytes, uint8_t num
 **      The frequency is set at 3000000 for the Hardware SPI communication.
 */
 
+/*
+** Il faut que CS soit en OUTPUT avant de set SPCR, sinon il peut declarer le MCU en tant que slave.
+*/
+
 void initSPI()
 {
-	spcr = 81;
-	spsr = 1;
-
 	// ft_pin_mode(TFT_CS,FT_OUTPUT);
 	DDRB |= 1 << 0;
 	// ft_pin_mode(RFID_CS, FT_OUTPUT);
@@ -131,8 +138,13 @@ void initSPI()
 	DDRL |= 1 << 3;
 	// ft_digital_write(TFT_DC,FT_HIGH);
 	PORTL |= 1 << 3;
-
-	// cli();//?
+    
+    uint8_t clockDiv = 3;
+    
+    // SPE indique qu'on veut le SPI, MSTR que 
+    //SPCR = _BV(SPE) | _BV(MSTR) | 0 | (SPI_MODE3 & SPI_MODE_MASK) | ((clockDiv >> 1) & SPI_CLOCK_MASK);;
+    SPCR = _BV(SPE) | _BV(MSTR) | (1 << SPR0);
+	SPSR = clockDiv & SPI_2XCLOCK_MASK;
 	// ft_pin_mode(TFT_CS, FT_OUTPUT);
 	DDRB |= 1 << 0;
 	// ft_pin_mode(RFID_CS, FT_OUTPUT);
@@ -141,7 +153,7 @@ void initSPI()
 	DDRB |= 1 << 1;
 	// ft_pin_mode(TFT_MOSI, FT_OUTPUT);
 	DDRB |= 1 << 2;
-	// sei();//?
+	 //sei();//?
 
 
 	// ft_pin_mode(TFT_RST,FT_OUTPUT);
