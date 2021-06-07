@@ -52,15 +52,16 @@ static uint8_t encoder5_last = 0;
 
 ISR(PCINT0_vect)
 {
+	uint8_t tmp_pinb = PINB;
 	uint8_t minus;
 	uint8_t plus;
 	uint8_t state;
 
-	if (PINB & (1 << 4) || PINB & (1 << 5))
+	if (tmp_pinb & (1 << 4) || tmp_pinb & (1 << 5))
 	{
 
-		minus = PINB & (1 << 4);
-		plus = PINB & (1 << 5);
+		minus = tmp_pinb & (1 << 4);
+		plus = tmp_pinb & (1 << 5);
 		state = encoder1_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -92,11 +93,11 @@ ISR(PCINT0_vect)
 		}
 	}
 
-	if (PINB & (1 << 6) || PINB & (1 << 7))
+	if (tmp_pinb & (1 << 6) || tmp_pinb & (1 << 7))
 	{
 
-		minus = PINB & (1 << 6);
-		plus = PINB & (1 << 7);
+		minus = tmp_pinb & (1 << 6);
+		plus = tmp_pinb & (1 << 7);
 		state = encoder5_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -131,14 +132,15 @@ ISR(PCINT0_vect)
 
 ISR(PCINT2_vect)
 {
+	uint8_t tmp_pink = PINK;
 	uint8_t minus;
 	uint8_t plus;
 	uint8_t state;
 
-	if (PINK & (1 << 0) || PINK & (1 << 1))
+	if (tmp_pink & (1 << 0) || tmp_pink & (1 << 1))
 	{
-		minus = PINK & (1 << 0);
-		plus = PINK & (1 << 1);
+		minus = tmp_pink & (1 << 0);
+		plus = tmp_pink & (1 << 1);
 		state = encoder4_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -170,11 +172,11 @@ ISR(PCINT2_vect)
 		}
 	}
 
-	if (PINK & (1 << 2) || PINK & (1 << 3))
+	if (tmp_pink & (1 << 2) || tmp_pink & (1 << 3))
 	{
 
-		minus = PINK & (1 << 2);
-		plus = PINK & (1 << 3);
+		minus = tmp_pink & (1 << 2);
+		plus = tmp_pink & (1 << 3);
 		state = encoder3_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -206,11 +208,11 @@ ISR(PCINT2_vect)
 		}
 	}
 
-	if (PINK & (1 << 4) || PINK & (1 << 5))
+	if (tmp_pink & (1 << 4) || tmp_pink & (1 << 5))
 	{
 
-		minus = PINK & (1 << 4);
-		plus = PINK & (1 << 5);
+		minus = tmp_pink & (1 << 4);
+		plus = tmp_pink & (1 << 5);
 		state = encoder2_last & 0b11;
 		if (minus)
 			state |= 1 << 2;

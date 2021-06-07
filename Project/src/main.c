@@ -212,7 +212,7 @@ int main()
 	uint8_t dice_result_2 = dice_game(1);
 	display_intro_game(5, 3);
 	do_you_rather(led_buffer);
-		for (;;)
+	for (;;)
 	{
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
