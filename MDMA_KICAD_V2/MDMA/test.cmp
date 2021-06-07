@@ -1,0 +1,1059 @@
+Cmp-Mod V01 Created by PcbNew   date = 2021 April 01, Thursday 14:09:36
+
+BeginCmp
+TimeStamp = 605D5E40
+Path = /612CD5C3
+Reference = C64;
+ValeurCmp = CP_470_Tantale;
+IdModule  = Capacitor_Tantalum_SMD:CP_EIA-7343-30_AVX-N;
+EndCmp
+
+BeginCmp
+TimeStamp = 605D1528
+Path = /612AC965
+Reference = C63;
+ValeurCmp = CP_470uF;
+IdModule  = Capacitor_SMD:CP_Elec_6.3x7.7;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501CAB
+Path = /604D080E
+Reference = U1;
+ValeurCmp = Matrice8x8_WS2812;
+IdModule  = my_lib:Matrice8x8_WS2812;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501B6B
+Path = /60523547
+Reference = P1;
+ValeurCmp = Switch_Pin_out;
+IdModule  = my_lib:Pizza_Pin_Out;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501BE6
+Path = /6047B9F1
+Reference = SW1;
+ValeurCmp = Rotary_Encoder_Switch;
+IdModule  = Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501BF5
+Path = /6057181B/60573ACD
+Reference = SW2;
+ValeurCmp = SW_Push_LED;
+IdModule  = my_lib:SW_LED_16mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501C04
+Path = /60585011/60573ACD
+Reference = SW3;
+ValeurCmp = SW_Push_LED;
+IdModule  = my_lib:SW_LED_16mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 60501C14
+Path = /604C9DE4
+Reference = T1;
+ValeurCmp = RFID_Module;
+IdModule  = my_lib:RFID_RC522;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E3C6
+Path = /60484C27/5FF4771B/60487AA2
+Reference = C1;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E3D7
+Path = /60484C27/5FFCCB69/60487AA2
+Reference = C2;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E3E8
+Path = /60484C27/5FFCCCE0/60487AA2
+Reference = C3;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E3F9
+Path = /60484C27/5FFCCEA5/60487AA2
+Reference = C4;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E40A
+Path = /60484C27/5FFCD058/60487AA2
+Reference = C5;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E41B
+Path = /60484C27/5FFCD279/60487AA2
+Reference = C6;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E42C
+Path = /60484C27/5FFCD570/60487AA2
+Reference = C7;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E43D
+Path = /60484C27/5FFCD805/60487AA2
+Reference = C8;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E44E
+Path = /60484C27/5FFCE978/60487AA2
+Reference = C9;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E45F
+Path = /60484C27/5FFCE97D/60487AA2
+Reference = C10;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E470
+Path = /60484C27/5FFCE982/60487AA2
+Reference = C11;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E481
+Path = /60484C27/5FFCE987/60487AA2
+Reference = C12;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E492
+Path = /60484C27/5FFCE98C/60487AA2
+Reference = C13;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E4A3
+Path = /60484C27/5FFCE991/60487AA2
+Reference = C14;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E4B4
+Path = /60484C27/5FFCE996/60487AA2
+Reference = C15;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E4C5
+Path = /60484C27/5FFCE99B/60487AA2
+Reference = C16;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E4D6
+Path = /60484C27/5FFCF164/60487AA2
+Reference = C17;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60518E96
+Path = /60484C27/5FFCF169/60487AA2
+Reference = C18;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E4F8
+Path = /60484C27/5FFCF16E/60487AA2
+Reference = C19;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E509
+Path = /60484C27/5FFCF173/60487AA2
+Reference = C20;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E51A
+Path = /60484C27/5FFCF178/60487AA2
+Reference = C21;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519849
+Path = /60484C27/5FFCF17D/60487AA2
+Reference = C22;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E53C
+Path = /60484C27/5FFCF182/60487AA2
+Reference = C23;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E54D
+Path = /60484C27/5FFCF187/60487AA2
+Reference = C24;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E55E
+Path = /60484C27/5FFCFCCC/60487AA2
+Reference = C25;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E56F
+Path = /60484C27/5FFCFCD1/60487AA2
+Reference = C26;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E580
+Path = /60484C27/5FFCFCD6/60487AA2
+Reference = C27;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E591
+Path = /60484C27/5FFCFCDB/60487AA2
+Reference = C28;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5A2
+Path = /60484C27/5FFCFCE0/60487AA2
+Reference = C29;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5B3
+Path = /60484C27/5FFCFCE5/60487AA2
+Reference = C30;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5C4
+Path = /60484C27/5FFCFCEA/60487AA2
+Reference = C31;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5D5
+Path = /60484C27/5FFCFCEF/60487AA2
+Reference = C32;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5E6
+Path = /60484C27/5FFD0AC4/60487AA2
+Reference = C33;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E5F7
+Path = /60484C27/5FFD0AC9/60487AA2
+Reference = C34;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E608
+Path = /60484C27/5FFD0ACE/60487AA2
+Reference = C35;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E619
+Path = /60484C27/5FFD0AD3/60487AA2
+Reference = C36;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E62A
+Path = /60484C27/5FFD0AD8/60487AA2
+Reference = C37;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E63B
+Path = /60484C27/5FFD0ADD/60487AA2
+Reference = C38;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E64C
+Path = /60484C27/5FFD0AE2/60487AA2
+Reference = C39;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E65D
+Path = /60484C27/5FFD0AE7/60487AA2
+Reference = C40;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E66E
+Path = /60484C27/5FFD1E60/60487AA2
+Reference = C41;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E67F
+Path = /60484C27/5FFD1E65/60487AA2
+Reference = C42;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E690
+Path = /60484C27/5FFD1E6A/60487AA2
+Reference = C43;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E6A1
+Path = /60484C27/5FFD1E6F/60487AA2
+Reference = C44;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E6B2
+Path = /60484C27/5FFD1E74/60487AA2
+Reference = C45;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E6C3
+Path = /60484C27/5FFD1E79/60487AA2
+Reference = C46;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519E5C
+Path = /60484C27/5FFD1E7E/60487AA2
+Reference = C47;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E6E5
+Path = /60484C27/5FFD1E83/60487AA2
+Reference = C48;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E6F6
+Path = /60484C27/5FFD3654/60487AA2
+Reference = C49;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E707
+Path = /60484C27/5FFD3659/60487AA2
+Reference = C50;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E718
+Path = /60484C27/5FFD365E/60487AA2
+Reference = C51;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E729
+Path = /60484C27/5FFD3663/60487AA2
+Reference = C52;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E73A
+Path = /60484C27/5FFD3668/60487AA2
+Reference = C53;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E74B
+Path = /60484C27/5FFD366D/60487AA2
+Reference = C54;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E75C
+Path = /60484C27/5FFD3672/60487AA2
+Reference = C55;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E76D
+Path = /60484C27/5FFD3677/60487AA2
+Reference = C56;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E77E
+Path = /60484C27/5FFD5594/60487AA2
+Reference = C57;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519879
+Path = /60484C27/5FFD5599/60487AA2
+Reference = C58;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E7A0
+Path = /60484C27/5FFD559E/60487AA2
+Reference = C59;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519CF6
+Path = /60484C27/5FFD55A3/60487AA2
+Reference = C60;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519E2C
+Path = /60484C27/5FFD55A8/60487AA2
+Reference = C61;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519CC6
+Path = /60484C27/5FFD55AD/60487AA2
+Reference = C62;
+ValeurCmp = 100nf;
+IdModule  = my_lib:C_0603_1608Metric;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E80A
+Path = /60484C27/5FF4771B/60487AA0
+Reference = D1;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E81F
+Path = /60484C27/5FFCCB69/60487AA0
+Reference = D2;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E834
+Path = /60484C27/5FFCCCE0/60487AA0
+Reference = D3;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E849
+Path = /60484C27/5FFCCEA5/60487AA0
+Reference = D4;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E85E
+Path = /60484C27/5FFCD058/60487AA0
+Reference = D5;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E873
+Path = /60484C27/5FFCD279/60487AA0
+Reference = D6;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E888
+Path = /60484C27/5FFCD570/60487AA0
+Reference = D7;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E89D
+Path = /60484C27/5FFCD805/60487AA0
+Reference = D8;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E8B2
+Path = /60484C27/5FFCE978/60487AA0
+Reference = D9;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E8C7
+Path = /60484C27/5FFCE97D/60487AA0
+Reference = D10;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E8DC
+Path = /60484C27/5FFCE982/60487AA0
+Reference = D11;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E8F1
+Path = /60484C27/5FFCE987/60487AA0
+Reference = D12;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E906
+Path = /60484C27/5FFCE98C/60487AA0
+Reference = D13;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E91B
+Path = /60484C27/5FFCE991/60487AA0
+Reference = D14;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E930
+Path = /60484C27/5FFCE996/60487AA0
+Reference = D15;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E945
+Path = /60484C27/5FFCE99B/60487AA0
+Reference = D16;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E95A
+Path = /60484C27/5FFCF164/60487AA0
+Reference = D17;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E96F
+Path = /60484C27/5FFCF169/60487AA0
+Reference = D18;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E984
+Path = /60484C27/5FFCF16E/60487AA0
+Reference = D19;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E999
+Path = /60484C27/5FFCF173/60487AA0
+Reference = D20;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E9AE
+Path = /60484C27/5FFCF178/60487AA0
+Reference = D21;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E9C3
+Path = /60484C27/5FFCF17D/60487AA0
+Reference = D22;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E9D8
+Path = /60484C27/5FFCF182/60487AA0
+Reference = D23;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050E9ED
+Path = /60484C27/5FFCF187/60487AA0
+Reference = D24;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA02
+Path = /60484C27/5FFCFCCC/60487AA0
+Reference = D25;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA17
+Path = /60484C27/5FFCFCD1/60487AA0
+Reference = D26;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA2C
+Path = /60484C27/5FFCFCD6/60487AA0
+Reference = D27;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA41
+Path = /60484C27/5FFCFCDB/60487AA0
+Reference = D28;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA56
+Path = /60484C27/5FFCFCE0/60487AA0
+Reference = D29;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA6B
+Path = /60484C27/5FFCFCE5/60487AA0
+Reference = D30;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA80
+Path = /60484C27/5FFCFCEA/60487AA0
+Reference = D31;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EA95
+Path = /60484C27/5FFCFCEF/60487AA0
+Reference = D32;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EAAA
+Path = /60484C27/5FFD0AC4/60487AA0
+Reference = D33;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EABF
+Path = /60484C27/5FFD0AC9/60487AA0
+Reference = D34;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EAD4
+Path = /60484C27/5FFD0ACE/60487AA0
+Reference = D35;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EAE9
+Path = /60484C27/5FFD0AD3/60487AA0
+Reference = D36;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EAFE
+Path = /60484C27/5FFD0AD8/60487AA0
+Reference = D37;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB13
+Path = /60484C27/5FFD0ADD/60487AA0
+Reference = D38;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB28
+Path = /60484C27/5FFD0AE2/60487AA0
+Reference = D39;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB3D
+Path = /60484C27/5FFD0AE7/60487AA0
+Reference = D40;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB52
+Path = /60484C27/5FFD1E60/60487AA0
+Reference = D41;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB67
+Path = /60484C27/5FFD1E65/60487AA0
+Reference = D42;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB7C
+Path = /60484C27/5FFD1E6A/60487AA0
+Reference = D43;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EB91
+Path = /60484C27/5FFD1E6F/60487AA0
+Reference = D44;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519ECC
+Path = /60484C27/5FFD1E74/60487AA0
+Reference = D45;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519E90
+Path = /60484C27/5FFD1E79/60487AA0
+Reference = D46;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EBD0
+Path = /60484C27/5FFD1E7E/60487AA0
+Reference = D47;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EBE5
+Path = /60484C27/5FFD1E83/60487AA0
+Reference = D48;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EBFA
+Path = /60484C27/5FFD3654/60487AA0
+Reference = D49;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 605198AD
+Path = /60484C27/5FFD3659/60487AA0
+Reference = D50;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 605198E9
+Path = /60484C27/5FFD365E/60487AA0
+Reference = D51;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EC39
+Path = /60484C27/5FFD3663/60487AA0
+Reference = D52;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EC4E
+Path = /60484C27/5FFD3668/60487AA0
+Reference = D53;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EC63
+Path = /60484C27/5FFD366D/60487AA0
+Reference = D54;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EC78
+Path = /60484C27/5FFD3672/60487AA0
+Reference = D55;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050EC8D
+Path = /60484C27/5FFD3677/60487AA0
+Reference = D56;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050ECA2
+Path = /60484C27/5FFD5594/60487AA0
+Reference = D57;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050ECB7
+Path = /60484C27/5FFD5599/60487AA0
+Reference = D58;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 60519D2A
+Path = /60484C27/5FFD559E/60487AA0
+Reference = D59;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050ECE1
+Path = /60484C27/5FFD55A3/60487AA0
+Reference = D60;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050ECF6
+Path = /60484C27/5FFD55A8/60487AA0
+Reference = D61;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+BeginCmp
+TimeStamp = 6050ED0B
+Path = /60484C27/5FFD55AD/60487AA0
+Reference = D62;
+ValeurCmp = WS2812-2020;
+IdModule  = my_lib:WS2812B;
+EndCmp
+
+EndListe

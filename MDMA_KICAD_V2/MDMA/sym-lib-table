@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name MDMA-rescue)(type Legacy)(uri ${KIPRJMOD}/MDMA-rescue.lib)(options "")(descr ""))
+  (lib (name MDMA)(type Legacy)(uri "/Volumes/NO NAME/42/Elec/MDMA_KICAD_V2/MDMA.lib")(options "")(descr ""))
+)

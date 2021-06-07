@@ -1,44 +1,84 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-1420 #tty.usbserial-14410
-DEVICE		= atmega2560 # atmega328p #atmega2560 for atmega2560
+PORT		= /dev/ttyUSB0 #tty.usbserial-14410
+DEVICE		= atmega2560 #atmega328p #atmega2560 for atmega2560
 PROGRAMMER	= wiring #arduino #wiring for atmega2560
-BAUD		= 115200 #can change for old bootloader
+BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
-COMPILE		= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
+COMPILE		= avr-gcc -Os -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
 COLOR		= \0033[1;35m
 
 MUTE		= TRUE #FALSE to unmute
+
+
+#LED MATRIX MODIFIERS, Make update to update
+MATRIX_BRIGHTNESS		= 7		# 0-100
+MATRIX_RED_MODIFIER		= 100	# 0-100
+MATRIX_GREEN_MODIFIER	= 100	# 0-100
+MATRIX_BLUE_MODIFIER	= 100	# 0-100
 
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
+INC_H = leds math matrix_progmem mdma pin_registers tone buttons
+
 #defines of directories names
+BUTTONS_DIR = buttons
 PIN_REGISTER_DIR = pin_registers
-USELESS_DIR = useless
+ILI9341_DIR = ili9341
 SERIAL_DIR = serial
+RFID_DIR = rfid
+MOZART_DIR = mozart
+LEDS_MANAGER_DIR = leds_manager
+BOUTON_DIR = Bouton
+GAMES_DIR = Game
+MATH_DIR = math
 
 #defines of files in directories
+# PIN_REGISTER_FT = pins_manipulation 
+BUTTONS_FT = buttons
 PIN_REGISTER_FT = pins_manipulation 
-USELESS_FT = useless
+ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
+
+BOUTON_FT = turn_me
+LEDS_MANAGER_FT = low_level_led_addressing pixels_management
+MOZART_FT = tone musique
+MATH_FT = math
 SERIAL_FT = serial_uart serial_nbr_base
+RFID_FT = rfid
+GAMES_FT = game
+MATH_FT = math
 
 SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
-SRC = $(SRC_FT:%=$(SRC_DIR)/%.c) \
-	  $(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
-	  $(USELESS_FT:%=$(SRC_DIR)/$(USELESS_DIR)/%.c) \
-	  $(SERIAL_FT:%=$(SRC_DIR)/$(SERIAL_DIR)/%.c)
+SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
+		$(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
+		$(BUTTONS_FT:%=$(SRC_DIR)/$(BUTTONS_DIR)/%.c) \
+		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
+		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
+		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
+		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
+		$(BOUTON_FT:%=$(SRC_DIR)/$(BOUTON_DIR)/%.c) \
+		$(GAMES_FT:%=$(SRC_DIR)/$(GAMES_DIR)/%.c) \
+		$(MATH_FT:%=$(SRC_DIR)/$(MATH_DIR)/%.c)
 
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
-OBJ_DIRS = $(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(USELESS_DIR:%=$(OBJ_DIR)/%) \
-			$(SERIAL_DIR:%=$(OBJ_DIR)/%)
+OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
+			$(BUTTONS_DIR:%=$(OBJ_DIR)/%) \
+			$(RFID_DIR:%=$(OBJ_DIR)/%) \
+			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
+			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
+			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
+			$(BOUTON_DIR:%=$(OBJ_DIR)/%)  \
+			$(GAMES_DIR:%=$(OBJ_DIR)/%) \
+			$(MATH_DIR:%=$(OBJ_DIR)/%)
 
 INC = $(INC_DIR:%=-I ./%)
+
+INCLUDES = $(INC_H:%=./$(INC_DIR)/%.h)
 
 CC	= avr-gcc  -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU} $(INC)
 
@@ -59,6 +99,15 @@ endef
 
 
 all: hex flash
+
+update: compile_matrix_items coffee
+
+compile_matrix_items:
+	@make -C ./res/compile_matrix_items
+	@echo "$(COLOR)inc/matrix_progmem.h \033[100D\033[40C\0033[1;32m[Updated]\0033[1;37m"
+	@./res/compile_matrix_items/compile_matrix_items $(MATRIX_BRIGHTNESS) \
+	$(MATRIX_RED_MODIFIER) $(MATRIX_GREEN_MODIFIER) $(MATRIX_BLUE_MODIFIER) inc/matrix_progmem.h
+	@make -C ./res/compile_matrix_items fclean
 
 coffee: hex flash clean
 	@echo ""
@@ -87,12 +136,12 @@ $(OBJ_DIRS):
 
 
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES)
 	@$(CC) -c $< -o $@
 
 hex: $(FILENAME)
 
-$(FILENAME): $(OBJ_DIRS) $(SRC)
+$(FILENAME): $(OBJ_DIRS) $(SRC) $(INCLUDES)
 	@if [ $(MUTE) = FALSE ];then\
 		$(MAKE) -j $(OBJ);\
 	else\
@@ -133,9 +182,9 @@ $(FILENAME): $(OBJ_DIRS) $(SRC)
 
 flash:
 	@if [ $(MUTE) = FALSE ];then\
-		avrdude -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
+		avrdude -V -v -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i;\
 	else\
-		avrdude -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
+		avrdude -V -D -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:$(FILENAME).hex:i -l /dev/null;\
 	fi
 	@echo "$(COLOR)Black Magic \033[100D\033[40C\0033[1;32m[I̶̢͇͎͉͙͒̉n̸̛͖̣͒̓͒̊͆̉͜v̶̰̉̀́̓͠ǒ̵̜̰̝̼̤͉k̴͎̠̪͙̐̈́̔͑̇e̶̖̰͘d̸̻͛͊̎̀͒̚]\0033[1;37m"
 	@echo "$(COLOR)$(DEVICE) \033[100D\033[40C\0033[1;32m[Flashed]\0033[1;37m"
@@ -152,6 +201,8 @@ unmute:
 	$(eval MUTE=FALSE)
 
 debug: unmute coffee
+
+re: clean all
 
 serial: coffee
 	@echo "\0033[1;36mStarting Serial Monitor"
