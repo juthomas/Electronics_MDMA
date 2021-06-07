@@ -17,7 +17,60 @@ void srand(unsigned int seed)
     next = seed;
 }
 
-void do_you_rather(uint8_t *led_buffer)
+void lucky_luck(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+
+void high_score(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void tic_tac(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+
+void the_liar(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void tokyo_drift(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void friend_roulette(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void rpc_ultimate(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void capitalism_vantura(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void zero_zero(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+void red_button(uint8_t currentPlayer,uint8_t *led_buffer)
+{
+    ili9341_fillScreen(ILI9341_BLACK);
+    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+}
+
+void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
 {
     uint8_t *pixels = (uint8_t[64 * 3]){};
     clear_buttons();
@@ -186,10 +239,10 @@ void display_intro()
     ili9341_draw_IMG(PentacleBG, PentacleBGPalette, 0, 0, 32, 24, 10);
 }
 
-void display_intro_game(int8_t index, int8_t side)
+void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
 {
     ili9341_setRotation(side);
-    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, games[index].ratio);
+    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
     ili9341_draw_IMG(CadreBG, CadreBGPalette, 40, 120, 60, 30, 4);
     ili9341_setCursor(70, 140);
     ili9341_print(games[index].name1, ILI9341_WHITE, 4, 0, 80, width - 40);
@@ -198,12 +251,12 @@ void display_intro_game(int8_t index, int8_t side)
     // while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
     // ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
     clear_buttons();
-    while (!buttons_clicks_order[0] && !buttons_clicks_order[1]);
+    while (!buttons_clicks_order[currentPlayer * 3] && !buttons_clicks_order[currentPlayer * 3 + 1]);
     ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 40, 60, 50, 4);
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
     custom_delay(1000);
-    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, games[index].ratio);
+    ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
     ili9341_draw_IMG(CadreSquareBG, CadreSquareBGPalette, 100, 60, 30, 30, 4);
     ili9341_setCursor(140, 90);
     ili9341_putnbr(3, ILI9341_WHITE, 8, 0);
@@ -218,4 +271,23 @@ void display_intro_game(int8_t index, int8_t side)
     ili9341_setCursor(120, 100);
     ili9341_print("GO", ILI9341_RED, 7, 0, 0, width);
     ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
+}
+
+void start_game(uint8_t *led_buffer)
+{
+    uint8_t dice_result_1;
+    uint8_t dice_result_2;
+    clear_buttons();
+    while(totalDice < 666)
+    {
+        dice_result_1 = dice_game(currentPlayer + 1);
+	    dice_result_2 = dice_game(currentPlayer + 1);
+        totalDice = dice_result_2 + dice_result_1;
+
+        display_intro_game(totalDice - 2, (currentPlayer && currentPlayer < 3) ? 1 : 3 , currentPlayer);
+        //display_intro_game(0, (currentPlayer && currentPlayer < 3) ? 1 : 3 , currentPlayer);
+        clear_buttons();
+        (*((games[totalDice - 2]).gameFunction))(currentPlayer, led_buffer);
+        currentPlayer = currentPlayer < 4 ? currentPlayer + 1 : 0;
+    }
 }

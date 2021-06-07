@@ -73,7 +73,7 @@ void	led_draw_animation(uint16_t pixels_number);
 
 uint32_t	led_rainbow_wheel(uint8_t pos);
 uint32_t	led_reduce_luminosity(uint32_t color, uint8_t percentage);
-int32_t ft_sqrt(int32_t x);
+int32_t     ft_sqrt(int32_t x);
 
 void led_matrix_draw_line(uint8_t *pixels, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_draw_filled_rectangle(uint8_t *pixels, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t red, uint8_t green, uint8_t blue);
@@ -86,7 +86,8 @@ void display_menu();
 void display_selection();
 void display_intro();
 void display_intro_game(int8_t index, int8_t side);
-void do_you_rather();
+//void you_rather(uint8_t *led_buffer, uint8_t currentPlayer);
+void start_game(uint8_t *led_buffer);
 
 
 
