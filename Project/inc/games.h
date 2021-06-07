@@ -74,7 +74,4 @@ t_player players[] = {
 {5, 0, 0, 0, 0, 0, 0}
 };
 
-
-
-
 #endif

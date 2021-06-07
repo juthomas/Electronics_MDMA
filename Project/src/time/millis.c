@@ -25,6 +25,8 @@ void init_millis()
 	TIMSK4 |= (1 << OCIE4A);
 	// interrupts
 	sei();
+	millis = 0;
+
 }
 
 ISR(TIMER4_COMPA_vect)

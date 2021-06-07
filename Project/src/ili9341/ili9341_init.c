@@ -144,7 +144,7 @@ void initSPI()
     // SPE indique qu'on veut le SPI, MSTR que 
     //SPCR = _BV(SPE) | _BV(MSTR) | 0 | (SPI_MODE3 & SPI_MODE_MASK) | ((clockDiv >> 1) & SPI_CLOCK_MASK);;
     SPCR = _BV(SPE) | _BV(MSTR) | (1 << SPR0);
-	SPSR = clockDiv & SPI_2XCLOCK_MASK;
+	SPSR = 1;
 	// ft_pin_mode(TFT_CS, FT_OUTPUT);
 	DDRB |= 1 << 0;
 	// ft_pin_mode(RFID_CS, FT_OUTPUT);

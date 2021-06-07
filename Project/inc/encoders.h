@@ -8,12 +8,7 @@
 // #include <avr/io.h>
 #include <stdint.h>
 
-uint8_t rot;
-
-int encoder1;
-int encoder2;
-int encoder3;
-int encoder4;
-int encoder5;
-
+int32_t encoders[5];
+void clear_encoders();
+void init_encoders();
 #endif

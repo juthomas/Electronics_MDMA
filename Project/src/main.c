@@ -12,7 +12,7 @@ void draw_buttons(uint8_t *led_buffer)
 {
 	uint32_t interactions_color = 0x090909;
 	// draw_satanic_circle();
-	clear_led_buffer(led_buffer, 0x090000);
+	clear_led_buffer(led_buffer, 62 * 3 * 5,0x090000);
 
 	if (buttons_clicks_order[15])
 	{
@@ -168,8 +168,11 @@ int main()
 	init_encoders();
 
 	init_leds(led_buffer);
-	clear_led_buffer(led_buffer, 0x000000);
-	// led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
+	draw_satanic_circle(led_buffer);
+
+	// led_matrix_fill_screen(led_buffer, 0x000000);
 	// led_send_data(3, pixels, 64);
 	// led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 64*5);
 
@@ -185,11 +188,12 @@ int main()
 	
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
+	//for(;;);
 	//display_intro();
-	draw_satanic_circle();
+	//draw_satanic_circle();
 	ili9341_setRotation(3);
 	//display_intro();
-	display_menu();
+	//display_menu();
 	start_game(led_buffer);
 	//display_intro_game(dice_result_1 + dice_result_2 - 2, 3);
 	//do_you_rather(led_buffer);
