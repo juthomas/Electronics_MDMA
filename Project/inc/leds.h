@@ -80,7 +80,7 @@ int32_t ft_sqrt(int32_t x);
 void led_matrix_draw_line(uint8_t *pixels, uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_draw_filled_rectangle(uint8_t *pixels, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_draw_rectangle(uint8_t *pixels, uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t red, uint8_t green, uint8_t blue);
-void led_matrix_fill_screen(uint8_t *pixels, uint8_t red, uint8_t green, uint8_t blue);
+void led_matrix_fill_screen(uint8_t *pixels, uint32_t color);
 void led_matrix_draw_anti_aliased_line(uint8_t *pixels, int32_t x0, int32_t y0, int32_t x1, int32_t y1, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_draw_circle(uint8_t *pixels, int8_t xm, int8_t ym, int8_t r, uint8_t red, uint8_t green, uint8_t blue);
 void led_matrix_send_progmem(enum e_matrix_activation activation, const uint8_t *progmem);

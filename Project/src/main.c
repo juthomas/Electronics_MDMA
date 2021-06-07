@@ -170,14 +170,14 @@ int main()
 	init_leds(led_buffer);
 	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101);
 	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
-	// draw_satanic_circle();
+	draw_satanic_circle(led_buffer);
 
-	// led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// led_matrix_fill_screen(led_buffer, 0x000000);
 	// led_send_data(3, pixels, 64);
 
 	for (int i = 0; i < 100; i++)
 	{
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x000000);
 		draw_numbers(led_buffer, i, 0x101010);
 		led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
 		for (uint32_t i = 0; i < 200000; i++);
@@ -187,28 +187,28 @@ int main()
 		for (;;)
 	{
 		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x010101);
 		draw_numbers(led_buffer, encoders[0] / 4, 0x101010);
 		led_send_data_PORTA(MAT_1, led_buffer, 64);
 
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x010101);
 		draw_numbers(led_buffer, encoders[1] / 4, 0x101010);
 		led_send_data_PORTA(MAT_2, led_buffer, 64);
 		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x010101);
 		draw_numbers(led_buffer, encoders[2] / 4, 0x101010);
 		led_send_data_PORTA(MAT_3, led_buffer, 64);
 		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x010101);
 		draw_numbers(led_buffer, encoders[3] / 4 , 0x101010);
 		led_send_data_PORTA(MAT_4, led_buffer, 64);
 		
-		led_matrix_fill_screen(led_buffer, 0, 0, 0);
+		led_matrix_fill_screen(led_buffer, 0x010101);
 		draw_numbers(led_buffer, encoders[4] / 4, 0x101010);
 		led_send_data_PORTA(MAT_5, led_buffer, 64);
 
 
-		for (uint32_t i = 0; i < 40000; i++);
+		for (uint32_t i = 0; i < 4000; i++);
 
 	}
 

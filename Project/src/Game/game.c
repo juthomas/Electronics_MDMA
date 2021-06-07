@@ -22,7 +22,7 @@ void do_you_rather(uint8_t *led_buffer)
     uint8_t *pixels = (uint8_t[64 * 3]){};
     clear_buttons();
     clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
-    led_matrix_fill_screen(pixels, 0, 0, 0);
+    led_matrix_fill_screen(pixels, 0x000000);
     // led_send_data(3, pixels, 64);
     led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, pixels, 64);
     while ((!buttons_clicks_order[0] && !buttons_clicks_order[1]) || (!buttons_clicks_order[3] && !buttons_clicks_order[4]) || (!buttons_clicks_order[6] && !buttons_clicks_order[7]) || (!buttons_clicks_order[9] && !buttons_clicks_order[10]) || (!buttons_clicks_order[12] && !buttons_clicks_order[13]))
@@ -30,81 +30,81 @@ void do_you_rather(uint8_t *led_buffer)
 
         if (buttons_clicks_order[0] || buttons_clicks_order[1])
         {
-            led_matrix_fill_screen(pixels, 8, 8, 8);
+            led_matrix_fill_screen(pixels, 0x080808);
             led_send_data_PORTA(MAT_1, pixels, 64);
         }
 
         if (buttons_clicks_order[3] || buttons_clicks_order[4])
         {
-            led_matrix_fill_screen(pixels, 8, 8, 8);
+            led_matrix_fill_screen(pixels, 0x080808);
             led_send_data_PORTA(MAT_2, pixels, 64);
         }
 
         if (buttons_clicks_order[6] || buttons_clicks_order[7])
         {
-            led_matrix_fill_screen(pixels, 8, 8, 8);
+            led_matrix_fill_screen(pixels, 0x080808);
             led_send_data_PORTA(MAT_3, pixels, 64);
         }
 
         if (buttons_clicks_order[9] || buttons_clicks_order[10])
         {
-            led_matrix_fill_screen(pixels, 8, 8, 8);
+            led_matrix_fill_screen(pixels, 0x080808);
             led_send_data_PORTA(MAT_4, pixels, 64);
         }
 
         if (buttons_clicks_order[12] || buttons_clicks_order[13])
         {
-            led_matrix_fill_screen(pixels, 8, 8, 8);
+            led_matrix_fill_screen(pixels, 0x080808);
             led_send_data_PORTA(MAT_5, pixels, 64);
         }
     }
     if (buttons_clicks_order[0] > buttons_clicks_order[1])
     {
-        led_matrix_fill_screen(pixels, 10, 0, 0);
+        led_matrix_fill_screen(pixels, 0x100000);
     }
     else
     {
-        led_matrix_fill_screen(pixels, 0, 10, 0);
+        led_matrix_fill_screen(pixels, 0x001000);
     }
     led_send_data_PORTA(MAT_1, pixels, 64);
 
     if (buttons_clicks_order[3] > buttons_clicks_order[4])
     {
-        led_matrix_fill_screen(pixels, 10, 0, 0);
+        led_matrix_fill_screen(pixels, 0x100000);
     }
     else
     {
-        led_matrix_fill_screen(pixels, 0, 10, 0);
+        led_matrix_fill_screen(pixels, 0x001000);
     }
     led_send_data_PORTA(MAT_2, pixels, 64);
 
     if (buttons_clicks_order[6] > buttons_clicks_order[7])
     {
-        led_matrix_fill_screen(pixels, 10, 0, 0);
+        led_matrix_fill_screen(pixels, 0x100000);
     }
     else
     {
-        led_matrix_fill_screen(pixels, 0, 10, 0);
+        led_matrix_fill_screen(pixels, 0x001000);
     }
     led_send_data_PORTA(MAT_3, pixels, 64);
 
     if (buttons_clicks_order[9] > buttons_clicks_order[10])
     {
-        led_matrix_fill_screen(pixels, 10, 0, 0);
+        led_matrix_fill_screen(pixels, 0x100000);
     }
     else
     {
-        led_matrix_fill_screen(pixels, 0, 10, 0);
+        led_matrix_fill_screen(pixels, 0x001000);
     }
     led_send_data_PORTA(MAT_4, pixels, 64);
 
     if (buttons_clicks_order[12] > buttons_clicks_order[13])
     {
-        led_matrix_fill_screen(pixels, 10, 0, 0);
+        led_matrix_fill_screen(pixels, 0x100000);
     }
     else
     {
-        led_matrix_fill_screen(pixels, 0, 10, 0);
+        led_matrix_fill_screen(pixels, 0x001000);
     }
     led_send_data_PORTA(MAT_5, pixels, 64);
 

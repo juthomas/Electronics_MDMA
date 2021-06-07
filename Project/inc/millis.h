@@ -2,7 +2,7 @@
 # define MILLIS_H
 #include <stdint.h>
 
-static uint32_t millis = 0;
+uint32_t millis;
 void init_millis();
 
 #endif
