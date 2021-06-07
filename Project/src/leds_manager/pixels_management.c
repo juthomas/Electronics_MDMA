@@ -83,17 +83,17 @@ uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_
 	return (pixels);
 }
 
-void	feed_array_of_pixels_with_transparency(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color)
+void	feed_array_of_pixels_with_transparency(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, \
+												uint32_t color, uint32_t transparency)
 {
 	for (int i = 0; i < pixels_indexes_size; i++)
 	{
-		uint32_t color2 = get_pixel_color(pixels, pixels_indexes[i]);
-		pixels[pixels_indexes[i] * 3] = (color & 0x00FF00) >> 8;
-		pixels[pixels_indexes[i] * 3 + 1] = (color & 0xFF0000) >> 16;
-		pixels[pixels_indexes[i] * 3 + 2] = color & 0x0000FF;
+		uint32_t color_tmp = get_pixel_color(pixels, pixels_indexes[i]);
+		pixels[pixels_indexes[i] * 3] = (((color & 0x00FF00) >> 8) * transparency / 100) + (((color_tmp & 0x00FF00) >> 8) * (100 - transparency) / 100);
+		pixels[pixels_indexes[i] * 3 + 1] = (((color & 0xFF0000) >> 16) * transparency / 100) + (((color_tmp & 0xFF0000) >> 16) * (100 - transparency) / 100);
+		pixels[pixels_indexes[i] * 3 + 2] = ((color & 0x0000FF) * transparency / 100) + ((color & 0x0000FF) * transparency / 100);
 	}
 	return (pixels);
-
 }
 
 /**
@@ -1174,15 +1174,88 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 
 void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color)
 {
+						/*     LVII    XLVI     XLVII      LVIII    */
+	uint16_t pixels_array_1 = {57 - 1, 46 - 1, 47 - 1, 58 - 1};
+						/*     XLV    XLVIII    */
+	uint16_t pixels_array_2 = {45 - 1, 48 - 1};
+						/*     LVI    XLIV    XXXVIII  XXXIX      XL    IL     LIX */
+	uint16_t pixels_array_3 = {56 - 1, 44 - 1, 38 - 1, 39 - 1, 40 - 1, 49 - 1, 59 - 1};
+
+	uint8_t current_player_index = 0;
+
 	if (players & PLAYER_1)
 	{
-							/*     LVII    XLVI     XLVII      LVIII    */
-		uint16_t pixels_to_draw = {57 - 1, 46 - 1, 47 - 1, 58 - 1};
-		feed_arraw_of_pixels(pixels_to_draw, sizeof(pixels_to_draw), buffer, 0x001000);
-
+		feed_array_of_pixels_with_transparency(pixels_array_1, sizeof(pixels_array_1), buffer, color, 0);
+		feed_array_of_pixels_with_transparency(pixels_array_2, sizeof(pixels_array_2), buffer, color, 30);
+		feed_array_of_pixels_with_transparency(pixels_array_3, sizeof(pixels_array_3), buffer, color, 60);
 	}
+	if (players & PLAYER_2)
+	{
+		rotate_some_fifth(pixels_array_1, sizeof(pixels_array_1) / 2, 1 - current_player_index);
+		rotate_some_fifth(pixels_array_2, sizeof(pixels_array_2) / 2, 1 - current_player_index);
+		rotate_some_fifth(pixels_array_3, sizeof(pixels_array_3) / 2, 1 - current_player_index);
+		feed_array_of_pixels_with_transparency(pixels_array_1, sizeof(pixels_array_1), buffer, color, 0);
+		feed_array_of_pixels_with_transparency(pixels_array_2, sizeof(pixels_array_2), buffer, color, 30);
+		feed_array_of_pixels_with_transparency(pixels_array_3, sizeof(pixels_array_3), buffer, color, 60);
+		current_player_index += 1 - current_player_index;
+	}
+	if (players & PLAYER_3)
+	{
+		rotate_some_fifth(pixels_array_1, sizeof(pixels_array_1) / 2, 2 - current_player_index);
+		rotate_some_fifth(pixels_array_2, sizeof(pixels_array_2) / 2, 2 - current_player_index);
+		rotate_some_fifth(pixels_array_3, sizeof(pixels_array_3) / 2, 2 - current_player_index);
+		feed_array_of_pixels_with_transparency(pixels_array_1, sizeof(pixels_array_1), buffer, color, 0);
+		feed_array_of_pixels_with_transparency(pixels_array_2, sizeof(pixels_array_2), buffer, color, 30);
+		feed_array_of_pixels_with_transparency(pixels_array_3, sizeof(pixels_array_3), buffer, color, 60);
+		current_player_index += 2 - current_player_index;
+	}
+	if (players & PLAYER_4)
+	{
+		rotate_some_fifth(pixels_array_1, sizeof(pixels_array_1) / 2, 3 - current_player_index);
+		rotate_some_fifth(pixels_array_2, sizeof(pixels_array_2) / 2, 3 - current_player_index);
+		rotate_some_fifth(pixels_array_3, sizeof(pixels_array_3) / 2, 3 - current_player_index);
+		feed_array_of_pixels_with_transparency(pixels_array_1, sizeof(pixels_array_1), buffer, color, 0);
+		feed_array_of_pixels_with_transparency(pixels_array_2, sizeof(pixels_array_2), buffer, color, 30);
+		feed_array_of_pixels_with_transparency(pixels_array_3, sizeof(pixels_array_3), buffer, color, 60);
+		current_player_index += 3 - current_player_index;
+	}
+	if (players & PLAYER_5)
+	{
+		rotate_some_fifth(pixels_array_1, sizeof(pixels_array_1) / 2, 4 - current_player_index);
+		rotate_some_fifth(pixels_array_2, sizeof(pixels_array_2) / 2, 4 - current_player_index);
+		rotate_some_fifth(pixels_array_3, sizeof(pixels_array_3) / 2, 4 - current_player_index);
+		feed_array_of_pixels_with_transparency(pixels_array_1, sizeof(pixels_array_1), buffer, color, 0);
+		feed_array_of_pixels_with_transparency(pixels_array_2, sizeof(pixels_array_2), buffer, color, 30);
+		feed_array_of_pixels_with_transparency(pixels_array_3, sizeof(pixels_array_3), buffer, color, 60);
+		current_player_index += 4 - current_player_index;
+	}
+	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 }
 
+/**
+ * 
+ * 
+ * 
+ */
+void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t background_color)
+{
+		//                     LVII     LVI     LV     LIV      LXII        LXI              LX           LIX        LVII
+	uint16_t pixels_array = {57 - 1, 56 - 1, 55 - 1, 54 - 1, 62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
+
+	for (uint8_t quarters_drawed = 0; quarters_drawed < 5)
+	{
+		if (quarters_drawed == time / 6)
+		{
+			wawe_on_segment(pixels_array, sizeof(pixels_array) / 2, pixels, map((time % 6), 0, 5, 0, 100), color, background_color);
+		}
+		else
+		{
+			feed_arraw_of_pixels(pixels_array, sizeof(pixels_array) / 2, pixels, background_color);
+		}
+		rotate_some_fifth(pixels_array, sizeof(pixels_array) / 2, 1);
+	}
+	led_send_data_PORTA(LEDS_REG, pixels, 62 * 5);
+}
 
 void draw_players_interactions()
 {
