@@ -56,6 +56,16 @@ const t_game games[] = {
   [10] = {"Red", "Button", "Please don't push the red button. Thank you <3", DuelBG, DuelBGPalette, &red_button}
 };
 
+static const uint8_t dice [6][9] =
+{
+    {0, 0, 0, 0, 1, 0, 0, 0, 0},
+    {0, 0, 1, 0, 0, 0, 1, 0, 0},
+    {0, 0, 1, 0, 1, 0, 1, 0, 0},
+    {1, 0, 1, 0, 0, 0, 1, 0, 1},
+    {1, 0, 1, 0, 1, 0, 1, 0, 1},
+    {1, 0, 1, 1, 0, 1, 1, 0, 1},
+};
+
 t_player players[] = {
 {1, 0, 0, 0, 0, 0, 0},
 {2, 0, 0, 0, 0, 0, 0},

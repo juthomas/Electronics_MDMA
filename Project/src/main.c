@@ -182,8 +182,10 @@ int main()
 	// }
 
 	initSPI();
+	
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
+	//display_intro();
 	draw_satanic_circle();
 	ili9341_setRotation(3);
 	//display_intro();
