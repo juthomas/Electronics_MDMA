@@ -78,7 +78,8 @@ void display_menu();
 void display_selection();
 void display_intro();
 void display_intro_game(int8_t index, int8_t side);
-void do_you_rather();
+//void you_rather(uint8_t *led_buffer, uint8_t currentPlayer);
+void start_game(uint8_t *led_buffer);
 
 
 

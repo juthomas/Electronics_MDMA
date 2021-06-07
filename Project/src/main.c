@@ -152,7 +152,7 @@ uint8_t dice_game(uint8_t player)
 
 int main()
 {
-	//init_turn();
+		//init_turn();
 
 	// int16_t x = 0;
 	// int16_t y = 0;
@@ -174,73 +174,53 @@ int main()
 
 	// led_matrix_fill_screen(led_buffer, 0x000000);
 	// led_send_data(3, pixels, 64);
+	// led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 64*5);
 
-	for (int i = 0; i < 100; i++)
-	{
-		led_matrix_fill_screen(led_buffer, 0x000000);
-		draw_numbers(led_buffer, i, 0x101010);
-		led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
-		for (uint32_t i = 0; i < 200000; i++);
-	}
-
-
-		for (;;)
-	{
-		
-		led_matrix_fill_screen(led_buffer, 0x010101);
-		draw_numbers(led_buffer, encoders[0] / 4, 0x101010);
-		led_send_data_PORTA(MAT_1, led_buffer, 64);
-
-		led_matrix_fill_screen(led_buffer, 0x010101);
-		draw_numbers(led_buffer, encoders[1] / 4, 0x101010);
-		led_send_data_PORTA(MAT_2, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0x010101);
-		draw_numbers(led_buffer, encoders[2] / 4, 0x101010);
-		led_send_data_PORTA(MAT_3, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0x010101);
-		draw_numbers(led_buffer, encoders[3] / 4 , 0x101010);
-		led_send_data_PORTA(MAT_4, led_buffer, 64);
-		
-		led_matrix_fill_screen(led_buffer, 0x010101);
-		draw_numbers(led_buffer, encoders[4] / 4, 0x101010);
-		led_send_data_PORTA(MAT_5, led_buffer, 64);
-
-
-		for (uint32_t i = 0; i < 4000; i++);
-
-	}
-
-	// draw_satanic_circle();
-
-
-	// while(1)
-	// 	led_draw_animation(64);
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, i, 0x101010);
+	// 	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
+	// 	for (uint32_t i = 0; i < 20000; i++);
+	// }
 
 	initSPI();
 	ili9341_begin();
-	// draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
 	ili9341_fillScreen(ILI9341_BLACK);
-	// draw_satanic_circle();
 	draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
 	ili9341_setRotation(3);
-	// draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
-
-	display_intro();
+	//display_intro();
 	display_menu();
-	ili9341_fillScreen(ILI9341_BLACK);
+	start_game(led_buffer);
+	//display_intro_game(dice_result_1 + dice_result_2 - 2, 3);
+	//do_you_rather(led_buffer);
+	// for (;;)
+	// {
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder1, 0x101010);
+	// 	led_send_data_PORTA(MAT_1, led_buffer, 64);
+
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder2, 0x101010);
+	// 	led_send_data_PORTA(MAT_2, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder3, 0x101010);
+	// 	led_send_data_PORTA(MAT_3, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder4, 0x101010);
+	// 	led_send_data_PORTA(MAT_4, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder5, 0x101010);
+	// 	led_send_data_PORTA(MAT_5, led_buffer, 64);
 
 
-	
-	uint8_t dice_result_1 = dice_game(1);
-	uint8_t dice_result_2 = dice_game(1);
-	display_intro_game(5, 3);
-	do_you_rather(led_buffer);
+	// 	for (uint32_t i = 0; i < 400000; i++);
 
+	// }
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);
