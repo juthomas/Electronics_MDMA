@@ -29,26 +29,41 @@ void srand(unsigned int seed)
 void endGame()
 {
     int8_t indexPlayer = 0;
-    uint8_t buffMat [64 * 3] = {0};
-    uint8_t matTab [5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
-    while(indexPlayer < 5)
+    uint8_t *pixels = (uint8_t[64 * 3]){};
+    uint8_t matTab[5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
+    while (indexPlayer < 5)
     {
         indexPlayer = 0;
-        for(int8_t i = 0; i < 5; i++)
+        for (int8_t i = 0; i < 5; i++)
         {
-            if((buttons_clicks_order[i * 3] || buttons_clicks_order[i * 3 + 1]) && players[i].sipNeeded)
+            if ((buttons_clicks_order[i * 3] || buttons_clicks_order[i * 3 + 1]) && players[i].sipNeeded)
             {
                 players[i].sipNeeded--;
-                draw_numbers(buffMat, players[i].sipNeeded, 0x101010);
-                led_send_data_PORTA(matTab[i], buffMat, 64);
+                draw_numbers(pixels, players[i].sipNeeded, 0x101010);
+                led_send_data_PORTA(matTab[i], pixels, 64);
             }
         }
         clear_buttons();
-        while(indexPlayer < 5)
+        while (indexPlayer < 5)
         {
-            if(players[indexPlayer].sipNeeded > 0)
+            if (players[indexPlayer].sipNeeded > 0)
                 break;
             indexPlayer++;
+        }
+    }
+}
+
+void distribute_sip(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t sips)
+{
+    uint8_t matTab[5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
+    uint8_t *pixels = (uint8_t[64 * 3]){};
+    while(sips > 0)
+    {
+        if(buttons_clicks_order[currentPlayer * 3])
+        {
+            players[encoders[currentPlayer] / 4 % 4 + 1 + currentPlayer].sipNeeded++;
+            sips--;
+            clear_buttons();
         }
     }
 }
@@ -97,38 +112,72 @@ void capitalism_vantura(uint8_t currentPlayer, uint8_t *led_buffer)
 }
 void zero_zero(uint8_t currentPlayer, uint8_t *led_buffer)
 {
-    ili9341_fillScreen(ILI9341_BLACK);
-    ili9341_println("Need to be done", ILI9341_RED, 4, 0);
+    uint8_t matTab[5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
+    uint8_t *pixels = (uint8_t[64 * 3]){};
+    uint32_t startTime;
+    clear_buttons();
+    clear_encoders();
+    while (SOMEONE_ALIVE)
+    {
+        startTime = millis;
+        while (millis - startTime > 10000 && (!buttons_clicks_order[0]) || (!buttons_clicks_order[3]) || (!buttons_clicks_order[6]) || (!buttons_clicks_order[9]) || (!buttons_clicks_order[12]))
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                if (buttons_clicks_order[i * 3 + 1])
+                {
+                    buttons_clicks_order[i * 3] = 0;
+                    buttons_clicks_order[i * 3 + 1] = 0;
+                }
+                if (buttons_clicks_order[i * 3])
+                    led_matrix_fill_screen(pixels, 0x080808);
+                led_send_data_PORTA(matTab[i], pixels, 64);
+                else matTab[i] = pixel[encoders[i] / 4 % 3]; // Pixel Art
+            }
+        }
+        for (int j = 0; j < 5; j++)
+        {
+            if (!players[j].dead)
+            {
+                if (encoders[j] / 4 % 3 == 0 && players[j].amo)
+                {
+                    if (!players[j * 2 % 5].dead && encoders[j] / 4 % 3 != 1);
+                       
+                }
+            }
+        }
+    }
 }
+
 void red_button(uint8_t currentPlayer, uint8_t *led_buffer)
 {
     int8_t redButtonsPushed = 0;
     ili9341_fillScreen(ILI9341_BLACK);
     uint32_t startTime = millis;
-    uint32_t leftTime =  (30000 - (millis - startTime)) / 1000;
+    uint32_t leftTime = (30000 - (millis - startTime)) / 1000;
     uint32_t oldTime = 0;
     clear_buttons();
-    while(millis - startTime < 30000 && redButtonsPushed < 4)
+    while (millis - startTime < 30000 && redButtonsPushed < 4)
     {
-            if(leftTime - oldTime)
+        if (leftTime - oldTime)
+        {
+            ili9341_setCursor(50 + (leftTime < 10 ? 50 : 0), 50);
+            ili9341_putnbrln(leftTime, createRGB(255, 8 * leftTime, 8 * leftTime), 20, 0);
+            redButtonsPushed = (!(!(buttons_clicks_order[1]))) + (!(!(buttons_clicks_order[4]))) + (!(!(buttons_clicks_order[7]))) + (!(!(buttons_clicks_order[10]))) + (!(!(buttons_clicks_order[13])));
+            if (leftTime == 10)
             {
-                ili9341_setCursor(50 + (leftTime < 10 ? 50 : 0) , 50);
-                ili9341_putnbrln(leftTime, createRGB(255, 8 * leftTime, 8 * leftTime), 20, 0);
-                redButtonsPushed = (!(!(buttons_clicks_order[1]))) + (!(!(buttons_clicks_order[4]))) + (!(!(buttons_clicks_order[7]))) + (!(!(buttons_clicks_order[10]))) + (!(!(buttons_clicks_order[13])));
-                if(leftTime == 10)
-                {
-                    ili9341_setCursor(50 + (leftTime < 10 ? 50 : 0) , 50);
-                    ili9341_putnbrln(leftTime, ILI9341_BLACK, 20, 0);
-                }
-                oldTime = leftTime;
+                ili9341_setCursor(50 + (leftTime < 10 ? 50 : 0), 50);
+                ili9341_putnbrln(leftTime, ILI9341_BLACK, 20, 0);
             }
-            leftTime = (30000 - (millis - startTime)) / 1000;
-            for(int i = 0; i < redButtonsPushed; i++)
-                ili9341_print("x   ", ILI9341_RED, 4, 0, 0, width);
+            oldTime = leftTime;
+        }
+        leftTime = (30000 - (millis - startTime)) / 1000;
+        for (int i = 0; i < redButtonsPushed; i++)
+            ili9341_print("x   ", ILI9341_RED, 4, 0, 0, width);
     }
-    for(int j = 0; j < 5; j++)
+    for (int j = 0; j < 5; j++)
     {
-        if(!(buttons_clicks_order[j * 3 + 1]))
+        if (!(buttons_clicks_order[j * 3 + 1]))
             players[j].sipNeeded = redButtonsPushed + 1;
     }
     clear_buttons();
@@ -137,7 +186,7 @@ void red_button(uint8_t currentPlayer, uint8_t *led_buffer)
 void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
 {
     uint8_t *pixels = (uint8_t[64 * 3]){};
-    uint8_t matTab [5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
+    uint8_t matTab[5] = {MAT_1, MAT_2, MAT_3, MAT_4, MAT_5};
     uint8_t redScore = 0;
     uint8_t greenScore = 0;
     clear_buttons();
@@ -145,21 +194,20 @@ void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
     led_matrix_fill_screen(pixels, 0x000000);
     led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, pixels, 64);
 
-
     while ((!buttons_clicks_order[0] && !buttons_clicks_order[1]) || (!buttons_clicks_order[3] && !buttons_clicks_order[4]) || (!buttons_clicks_order[6] && !buttons_clicks_order[7]) || (!buttons_clicks_order[9] && !buttons_clicks_order[10]) || (!buttons_clicks_order[12] && !buttons_clicks_order[13]))
     {
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if(buttons_clicks_order[i * 3] || buttons_clicks_order[i * 3 + 1])
+            if (buttons_clicks_order[i * 3] || buttons_clicks_order[i * 3 + 1])
             {
                 led_matrix_fill_screen(pixels, 0x080808);
-                led_send_data_PORTA(MAT_1, pixels, 64);
+                led_send_data_PORTA(matTab[i], pixels, 64);
             }
         }
     }
-    for(int j = 0; j < 5; j++)
+    for (int j = 0; j < 5; j++)
     {
-        if(buttons_clicks_order[j * 3] > buttons_clicks_order[j * 3 + 1])
+        if (buttons_clicks_order[j * 3] > buttons_clicks_order[j * 3 + 1])
         {
             greenScore++;
             led_matrix_fill_screen(pixels, 0x100000);
@@ -171,9 +219,9 @@ void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
         }
         led_send_data_PORTA(matTab[j], pixels, 64);
     }
-    for(int l = 0; l < 5; l++)
+    for (int l = 0; l < 5; l++)
     {
-        if(greenScore < redScore && buttons_clicks_order[l * 3] > buttons_clicks_order[l * 3 + 1])
+        if (greenScore < redScore && buttons_clicks_order[l * 3] > buttons_clicks_order[l * 3 + 1])
             players[l].sipNeeded = redScore - greenScore;
         else if (greenScore > redScore && buttons_clicks_order[l * 3] < buttons_clicks_order[l * 3 + 1])
             players[l].sipNeeded = greenScore - redScore;
@@ -287,7 +335,8 @@ void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
     ili9341_setCursor(70, 180);
     ili9341_print(games[index].name2, ILI9341_WHITE, 4, 0, 80, width - 40);
     clear_buttons();
-    while (!buttons_clicks_order[currentPlayer * 3] && !buttons_clicks_order[currentPlayer * 3 + 1]);
+    while (!buttons_clicks_order[currentPlayer * 3] && !buttons_clicks_order[currentPlayer * 3 + 1])
+        ;
     ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 40, 60, 50, 4);
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
@@ -315,7 +364,8 @@ void start_game(uint8_t *led_buffer)
     uint8_t dice_result_2;
     clear_buttons();
     red_button(1, led_buffer);
-    for(;;);
+    for (;;)
+        ;
     while (totalDice < 666)
     {
         ili9341_draw_IMG(DemonFace2BG, DemonFace2BGPalette, 0, 0, 32, 24, 10);
@@ -326,11 +376,11 @@ void start_game(uint8_t *led_buffer)
         totalDice = dice_result_2 + dice_result_1;
         custom_delay(1000);
         ili9341_fillScreen(ILI9341_BLACK);
-        for(int8_t i = 0; i < 6; i++)
+        for (int8_t i = 0; i < 6; i++)
         {
-            ili9341_setCursor(50 + (totalDice + 2 < 10 ? 50 : 0) , 50);
+            ili9341_setCursor(50 + (totalDice + 2 < 10 ? 50 : 0), 50);
             ili9341_putnbr(totalDice + 2, createRGB(21 * (totalDice + 2), 255 / (totalDice + 2), 255 / (totalDice + 2)), 20, 0);
-            ili9341_setCursor(50 + (totalDice + 2 < 10 ? 50 : 0) , 50);
+            ili9341_setCursor(50 + (totalDice + 2 < 10 ? 50 : 0), 50);
             ili9341_putnbr(totalDice + 2, ILI9341_BLACK, 20, 0);
         }
         laugthing_demon();

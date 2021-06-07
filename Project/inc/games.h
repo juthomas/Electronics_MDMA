@@ -14,6 +14,8 @@ typedef struct  s_player
     uint8_t     sipNeeded;
     uint8_t     totalSipPlayer;
     uint8_t     totalDicePlayer;
+    uint8_t     amo;
+    uint8_t     dead;
 }               t_player;
 
 uint8_t     currentPlayer = 0;
@@ -22,12 +24,12 @@ uint16_t    totalSip = 0;
 
 typedef struct  s_game
 {
-	char *name1;
-	char *name2;
-    char *rules;
-    const uint8_t *background;
-	const uint16_t *backgroundPalette;
-    void (*gameFunction)(uint8_t, uint8_t *);
+	char            *name1;
+	char            *name2;
+    char            *rules;
+    const uint8_t   *background;
+	const uint16_t  *backgroundPalette;
+    void            (*gameFunction)(uint8_t, uint8_t *);
 }               t_game;
 
 void lucky_luck(uint8_t currentPlayer, uint8_t *led_buffer);
@@ -67,11 +69,11 @@ static const uint8_t dice [6][9] =
 };
 
 t_player players[] = {
-{1, 0, 0, 0, 0, 0, 0},
-{2, 0, 0, 0, 0, 0, 0},
-{3, 0, 0, 0, 0, 0, 0},
-{4, 0, 0, 0, 0, 0, 0},
-{5, 0, 0, 0, 0, 0, 0}
+{1, 0, 0, 0, 0, 0, 0, 0, 0},
+{2, 0, 0, 0, 0, 0, 0, 0, 0},
+{3, 0, 0, 0, 0, 0, 0, 0, 0},
+{4, 0, 0, 0, 0, 0, 0, 0, 0},
+{5, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
 #endif
