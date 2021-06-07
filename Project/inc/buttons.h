@@ -4,7 +4,7 @@
 
 
 uint16_t buttons_clicks_order[16];
-void	clear_buttons();
+void clear_buttons();
 void init_buttons();
 
 

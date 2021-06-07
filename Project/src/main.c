@@ -186,23 +186,23 @@ int main()
 	{
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder1, 0x101010);
+		draw_numbers(led_buffer, encoders[0], 0x101010);
 		led_send_data_PORTA(MAT_1, led_buffer, 64);
 
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder2, 0x101010);
+		draw_numbers(led_buffer, encoders[1], 0x101010);
 		led_send_data_PORTA(MAT_2, led_buffer, 64);
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder3, 0x101010);
+		draw_numbers(led_buffer, encoders[2], 0x101010);
 		led_send_data_PORTA(MAT_3, led_buffer, 64);
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder4, 0x101010);
+		draw_numbers(led_buffer, encoders[3], 0x101010);
 		led_send_data_PORTA(MAT_4, led_buffer, 64);
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
-		draw_numbers(led_buffer, encoder5, 0x101010);
+		draw_numbers(led_buffer, encoders[4], 0x101010);
 		led_send_data_PORTA(MAT_5, led_buffer, 64);
 
 
