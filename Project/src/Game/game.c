@@ -46,7 +46,7 @@ void endGame()
         clear_buttons();
         while(indexPlayer < 5)
         {
-            if(players[i].sipNeeded > 0)
+            if(players[indexPlayer].sipNeeded > 0)
                 break;
             indexPlayer++;
         }
@@ -150,7 +150,7 @@ void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
     {
         for(int i = 0; i < 5; i++)
         {
-            if(buttons_clicks_order[j * 3] || buttons_clicks_order[j * 3 + 1])
+            if(buttons_clicks_order[i * 3] || buttons_clicks_order[i * 3 + 1])
             {
                 led_matrix_fill_screen(pixels, 0x080808);
                 led_send_data_PORTA(MAT_1, pixels, 64);
@@ -173,9 +173,9 @@ void you_rather(uint8_t currentPlayer, uint8_t *led_buffer)
     }
     for(int l = 0; l < 5; l++)
     {
-        if(greenScore < redScore && buttons_clicks_order[j * 3] > buttons_clicks_order[j * 3 + 1])
+        if(greenScore < redScore && buttons_clicks_order[l * 3] > buttons_clicks_order[l * 3 + 1])
             players[l].sipNeeded = redScore - greenScore;
-        else if (greenScore > redScore && buttons_clicks_order[j * 3] < buttons_clicks_order[j * 3 + 1])
+        else if (greenScore > redScore && buttons_clicks_order[l * 3] < buttons_clicks_order[l * 3 + 1])
             players[l].sipNeeded = greenScore - redScore;
     }
     custom_delay(1000);
