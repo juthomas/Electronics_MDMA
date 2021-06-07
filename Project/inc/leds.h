@@ -20,12 +20,13 @@ void led_send_data_PORTA(uint8_t mask, uint8_t *pixels, uint16_t pixels_number);
 
 
 enum			e_matrix_activation{
-	MAT_1 = 1 << 4,
-	MAT_5 = 1 << 3,
-	MAT_4 = 1 << 0,
-	MAT_3 = 1 << 1,
-	MAT_2 = 1 << 2,
-	MAT_ALL = MAT_1 | MAT_2 | MAT_3 | MAT_4 | MAT_5
+	MAT_1 = 1 << PIN4,
+	MAT_2 = 1 << PIN2,
+	MAT_3 = 1 << PIN1,
+	MAT_4 = 1 << PIN0,
+	MAT_5 = 1 << PIN3,
+	MAT_ALL = MAT_1 | MAT_2 | MAT_3 | MAT_4 | MAT_5,
+	LEDS_REG = 1 << PIN5
 };
 
 enum e_led_directions
@@ -68,6 +69,8 @@ void	matrix_send_data(enum e_matrix_activation activation, uint8_t *pixels, uint
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
 uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_size, uint8_t fifths);
 uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
+void	feed_array_of_pixels_with_transparency(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, \
+												uint32_t color, uint32_t transparency);
 uint8_t *clear_led_buffer(uint8_t *pixels, uint16_t buffer_size, uint32_t color);
 
 uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
@@ -87,6 +90,11 @@ void led_matrix_send_progmem(enum e_matrix_activation activation, const uint8_t 
 void wawe_on_segment(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint8_t progression, uint32_t color1, uint32_t color2);
 void draw_interactions_with_screen(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t direction, uint8_t player, uint32_t color);
 void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t animation, uint32_t rows_activation, uint32_t color1, uint32_t color2);
+void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color);
+void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t background_color);
+
+
+
 void draw_satanic_circle();
 void draw_roulette();
 void led_test();
