@@ -1242,7 +1242,7 @@ void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t b
 		//                     LVII     LVI     LV     LIV      LXII        LXI              LX           LIX        LVII
 	uint16_t pixels_array = {57 - 1, 56 - 1, 55 - 1, 54 - 1, 62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
 
-	for (uint8_t quarters_drawed = 0; quarters_drawed < 5)
+	for (uint8_t quarters_drawed = 0; quarters_drawed < 5; quarters_drawed++)
 	{
 		if (quarters_drawed == time / 6)
 		{
