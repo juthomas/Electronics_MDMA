@@ -68,7 +68,7 @@ void	matrix_send_data(enum e_matrix_activation activation, uint8_t *pixels, uint
 uint8_t *feed_one_pixel(uint16_t pixel_index, uint8_t *pixels, uint32_t color);
 uint16_t *rotate_some_fifth(uint16_t *pixels_to_draw, uint16_t pixels_to_draw_size, uint8_t fifths);
 uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
-uint8_t *clear_led_buffer(uint8_t *pixels, uint32_t color);
+uint8_t *clear_led_buffer(uint8_t *pixels, uint16_t buffer_size, uint32_t color);
 
 uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t *pixels, uint32_t color);
 uint32_t get_pixel_color(uint8_t *pixels, uint16_t index);

@@ -86,12 +86,13 @@ uint8_t *feed_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_
 /**
  * @brief Clear pixels array with color
  * @param pixels Pixels array
+ * @param buffer_size size of buffer
  * @param color Hexadecimal 0xRRGGBB format
  * @return pixels_to_draw
  */
-uint8_t *clear_led_buffer(uint8_t *pixels, uint32_t color)
+uint8_t *clear_led_buffer(uint8_t *pixels, uint16_t buffer_size, uint32_t color)
 {
-	for (int i = 0; i < 62 * 5; i++)
+	for (uint16_t i = 0; i < 62 * 5; i++)
 	{
 		pixels[i * 3] = (color & 0x00FF00) >> 8;
 		pixels[i * 3 + 1] = (color & 0xFF0000) >> 16;
@@ -692,7 +693,7 @@ void draw_satanic_circle()
 	uint8_t buffer[62 * 3 * 5];
 	// uint8_t color = 10;
 	uint32_t interactions_color = 0x100000;
-	clear_led_buffer(buffer, 0x000000);
+	clear_led_buffer(buffer, 62 * 3 * 5, 0x000000);
 	uint8_t pixels[64 * 3];
 	led_matrix_fill_screen(pixels, 0, 0, 0);
 	// led_send_data(3, pixels, 64);
@@ -1299,7 +1300,7 @@ void led_draw_animation(uint16_t pixels_number)
 	//Clockwise interactions
 	for (int i = 0; i < 5; i++)
 	{
-		clear_led_buffer(buffer, 0x000000);
+		clear_led_buffer(buffer, 62 * 3 * 5,0x000000);
 		// draw_line_between_players(buffer, 1, 2, FALSE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, FALSE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, FALSE, interactions_color);
@@ -1311,7 +1312,7 @@ void led_draw_animation(uint16_t pixels_number)
 	}
 	for (int i = 0; i < 5; i++)
 	{
-		clear_led_buffer(buffer, 0x000000);
+		clear_led_buffer(buffer, 62 * 3 * 5, 0x000000);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 1) % 5) + 1, TRUE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 2) % 5) + 1, TRUE, interactions_color);
 		draw_line_between_players(buffer, ((i + 0) % 5) + 1, ((i + 3) % 5) + 1, TRUE, interactions_color);

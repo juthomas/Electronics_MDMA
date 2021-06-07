@@ -21,7 +21,7 @@ void do_you_rather(uint8_t *led_buffer)
 {
     uint8_t *pixels = (uint8_t[64 * 3]){};
     clear_buttons();
-    clear_led_buffer(led_buffer, 0x000000);
+    clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
     led_matrix_fill_screen(pixels, 0, 0, 0);
     // led_send_data(3, pixels, 64);
     led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, pixels, 64);
