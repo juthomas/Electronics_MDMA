@@ -182,37 +182,7 @@ int main()
 	}
 
 
-
-
-	// draw_satanic_circle();
-
-
-	// while(1)
-	// 	led_draw_animation(64);
-
-	initSPI();
-	ili9341_begin();
-	// draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
-	ili9341_fillScreen(ILI9341_BLACK);
-	// draw_satanic_circle();
-	draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
-	ili9341_setRotation(3);
-	// draw_satanic_circle();
-	// for (uint32_t i = 0; i < 1000000; i++);
-
-	display_intro();
-	display_menu();
-	ili9341_fillScreen(ILI9341_BLACK);
-
-	
-	
-	uint8_t dice_result_1 = dice_game(1);
-	uint8_t dice_result_2 = dice_game(1);
-	display_intro_game(5, 3);
-	do_you_rather(led_buffer);
-	for (;;)
+		for (;;)
 	{
 		
 		led_matrix_fill_screen(led_buffer, 0, 0, 0);
@@ -236,9 +206,39 @@ int main()
 		led_send_data_PORTA(MAT_5, led_buffer, 64);
 
 
-		for (uint32_t i = 0; i < 400000; i++);
+		for (uint32_t i = 0; i < 40000; i++);
 
 	}
+
+	// draw_satanic_circle();
+
+
+	// while(1)
+	// 	led_draw_animation(64);
+
+	initSPI();
+	ili9341_begin();
+	// draw_satanic_circle();
+	// for (uint32_t i = 0; i < 1000000; i++);
+	ili9341_fillScreen(ILI9341_BLACK);
+	// draw_satanic_circle();
+	draw_satanic_circle();
+	// for (uint32_t i = 0; i < 1000000; i++);
+	ili9341_setRotation(3);
+	// draw_satanic_circle();
+	// for (uint32_t i = 0; i < 1000000; i++);
+
+	display_intro();
+	display_menu();
+	ili9341_fillScreen(ILI9341_BLACK);
+
+
+	
+	uint8_t dice_result_1 = dice_game(1);
+	uint8_t dice_result_2 = dice_game(1);
+	display_intro_game(5, 3);
+	do_you_rather(led_buffer);
+
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);

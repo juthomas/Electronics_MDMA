@@ -26,6 +26,19 @@ static uint8_t last_state_encoder3 = 0;
 static uint8_t last_state_encoder4 = 0;
 static uint8_t last_state_encoder5 = 0;
 
+/**
+ * PCINT4 => PINB4
+ * PCINT5 => PINB5
+ * PCINT6 => PINB6
+ * PCINT7 => PINB7
+ * PCINT16 => PINK0
+ * PCINT17 => PINK1
+ * PCINT18 => PINK2
+ * PCINT19 => PINK3
+ * PCINT20 => PINK4
+ * PCINT21 => PINK5
+ */
+
 void init_encoders()
 {
 	rot = 0;
@@ -38,10 +51,10 @@ void init_encoders()
 	//   Serial.begin(9600);
 	DDRB &= !(0b11110000);
 	PCICR |= 0b00000101;
-	PCMSK0 |= (1 << PCINT4) | (1 << PCINT5) | (1 << PCINT6) | (1 << PCINT7);
-	// PCMSK0 |= (1 << PCINT4) | (1 << PCINT6);
-	PCMSK2 |= (1 << PCINT16) | (1 << PCINT17) | (1 << PCINT18) | (1 << PCINT19) | (1 << PCINT20) | (1 << PCINT21);
-	// PCMSK2 |= (1 << PCINT16) | (1 << PCINT18) | (1 << PCINT20);
+	// PCMSK0 |= (1 << PCINT4) | (1 << PCINT5) | (1 << PCINT6) | (1 << PCINT7);
+	PCMSK0 |= (1 << PCINT4) | (1 << PCINT6);
+	// PCMSK2 |= (1 << PCINT16) | (1 << PCINT17) | (1 << PCINT18) | (1 << PCINT19) | (1 << PCINT20) | (1 << PCINT21);
+	PCMSK2 |= (1 << PCINT16) | (1 << PCINT18) | (1 << PCINT20);
 }
 
 static uint8_t encoder1_last = 0;
@@ -50,18 +63,24 @@ static uint8_t encoder3_last = 0;
 static uint8_t encoder4_last = 0;
 static uint8_t encoder5_last = 0;
 
+volatile uint8_t portbhistory = 0x00;     // default is high because the pull-down
+volatile uint8_t portkhistory = 0x00;     // default is high because the pull-down
 ISR(PCINT0_vect)
 {
-	uint8_t tmp_pinb = PINB;
+    uint8_t changedbits;
+
+    changedbits = PINB ^ portbhistory;
+    portbhistory = PINB;
+
+	// uint8_t PINB = PINB;
 	uint8_t minus;
 	uint8_t plus;
 	uint8_t state;
-
-	if (tmp_pinb & (1 << 4) || tmp_pinb & (1 << 5))
+	if (changedbits & (1 << 4))
 	{
 
-		minus = tmp_pinb & (1 << 4);
-		plus = tmp_pinb & (1 << 5);
+		minus = PINB & (1 << 4);
+		plus = PINB & (1 << 5);
 		state = encoder1_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -93,11 +112,11 @@ ISR(PCINT0_vect)
 		}
 	}
 
-	if (tmp_pinb & (1 << 6) || tmp_pinb & (1 << 7))
+	if (changedbits & (1 << 6))
 	{
 
-		minus = tmp_pinb & (1 << 6);
-		plus = tmp_pinb & (1 << 7);
+		minus = PINB & (1 << 6);
+		plus = PINB & (1 << 7);
 		state = encoder5_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -132,15 +151,20 @@ ISR(PCINT0_vect)
 
 ISR(PCINT2_vect)
 {
-	uint8_t tmp_pink = PINK;
+	// uint8_t PINK = PINK;
 	uint8_t minus;
 	uint8_t plus;
 	uint8_t state;
 
-	if (tmp_pink & (1 << 0) || tmp_pink & (1 << 1))
+    uint8_t changedbits;
+
+    changedbits = PINK ^ portkhistory;
+    portbhistory = PINK;
+
+	if (changedbits & (1 << 0))
 	{
-		minus = tmp_pink & (1 << 0);
-		plus = tmp_pink & (1 << 1);
+		minus = PINK & (1 << 0);
+		plus = PINK & (1 << 1);
 		state = encoder4_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -172,11 +196,11 @@ ISR(PCINT2_vect)
 		}
 	}
 
-	if (tmp_pink & (1 << 2) || tmp_pink & (1 << 3))
+	if (changedbits & (1 << 2))
 	{
 
-		minus = tmp_pink & (1 << 2);
-		plus = tmp_pink & (1 << 3);
+		minus = PINK & (1 << 2);
+		plus = PINK & (1 << 3);
 		state = encoder3_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
@@ -208,11 +232,11 @@ ISR(PCINT2_vect)
 		}
 	}
 
-	if (tmp_pink & (1 << 4) || tmp_pink & (1 << 5))
+	if (changedbits & (1 << 4))
 	{
 
-		minus = tmp_pink & (1 << 4);
-		plus = tmp_pink & (1 << 5);
+		minus = PINK & (1 << 4);
+		plus = PINK & (1 << 5);
 		state = encoder2_last & 0b11;
 		if (minus)
 			state |= 1 << 2;
