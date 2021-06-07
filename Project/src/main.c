@@ -4,7 +4,8 @@
 #include "../inc/leds.h"
 #include "../inc/buttons.h"
 #include "../inc/matrix_progmem.h"
-
+#include "../inc/millis.h"
+#include "../inc/encoders.h"
 #define CPU_CLOCK 2000000
 
 void draw_buttons(uint8_t *led_buffer)
@@ -151,7 +152,7 @@ uint8_t dice_game(uint8_t player)
 
 int main()
 {
-	//init_turn();
+		//init_turn();
 
 	// int16_t x = 0;
 	// int16_t y = 0;
@@ -161,32 +162,65 @@ int main()
 	// int8_t buttonGreenState = FT_LOW;
 	// int8_t buttonRedState = FT_LOW;
 
+	init_millis();
+	uint8_t led_buffer[62 * 3 * 5];
+	init_buttons();
+	init_encoders();
 
-	// uint8_t led_buffer[62 * 3 * 5];
-	// init_buttons();
-	// init_leds(led_buffer);
+
+	init_leds(led_buffer);
+	clear_led_buffer(led_buffer, 0x000000);
+	// led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// led_send_data(3, pixels, 64);
+	// led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 64*5);
+
+	// for (int i = 0; i < 100; i++)
+	// {
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, i, 0x101010);
+	// 	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, led_buffer, 64);
+	// 	for (uint32_t i = 0; i < 20000; i++);
+	// }
 
 	initSPI();
-	initAllRfid();
-
-	while(!test_rfid());
 	ili9341_begin();
 	ili9341_fillScreen(ILI9341_BLACK);
-	// draw_satanic_circle();
-	// ili9341_setRotation(1);
-	// 	// display_intro();
-	// 	display_menu();
-	// ili9341_fillScreen(ILI9341_BLACK);
-
-	
-	
-	// uint8_t dice_result_1 = dice_game(1);
-	// uint8_t dice_result_2 = dice_game(1);
-	for(int i = 8; i < 10; i++)
-	{
-		display_intro_game(i, 1);
-	}
+	initAllRfid();
+	while(!test_rfid());
+	draw_satanic_circle();
+	ili9341_setRotation(3);
+	//display_intro();
+	display_menu();
+	start_game(led_buffer);
+	//display_intro_game(dice_result_1 + dice_result_2 - 2, 3);
 	//do_you_rather(led_buffer);
+	// for (;;)
+	// {
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder1, 0x101010);
+	// 	led_send_data_PORTA(MAT_1, led_buffer, 64);
+
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder2, 0x101010);
+	// 	led_send_data_PORTA(MAT_2, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder3, 0x101010);
+	// 	led_send_data_PORTA(MAT_3, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder4, 0x101010);
+	// 	led_send_data_PORTA(MAT_4, led_buffer, 64);
+		
+	// 	led_matrix_fill_screen(led_buffer, 0, 0, 0);
+	// 	draw_numbers(led_buffer, encoder5, 0x101010);
+	// 	led_send_data_PORTA(MAT_5, led_buffer, 64);
+
+
+	// 	for (uint32_t i = 0; i < 400000; i++);
+
+	// }
 	// dice_game(2);
 	// dice_game(3);
 	// dice_game(4);

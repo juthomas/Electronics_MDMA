@@ -1,6 +1,7 @@
 #include <mdma.h>
 #include <string.h>
 #include <avr/io.h>
+#include <user.h>
 
 unsigned char main_buf[9];
 unsigned char DefaultKey[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};

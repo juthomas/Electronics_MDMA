@@ -6,7 +6,7 @@
 /*   By: marie <marie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 16:37:56 by tmp               #+#    #+#             */
-/*   Updated: 2021/06/07 11:27:23 by marie            ###   ########.fr       */
+/*   Updated: 2021/06/07 11:55:00 by marie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,7 @@ volatile uint8_t *ddr;
 uint8_t pinCs;
 uint8_t pinRst;
 
-typedef struct s_user
-{
-  uint8_t charac;
-  uint8_t life;
-  uint8_t power;
-}              t_user;
-t_user user[5];
+
 
   enum PCD_Register {
     // Page 0: Command and status

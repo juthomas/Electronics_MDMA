@@ -20,7 +20,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-INC_H = leds math matrix_progmem mdma pin_registers tone buttons
+INC_H = leds math matrix_progmem mdma pin_registers tone buttons millis encoders
 
 #defines of directories names
 BUTTONS_DIR = buttons
@@ -29,18 +29,17 @@ ILI9341_DIR = ili9341
 SERIAL_DIR = serial
 RFID_DIR = rfid
 MOZART_DIR = mozart
+TIME_DIR = time
 LEDS_MANAGER_DIR = leds_manager
-BOUTON_DIR = Bouton
 GAMES_DIR = Game
 MATH_DIR = math
 
 #defines of files in directories
 # PIN_REGISTER_FT = pins_manipulation 
-BUTTONS_FT = buttons
+BUTTONS_FT = buttons encoders
 PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
-BOUTON_FT = turn_me
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
 MOZART_FT = tone musique
 MATH_FT = math
@@ -48,6 +47,7 @@ SERIAL_FT = serial_uart serial_nbr_base
 RFID_FT = rfid
 GAMES_FT = game
 MATH_FT = math
+TIME_FT = millis
 
 SRC_FT = main
 
@@ -58,6 +58,7 @@ SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
 		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
 		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
 		$(MOZART_FT:%=$(SRC_DIR)/$(MOZART_DIR)/%.c) \
+		$(TIME_FT:%=$(SRC_DIR)/$(TIME_DIR)/%.c) \
 		$(LEDS_MANAGER_FT:%=$(SRC_DIR)/$(LEDS_MANAGER_DIR)/%.c) \
 		$(BOUTON_FT:%=$(SRC_DIR)/$(BOUTON_DIR)/%.c) \
 		$(GAMES_FT:%=$(SRC_DIR)/$(GAMES_DIR)/%.c) \
@@ -71,6 +72,7 @@ OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
 			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
 			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
+			$(TIME_DIR:%=$(OBJ_DIR)/%) \
 			$(LEDS_MANAGER_DIR:%=$(OBJ_DIR)/%) \
 			$(BOUTON_DIR:%=$(OBJ_DIR)/%)  \
 			$(GAMES_DIR:%=$(OBJ_DIR)/%) \
