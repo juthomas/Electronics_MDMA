@@ -168,9 +168,18 @@ int main()
 	init_encoders();
 
 	init_leds(led_buffer);
-	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101);
-	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
+	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101    );
+		led_send_data_PORTA(0b11111111, led_buffer, 62 * 3 * 5);
+
 	draw_satanic_circle(led_buffer);
+	// for (;;)
+	// {
+	// 	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x070707 );
+
+	// 	led_send_data_PORTA(MAT_ALL | LEDS_REG, led_buffer, 62 * 3 * 5);
+	// 	for (uint32_t i = 0; i < 20000; i++);
+	// }
+
 
 	// led_matrix_fill_screen(led_buffer, 0x000000);
 	// led_send_data(3, pixels, 64);
