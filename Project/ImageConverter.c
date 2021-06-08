@@ -1,7 +1,7 @@
 /* GIMP RGBA C-Source image dump (TimerBG.c) */
 
 #include <stdio.h>
-#include "../Images/MDMA_Images/BG_C/Coin.h"
+#include "../Images/MDMA_Images/BG_C/Drink.h"
 
 int main()
 {

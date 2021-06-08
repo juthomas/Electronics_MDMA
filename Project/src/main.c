@@ -78,8 +78,6 @@ uint8_t dice_game(uint8_t player)
 		matrix_mask = MAT_5;
 	}
 
-
-
 	uint16_t counter = 0;
 	while (!buttons_clicks_order[(player - 1) * 3 + 1])
 	{
@@ -170,7 +168,7 @@ int main()
 	init_leds(led_buffer);
 	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101);
 	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
-	draw_satanic_circle(led_buffer);
+	//draw_satanic_circle(led_buffer);
 
 	// led_matrix_fill_screen(led_buffer, 0x000000);
 	// led_send_data(3, pixels, 64);
@@ -193,7 +191,7 @@ int main()
 	//draw_satanic_circle();
 	ili9341_setRotation(3);
 	//display_intro();
-	//display_menu();
+	display_menu();
 	start_game(led_buffer);
 	//display_intro_game(dice_result_1 + dice_result_2 - 2, 3);
 	//do_you_rather(led_buffer);
