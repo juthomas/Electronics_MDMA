@@ -1299,6 +1299,27 @@ void led_draw_animation(uint16_t pixels_number)
 	DDRA |= 1 << PIN5;
 	// led_test();
 	draw_satanic_circle(buffer);
+
+
+
+
+	// "Explosion Animation"
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6 | LED_ROW_7, 0x100000, 0x0e0700);
+	draw_cirle_pit(buffer, 1, 1, D_WAWES, LED_ROW_1 | LED_ROW_2 | LED_ROW_3 | LED_ROW_4 | LED_ROW_5 | LED_ROW_6 | LED_ROW_7 | LED_ROW_8, 0x100000, 0x0e0700);
+
+
+
+
+
+
+
+
 	// g_led_exit_animation = 1;
 	// 	draw_interactions_with_screen(buffer, 2000, 2, D_PLAYERS, PLAYER_2 | PLAYER_5, 0x101010);
 	// 	for (int32_t i = 0; i < 1000000; i++)
