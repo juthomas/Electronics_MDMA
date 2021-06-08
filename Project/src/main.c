@@ -172,6 +172,8 @@ int main()
 		led_send_data_PORTA(0b11111111, led_buffer, 62 * 3 * 5);
 
 	draw_satanic_circle(led_buffer);
+	led_draw_animation(64);
+
 	// for (;;)
 	// {
 	// 	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x070707 );
