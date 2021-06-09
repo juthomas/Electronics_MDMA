@@ -35,7 +35,7 @@
 #define NOTE_FS3 185
 #define NOTE_G3  196
 #define NOTE_GS3 208
-#define NOTE_A3  220=
+#define NOTE_A3  220
 #define NOTE_AS3 233
 #define NOTE_B3  247
 #define NOTE_C4  262
@@ -100,35 +100,34 @@ static volatile uint32_t current_note;
 const int buzzer = 33; //buzzer to arduino pin 9
 int melody[] = {
 //12
-  NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
-  NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
-  NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
-  NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
-  NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//60
-  NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//72
-  NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//84
-  NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//96
-  NOTE_D5, NOTE_D5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//108
-  NOTE_C5, NOTE_C5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//120
-  NOTE_B4, NOTE_B4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//132
-  NOTE_AS4, NOTE_AS4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//144
+	NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+	NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+	NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+	NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,
+	NOTE_D4, NOTE_D4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//60
+	NOTE_C4, NOTE_C4, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//72
+	NOTE_B3, NOTE_B3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//84
+	NOTE_AS3, NOTE_AS3, NOTE_D5, NOTE_A4, 0, NOTE_GS4, 0, NOTE_G4, NOTE_F4, NOTE_D4, NOTE_F4, NOTE_G4,//96
+	NOTE_D5, NOTE_D5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//108
+	NOTE_C5, NOTE_C5, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//120
+	NOTE_B4, NOTE_B4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//132
+	NOTE_AS4, NOTE_AS4, NOTE_D6, NOTE_A5, 0, NOTE_GS5, 0, NOTE_G5, NOTE_F5, NOTE_D5, NOTE_F5, NOTE_G5,//144
 };
 
 // note durations: 4 = quarter note, 8 = eighth note, etc.:
 int noteDurations[] = {
-
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
-  8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
+	8,        8,        4,        4,    8,   8,      8,    4,       8,         8,      8,      8,
 };
 
 // void	wait_x_cpu_clocks(int32_t cpu_clocks)
@@ -149,49 +148,56 @@ int noteDurations[] = {
 
 void start_background_music()
 {
-  current_music_tick = 0;
-  current_left_duration = 0;
-  current_note = 0;
+	uint32_t ocr = 0;
+	uint8_t prescaler = 0;
+	current_music_tick = 0;
+	current_left_duration = 0;
+	current_note = 0;
 	music_port_mask = 1 << PIN1;
 	// music_port_addr = (uint8_t)PORTJ;
-	setupTimer1(0, 0);
+
+	timer_freq_prescale(31, &ocr, &prescaler);
+	// ocr = 31249;
+	// prescaler = 0b100;
+	setupTimer1(ocr, prescaler);
 }
 
 
 ISR(TIMER1_COMPA_vect)
 {
-	PORTJ ^= music_port_mask;
-  if (current_note > 144)
-  {
-    TIMSK1 &= ~_BV(OCIE1A);
-		TCCR1B = 0x00;
-  }
-  if (current_left_duration < 0)
-  {
-    current_note++;
-    current_left_duration = 600 / noteDurations[current_note];
-	  tone(1 << PIN4, melody[current_note], current_left_duration);
-    current_left_duration *= 1.3;
-  }
-  else
-  {
-    current_left_duration -= 1000/8;
-  }
+		//  PORTK ^= 1 << PIN6;
+
+	// PORTJ ^= music_port_mask;
+	if (current_note >= 144)
+	{
+		// TIMSK1 &= ~_BV(OCIE1A);
+		// TCCR1B = 0x00;
+  cli();
+
+		  TCCR1A = 0;
+			TCCR1B = 0;
+			TCNT1 = 0;
+sei();
+
+	}
+	if (current_left_duration < 0)
+	{
+		current_note++;
+		current_left_duration = 600 / noteDurations[current_note];
+		tone(1 << PIN6, melody[current_note], current_left_duration);
+
+		current_left_duration *= 1.3;
+	}
+	else
+	{
+		current_left_duration -= 1000/8;
+	}
 }
 
 
 void play_music()
 {
-	// serial_init();
-   DDRC |= 1 << PIN4;
-   DDRJ |= 1 << PIN1;
-
-  // ft_pin_mode(33, FT_OUTPUT);
-  // ft_pin_mode(14, FT_OUTPUT);
-  // ft_pin_mode(15, FT_OUTPUT);
-  // ft_pin_mode(16, FT_OUTPUT);
-  // ft_pin_mode(17, FT_OUTPUT);
-
-  start_background_music();
+	 DDRK |= 1 << PIN6;
+	start_background_music();
 }
 
