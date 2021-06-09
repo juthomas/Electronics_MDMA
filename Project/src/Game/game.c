@@ -226,12 +226,14 @@ void distribute_sip(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t sips)
     {
         ili9341_setCursor(100, 50);
         ili9341_putnbrln(sips, ILI9341_RED, 20, 0);
-        if (buttons_clicks_order[currentPlayer * 3])
+        
+        if (get_button_activation(currentPlayer * 3 + 1))
         {
             players[(encoders[currentPlayer] / 4 % 4 + currentPlayer + 1)].sipNeeded++;
             sips--;
-            clear_buttons();
         }
+        while (get_button_activation(currentPlayer * 3 + 1));
+
         clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
         draw_line_between_players(led_buffer, currentPlayer + 1, (encoders[currentPlayer] / 4 % 4 + currentPlayer + 1) % 5 + 1, TRUE, 0x080000);
     }
@@ -870,6 +872,7 @@ void start_game(uint8_t *led_buffer)
     led_matrix_fill_screen(led_buffer, 0x000000);
     draw_satanic_circle(led_buffer);
     ili9341_setRotation(3);
+    distribute_sip(0,led_buffer,7);
     tic_tac(0, led_buffer);
     endGame();
     //display_intro();
