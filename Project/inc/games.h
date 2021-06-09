@@ -22,6 +22,9 @@ typedef struct  s_player
 uint8_t     currentPlayer = 0;
 uint16_t    totalDice = 0;
 uint16_t    totalSip = 0;
+uint16_t    highScore = 0;
+
+
 
 typedef struct  s_game
 {

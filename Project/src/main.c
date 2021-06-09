@@ -59,6 +59,8 @@ int main()
 	init_encoders();
 
 	init_leds(led_buffer);
+	    clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
+    led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
 	// led_send_data(3, pixels, 64);
 	// led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 64*5);
 
