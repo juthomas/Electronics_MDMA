@@ -96,8 +96,8 @@ unsigned char PCD_CommunicateWithPICC(unsigned char command,
       break;
     }
   }
-  if (i == 0)
-    ft_digital_write(13, FT_HIGH);
+  //if (i == 0)
+    //ft_digital_write(13, FT_HIGH);
 
   PCD_ClrRegisterBits(BitFramingReg, 0x80);
   status = STATUS_ERROR;
@@ -241,7 +241,7 @@ void PCD_Reset()
   PCD_WriteRegister(CommandReg, PCD_SoftReset);
   unsigned char count = 0;
   while ((PCD_ReadRegister(CommandReg) & 16) && (++count) < 3)
-    custom_delay(50);
+    _delay_ms(50);
 }
 
 void PCD_init()
@@ -262,11 +262,11 @@ void PCD_init()
       PORTL &= ~(1 << 0); 
     //ft_pin_mode(RFID_RST, FT_OUTPUT);    // Now set the resetPowerDownPin as digital output.
     //ft_digital_write(RFID_RST, FT_LOW);  // Make sure we have a clean LOW state.
-    custom_delay(1);                     // 8.8.1 Reset timing requirements says about 100ns. Let us be generous: 2μsl
+    _delay_ms(1);                     // 8.8.1 Reset timing requirements says about 100ns. Let us be generous: 2μsl
     PORTL |= (1 << 0); 
     //ft_digital_write(RFID_RST, FT_HIGH); // Exit power down mode. This triggers a hard reset.
     // Section 8.8.2 in the datasheet says the oscillator start-up time is the start up time of the crystal + 37,74μs. Let us be generous: 50ms.
-    custom_delay(50);
+    _delay_ms(50);
     hardReset = 1;
   }
   if (!hardReset)

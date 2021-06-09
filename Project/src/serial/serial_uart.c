@@ -98,6 +98,6 @@ int serial_test()
 		serial_putstr("Poney : ");
 		serial_putnbr_baseln(42, "PONEY");
 		serial_putstr("\r\n");
-		custom_delay(100);
+		_delay_ms(100);
 	}
 }

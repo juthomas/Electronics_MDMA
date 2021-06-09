@@ -6,6 +6,7 @@
 //#include "../inc/matrix_progmem.h"
 #include "../inc/millis.h"
 #include "../inc/encoders.h"
+
 #define CPU_CLOCK 2000000
 
 void draw_buttons(uint8_t *led_buffer)
@@ -40,20 +41,6 @@ void draw_buttons(uint8_t *led_buffer)
 	led_send_data_PORTA(1 << PIN5, led_buffer, 62 * 5);
 }
 
-void wait_x_cpu_clocks(int32_t cpu_clocks)
-{
-	while (cpu_clocks > 0)
-	{
-		cpu_clocks -= 3;
-	}
-}
-
-void custom_delay(uint32_t milli)
-{
-	milli = milli * 2000;
-	wait_x_cpu_clocks(milli - 5);
-}
-
 int main()
 {
 		//init_turn();
@@ -86,7 +73,7 @@ int main()
 	initSPI();
 	
 	ili9341_begin();
-	//ili9341_fillScreen(ILI9341_BLACK);
+	ili9341_fillScreen(ILI9341_BLACK);
 	start_game(led_buffer);
 	//for(;;);
 	//display_intro();

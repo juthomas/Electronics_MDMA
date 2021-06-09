@@ -1,6 +1,6 @@
 //#include "../../inc/mdma.h"
 #include "../../inc/ili9341.h"
-custom_delay(uint32_t milli);
+#include <util/delay.h>
 
 void writeCommand(uint8_t cmd)
 {
@@ -25,6 +25,6 @@ void setAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h, uint8_t del
     SPI_WRITE16(y1, delay);
     SPI_WRITE16(y2, delay);
     writeCommand(ILI9341_CMD_MEMORY_WRITE);
-    if (delay)
-        custom_delay(delay); // Write to RAM
+    for(int i = 0; i < delay; i++)
+        _delay_ms(10); // Write to RAM
 }

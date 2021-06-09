@@ -2,6 +2,7 @@
 #include "../../inc/leds.h"
 #include "../../inc/math.h"
 # include <avr/pgmspace.h>
+#include <util/delay.h>
 
 // #include "../../inc/matrix_progmem.h"
 
@@ -133,8 +134,9 @@ uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 		pixels[pixels_indexes[i] * 3 + 1] = (color & 0xFF0000) >> 16;
 		pixels[pixels_indexes[i] * 3 + 2] = color & 0x0000FF;
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-		for (int32_t i = 0; i < 5000; i++)
-			;
+		// for (int32_t i = 0; i < 5000; i++)
+			// ;
+		_delay_ms(50);
 	}
 	return (pixels);
 }
@@ -191,7 +193,7 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	uint32_t undraw_index = 0;
 	uint16_t turns = 0;
 	uint16_t max_turns = 5;
-	uint32_t delay = 300000;
+	uint32_t delay = 3000;
 	uint32_t oldColors[pixels_indexes_size];
 	for (int i = 0; i < pixels_indexes_size; i++)
 	{
@@ -199,6 +201,7 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	}
 
 	delay /= pixels_indexes_size;
+
 
 	for (int u = 0; u < 1000; u++)
 	{
@@ -215,8 +218,9 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 			pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 		}
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-		for (int32_t z = 0; z < delay; z++)
-			;
+		// for (int32_t z = 0; z < delay; z++)
+		// 	;
+		_delay_ms(delay);
 		position++;
 		if (drawned_index <= pixels_indexes_size)
 		{
@@ -239,8 +243,10 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 					pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 				}
 				led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-				for (int32_t z = 0; z < delay; z++)
-					;
+				// for (int32_t z = 0; z < delay; z++)
+					// ;
+				_delay_ms(delay);
+
 				position++;
 				undraw_index++;
 			}
