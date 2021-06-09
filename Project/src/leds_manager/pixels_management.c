@@ -2,7 +2,8 @@
 #include "../../inc/leds.h"
 #include "../../inc/math.h"
 # include <avr/pgmspace.h>
-
+# include <util/delay.h>
+		_delay_ms()
 // #include "../../inc/matrix_progmem.h"
 
 # define TRUE 1
@@ -173,6 +174,39 @@ uint32_t led_wawe_color(uint8_t pos, uint32_t color, uint32_t background_color)
       + ((uint32_t)(((double)((color & 0x00FF00) >> 8) * (double)((double)pos) / 50) + ((double)((background_color & 0x00FF00) >> 8) * (1. - ((double)pos) / 50))) << (uint32_t)8)\
       + (uint32_t)((double)((color & 0x0000FF) * (double)((double)pos) / 50)) + ((double)(background_color & 0x0000FF) * (1. - ((double)pos) / 50)));
   }
+}
+
+/**
+ * @brief Animate a "pong" on an array of pixels 
+ * @param pixels_indexes Array of pixels to draws (array of indexes)
+ * @param pixels_indexes_size pixels_indexes Array size
+ * @param progression progression on array between 0 and 100
+ * @param pong_size number of pixels "ON" (color color)
+ * @param pixels Pixels array
+ * @param color Hexadecimal 0xRRGGBB format
+ * @param background_color Hexadecimal 0xRRGGBB format
+ * @return color with Hexadecimal 0xRRGGBB format
+ */
+void	pong_animate_array_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_indexes_size, uint8_t progression, uint8_t pong_size, uint8_t *pixels, uint32_t color, uint32_t background_color)
+{
+	//Entre 0 et pixels_index - 2
+	uint8_t beg_index = map(progression, 0, 100, 0, pixels_indexes_size - pong_size);
+	
+	for (uint8_t current_index = 0; current_index < pixels_indexes_size; current_index++)
+	{
+		if (current_index >= beg_index && current_index < beg_index + pong_size)
+		{
+			pixels[pixels_indexes[current_index] * 3] = (color & 0x00FF00) >> 8;
+			pixels[pixels_indexes[current_index] * 3 + 1] = (color & 0xFF0000) >> 16;
+			pixels[pixels_indexes[current_index] * 3 + 2] = color & 0x0000FF;
+		}
+		else
+		{
+			pixels[pixels_indexes[current_index] * 3] = (background_color & 0x00FF00) >> 8;
+			pixels[pixels_indexes[current_index] * 3 + 1] = (background_color & 0xFF0000) >> 16;
+			pixels[pixels_indexes[current_index] * 3 + 2] = background_color & 0x0000FF;
+		}
+	}
 }
 
 /**
@@ -1174,9 +1208,171 @@ void draw_line_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint8_
 	}
 }
 
-void draw_ammo_amount()
+//TODO :
+//
+//
+//
+//
+//
+//
+//
+
+void draw_pong_between_players(uint8_t *buffer, uint8_t from, uint8_t to, uint32_t color, uint32_t background_color, uint8_t progression)
 {
+	//Clockwise interations
+	if ((from == 1 && to == 2) || (from == 2 && to == 3) || (from == 3 && to == 4) || (from == 4 && to == 5) || (from == 5 && to == 1))
+	{
+		//                           LVII     LVI     LV     LIV
+		uint16_t pixels_to_draw[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, /*  LXII         LXI          LX           LIX           LIIX */
+									 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 *4};
 	
+
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
+
+		pong_animate_array_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, progression, 2, buffer, color, background_color);
+		// manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+	}
+	//Counter Clockwise interations
+	else if ((from == 2 && to == 1) || (from == 3 && to == 2) || (from == 4 && to == 3) || (from == 5 && to == 4) || (from == 1 && to == 5))
+	{
+		//                           LVII     LVI     LV     LIV
+		uint16_t pixels_to_draw[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, /*  LXII         LXI          LX           LIX           LIIX */
+									 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 * 4};
+
+		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 3);
+		// manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		pong_animate_array_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, progression, 2, buffer, color, background_color);
+
+	}
+	//Clockwise Star interations
+	else if ((from == 1 && to == 3) || (from == 2 && to == 4) || (from == 3 && to == 5) || (from == 4 && to == 1) || (from == 5 && to == 2))
+	{
+		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
+		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1, 25 - 1, 15 - 1, 6 - 1,				 /*   V           IV          III        II           I    */
+									 5 - 1 + 310 - 62, 4 - 1 + 310 - 62, 3 - 1 + 310 - 62, 2 - 1 + 310 - 62, 1 - 1 + 310 - 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
+									 5 - 1 + 310 - 124, 12 - 1 + 310 - 124, 20 - 1 + 310 - 124, 29 - 1 + 310 - 124, 36 - 1 + 310 - 124, 40 - 1 + 310 - 124, 47 - 1 + 310 - 124};
+
+		// reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from - 1);
+		// manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		pong_animate_array_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, progression, 2, buffer, color, background_color);
+
+	}
+	//Counter Clockwise Star interations
+	else if ((from == 3 && to == 1) || (from == 4 && to == 2) || (from == 5 && to == 3) || (from == 1 && to == 4) || (from == 2 && to == 5))
+	{
+		//                            XLVI   XXXVIII  XXXIII     XXV     LXV    VI
+		uint16_t pixels_to_draw[] = {46 - 1, 38 - 1, 33 - 1, 25 - 1, 15 - 1, 6 - 1,				 /*   V           IV          III        II           I    */
+									 5 - 1 + 310 - 62, 4 - 1 + 310 - 62, 3 - 1 + 310 - 62, 2 - 1 + 310 - 62, 1 - 1 + 310 - 62, /*      V          XII          XX           XXIX          XXXVI        XL            XLVII   */
+									 5 - 1 + 310 - 124, 12 - 1 + 310 - 124, 20 - 1 + 310 - 124, 29 - 1 + 310 - 124, 36 - 1 + 310 - 124, 40 - 1 + 310 - 124, 47 - 1 + 310 - 124};
+
+		reverse_array(pixels_to_draw, sizeof(pixels_to_draw) / 2);
+		rotate_some_fifth(pixels_to_draw, sizeof(pixels_to_draw) / 2, from + 2);
+		// manage_array_of_pixels(animate, pixels_to_draw, sizeof(pixels_to_draw) / 2, buffer, color);
+		pong_animate_array_of_pixels(pixels_to_draw, sizeof(pixels_to_draw) / 2, progression, 2, buffer, color, background_color);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+void draw_ammo_amount(uint8_t *buffer, uint8_t players, uint8_t ammo_amount, uint32_t color, uint32_t background_color)
+{
+						/*     LVII     LVI     LV      LIV        LXII - 1         LXI - 1           LX - 1        LIX - 1          LVIII - 1  */
+	uint16_t ammo_indexes[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 * 4};
+	uint8_t current_player_index = 0;
+
+	// for (uint8_t ammo = 0; ammo < ammo_amount; ammo++)
+	// {
+	// 	feed_one_pixel(uint16_t pixel_index, buffer, color);
+	// }
+
+	if (players & PLAYER_1)
+	{
+		for (uint8_t current_index = 0; current_index < sizeof(ammo_indexes) / 2; current_index++)
+		{
+			if (ammo_amount > current_index)
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, color);
+			}
+			else
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, background_color);
+			}
+		}
+	}
+	if (players & PLAYER_2)
+	{
+		rotate_some_fifth(ammo_indexes, sizeof(ammo_indexes) / 2, 1 - current_player_index);
+		for (uint8_t current_index = 0; current_index < sizeof(ammo_indexes) / 2; current_index++)
+		{
+			if (ammo_amount > current_index)
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, color);
+			}
+			else
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, background_color);
+			}
+		}
+		current_player_index += 1 - current_player_index;
+	}
+	if (players & PLAYER_3)
+	{
+		rotate_some_fifth(ammo_indexes, sizeof(ammo_indexes) / 2, 2 - current_player_index);
+		for (uint8_t current_index = 0; current_index < sizeof(ammo_indexes) / 2; current_index++)
+		{
+			if (ammo_amount > current_index)
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, color);
+			}
+			else
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, background_color);
+			}
+		}
+		current_player_index += 2 - current_player_index;
+	}
+	if (players & PLAYER_4)
+	{
+		rotate_some_fifth(ammo_indexes, sizeof(ammo_indexes) / 2, 3 - current_player_index);
+		for (uint8_t current_index = 0; current_index < sizeof(ammo_indexes) / 2; current_index++)
+		{
+			if (ammo_amount > current_index)
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, color);
+			}
+			else
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, background_color);
+			}
+		}
+		current_player_index += 3 - current_player_index;
+	}
+	if (players & PLAYER_5)
+	{
+		rotate_some_fifth(ammo_indexes, sizeof(ammo_indexes) / 2, 4 - current_player_index);
+		for (uint8_t current_index = 0; current_index < sizeof(ammo_indexes) / 2; current_index++)
+		{
+			if (ammo_amount > current_index)
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, color);
+			}
+			else
+			{
+				feed_one_pixel(ammo_indexes[current_index], buffer, background_color);
+			}
+		}
+		current_player_index += 4 - current_player_index;
+	}
+	led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
 }
 
 void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color)
@@ -1242,18 +1438,18 @@ void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color)
 /**
  * 
  * 
- * 
+ * TODO : Line between players++ for some animations
  */
 void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t background_color)
 {
 		//                     LVII     LVI     LV     LIV      LXII        LXI              LX           LIX        LVII
-	uint16_t pixels_array[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, 62 - 1 + 62, 61 - 1 + 62, 60 - 1 + 62, 59 - 1 + 62, 58 - 1 + 62};
+	uint16_t pixels_array[] = {57 - 1, 56 - 1, 55 - 1, 54 - 1, 62 - 1 + 62 * 4, 61 - 1 + 62 * 4, 60 - 1 + 62 * 4, 59 - 1 + 62 * 4, 58 - 1 + 62 * 4};
 
 	for (uint8_t quarters_drawed = 0; quarters_drawed < 5; quarters_drawed++)
 	{
 		if (quarters_drawed == time / 6)
 		{
-			wawe_on_segment(pixels_array, sizeof(pixels_array) / 2, pixels, map((time % 6), 0, 5, 0, 100), color, background_color);
+			pong_animate_array_of_pixels(pixels_indexes, sizeof(pixels_array) / 2, map((time % 6), 0, 5, 100, 0), 1, pixels,color, background_color);
 		}
 		else
 		{
