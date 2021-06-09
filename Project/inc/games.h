@@ -4,6 +4,7 @@
 #include "background.h"
 #include "intro.h"
 #include <stdint.h>
+#include "../inc/matrix_progmem.h"
 
 typedef struct  s_player
 {
