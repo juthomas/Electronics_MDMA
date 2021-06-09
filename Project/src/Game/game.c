@@ -1200,7 +1200,7 @@ void start_game(uint8_t *led_buffer)
     led_matrix_fill_screen(led_buffer, 0x000000);
     draw_satanic_circle(led_buffer);
     ili9341_setRotation(3);
-    play_music();
+    //play_music();
     display_intro();
     display_menu();
     while (totalDice < 666)
@@ -1224,6 +1224,8 @@ void start_game(uint8_t *led_buffer)
         display_dice_result(0, dice_result_2 + 1);
         result = dice_result_2 + dice_result_1;
         totalDice += result;
+        _delay_ms(100);
+        led_matrix_send_progmem(matTab[currentPlayer], CROWN);
         _delay_ms(10000);
         ili9341_fillScreen(ILI9341_BLACK);
         for (int8_t i = 0; i < 6; i++)
