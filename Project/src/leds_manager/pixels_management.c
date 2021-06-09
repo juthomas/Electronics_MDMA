@@ -1,7 +1,8 @@
 //#include "../../inc/mdma.h"
 #include "../../inc/leds.h"
 #include "../../inc/math.h"
-#include "../../inc/matrix_progmem.h"
+# include <avr/pgmspace.h>
+//#include "../../inc/matrix_progmem.h"
 
 # define TRUE 1
 # define FALSE 0
@@ -701,57 +702,6 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 	}
 }
 
-void draw_satanic_circle(uint8_t *buffer)
-{
-	// uint8_t buffer[62 * 3 * 5];
-	uint8_t matrix_buffer[64 * 3];
-	// uint8_t color = 10;
-	uint32_t interactions_color = 0x100000;
-	clear_led_buffer(buffer, 62 * 3 * 5, 0x010101);
-	led_matrix_fill_screen(matrix_buffer, 0x000000);
-	// led_send_data(3, pixels, 64);
-	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, matrix_buffer, 64);
-
-		
-		led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-		// for (int32_t i = 0; i < 100000; i++)
-		// 	;
-			for (int32_t i = 0; i < 100000; i++);
-
-		draw_line_between_players(buffer, 1, 3, TRUE, interactions_color);
-		led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
-				for (int32_t i = 0; i < 100000; i++);
-
-		draw_line_between_players(buffer, 3, 5, TRUE, interactions_color);
-		led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
-
-				for (int32_t i = 0; i < 100000; i++);
-
-		draw_line_between_players(buffer, 5, 2, TRUE, interactions_color);
-		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
-
-				for (int32_t i = 0; i < 100000; i++);
-
-		draw_line_between_players(buffer, 2, 4, TRUE, interactions_color);
-		led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
-				for (int32_t i = 0; i < 100000; i++);
-
-		draw_line_between_players(buffer, 4, 1, TRUE, interactions_color);
-		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
-				for (int32_t i = 0; i < 100000; i++);
-		draw_line_between_players(buffer, 1, 2, TRUE, interactions_color);
-		draw_line_between_players(buffer, 2, 3, TRUE, interactions_color);
-		draw_line_between_players(buffer, 3, 4, TRUE, interactions_color);
-		draw_line_between_players(buffer, 4, 5, TRUE, interactions_color);
-		draw_line_between_players(buffer, 5, 1, TRUE, interactions_color);
-
-		led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
-		led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
-		led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
-		led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
-		led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
-}
-
 void draw_roulette()
 {
 	uint8_t buffer[62 * 3 * 5];
@@ -837,36 +787,6 @@ void led_test()
 		// for (int32_t i = 0; i < 3000; i++)
 		// 	;
 	}
-}
-
-void launch_dice()
-{
-	for (int32_t u = 1; u < 10; u++)
-	{
-		led_matrix_send_progmem(MAT_1, DICE_1);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-
-		led_matrix_send_progmem(MAT_1, DICE_2);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-
-		led_matrix_send_progmem(MAT_1, DICE_3);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-
-		led_matrix_send_progmem(MAT_1, DICE_4);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-
-		led_matrix_send_progmem(MAT_1, DICE_5);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-
-		led_matrix_send_progmem(MAT_1, DICE_6);
-		for (int32_t i = 0; i < 3000 * u; i++)
-			;
-	};
 }
 
 void reverse_array(uint16_t *pixels_to_draw, int size)
@@ -1282,6 +1202,7 @@ void init_leds(uint8_t *led_buffer)
 
 void led_draw_animation(uint16_t pixels_number)
 {
+	/*
 	// uint8_t pixels[pixels_number * 3];
 	// uint32_t colors = 0xFF0000;
 	g_led_exit_animation = 0;
@@ -1300,7 +1221,63 @@ void led_draw_animation(uint16_t pixels_number)
 	// led_test();
 	draw_satanic_circle(buffer);
 
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, BOMB);
+	for (int32_t i = 0; i < 500000; i++)
+		;
 
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, POOP);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, SKULL);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, CROSS_SWORDS);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, CROWN);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, UNCHECK);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, CHECK);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, VERY_ANGRY);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, VERY_SMILING);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, ANGRY);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, SMILING);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, BULLET);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, SHIELD);
+	for (int32_t i = 0; i < 500000; i++)
+		;
+
+	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, GUN);
+	for (int32_t i = 0; i < 500000; i++)
+		;
 
 
 	// "Explosion Animation"
@@ -1459,6 +1436,18 @@ void led_draw_animation(uint16_t pixels_number)
 	for (int32_t i = 0; i < 500000; i++)
 		;
 
+
+
+
+
+
+
+
+
+
+
+
+
 	for (int32_t u = 1; u < 10; u++)
 	{
 		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, DICE_1);
@@ -1549,78 +1538,79 @@ void led_draw_animation(uint16_t pixels_number)
 			;
 	}
 
-	for (int32_t u = 0; u < 40; u++)
-	{
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_0);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// for (int32_t u = 0; u < 40; u++)
+	// {
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_0);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_10);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_10);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_20);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_20);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_30);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_30);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_40);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_40);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_50);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_50);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_60);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_60);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_70);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_70);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_80);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_80);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_90);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_90);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_100);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_100);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_110);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_110);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_120);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_120);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_130);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_130);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_140);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_140);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_150);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_150);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_160);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_160);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
 
-		led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_170);
-		for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
-			;
-	}
+	// 	led_matrix_send_progmem(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, LOADING_170);
+	// 	for (int32_t i = 0; i < 200 * (u <= 20 ? u : 40 - u); i++)
+	// 		;
+	// }
+	*/
 }

@@ -35,7 +35,7 @@
 #define NOTE_FS3 185
 #define NOTE_G3  196
 #define NOTE_GS3 208
-#define NOTE_A3  220
+#define NOTE_A3  220=
 #define NOTE_AS3 233
 #define NOTE_B3  247
 #define NOTE_C4  262
@@ -144,6 +144,8 @@ int noteDurations[] = {
 // 	milli = milli *	2000;
 // 	wait_x_cpu_clocks(milli - 5);
 // }
+
+
 
 void start_background_music()
 {
