@@ -89,7 +89,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[0] &= 0b0000000000010000;
+		buttons_clicks_order[0] &= !(0b0000000000010000);
 	}
 	//Player 1 B
 	if (PINC & (1 << 1))
@@ -105,7 +105,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[1] &= 0b0000000000010000;
+		buttons_clicks_order[1] &= !(0b0000000000010000);
 	}
 	//Encoder 1
 	if (PINE & (1 << 2))
@@ -121,7 +121,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[2] &= 0b0000000000010000;
+		buttons_clicks_order[2] &= !(0b0000000000010000);
 	}
 	//Player 2 A/
 	if (PINC & (1 << 4))
@@ -137,7 +137,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[3] &= 0b0000000000010000;
+		buttons_clicks_order[3] &= !(0b0000000000010000);
 	}
 	//Player 2 B
 	if (PINC & (1 << 5))
@@ -154,7 +154,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[4] &= 0b0000000000010000;
+		buttons_clicks_order[4] &= !(0b0000000000010000);
 	}
 	//Encoder 2
 	if (PINE & (1 << 7))
@@ -170,7 +170,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[5] &= 0b0000000000010000;
+		buttons_clicks_order[5] &= !(0b0000000000010000);
 	}
 	//Player 3 A/
 	if (PINC & (1 << 6))
@@ -186,7 +186,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[6] &= 0b0000000000010000;
+		buttons_clicks_order[6] &= !(0b0000000000010000);
 	}
 	//Player 3 B
 	if (PINC & (1 << 7))
@@ -202,7 +202,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[7] &= 0b0000000000010000;
+		buttons_clicks_order[7] &= !(0b0000000000010000);
 	}
 	//Encoder 3
 	if (PING & (1 << 5))
@@ -218,7 +218,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[8] &= 0b0000000000010000;
+		buttons_clicks_order[8] &= !(0b0000000000010000);
 	}
 	//Player 4 A
 	if (PINE & (1 << 3))
@@ -234,7 +234,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[9] &= 0b0000000000010000;
+		buttons_clicks_order[9] &= !(0b0000000000010000);
 	}
 	//Player 4 B
 	if (PINE & (1 << 4))
@@ -251,7 +251,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[10] &= 0b0000000000010000;
+		buttons_clicks_order[10] &= !(0b0000000000010000);
 	}
 	//Encoder 4
 	if (PINE & (1 << 6))
@@ -267,7 +267,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[11] &= 0b0000000000010000;
+		buttons_clicks_order[11] &= !(0b0000000000010000);
 	}
 	//Player 5 A/
 	if (PINC & (1 << 2))
@@ -283,7 +283,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[12] &= 0b0000000000010000;
+		buttons_clicks_order[12] &= !(0b0000000000010000);
 	}
 	//Player 5 B
 	if (PINC & (1 << 3))
@@ -299,7 +299,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[13] &= 0b0000000000010000;
+		buttons_clicks_order[13] &= !(0b0000000000010000);
 	}
 	//Encoder 5
 	if (PINE & (1 << 5))
@@ -315,7 +315,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[14] &= 0b0000000000010000;
+		buttons_clicks_order[14] &= !(0b0000000000010000);
 	}
 	//Global Switch
 	if (PING & (1 << 4))
@@ -331,7 +331,7 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[15] &= 0b0000000000010000;
+		buttons_clicks_order[15] &= !(0b0000000000010000);
 	}
 
 	//Check if button is pressed and increment counter then
