@@ -105,7 +105,8 @@ ISR(TIMER3_COMPA_vect)
 	}
 	else
 	{
-		buttons_clicks_order[1] &= !(0b0000000000010000);
+		buttons_clicks_order[1] &= 0b1111111111101111;
+		// buttons_clicks_order[1] &= 0b0000000000010000;
 	}
 	//Encoder 1
 	if (PINE & (1 << 2))

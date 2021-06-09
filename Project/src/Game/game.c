@@ -224,16 +224,28 @@ void distribute_sip(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t sips)
     clear_encoders();
     while (sips > 0)
     {
+        ili9341_setCursor(0,0);
+        ili9341_putnbr_base(currentPlayer * 3 + 1, "01", ILI9341_WHITE, 1, 0);
+        ili9341_println("          ",ILI9341_WHITE, 1, 0);
+        ili9341_putnbr_base(get_button_order(currentPlayer * 3 + 1), "01", ILI9341_WHITE, 1, 0);
+        ili9341_println("          ",ILI9341_WHITE, 1, 0);
+        ili9341_putnbr_base(get_button_activation(currentPlayer * 3 + 1), "01", ILI9341_WHITE, 1, 0);
+        
+        ili9341_println("           ",ILI9341_WHITE, 1, 0);
+
+        ili9341_putnbr_base(get_button_ticks(currentPlayer * 3 + 1), "01", ILI9341_WHITE, 1, 0);
+        ili9341_println("         ",ILI9341_WHITE, 1, 0);
+
+
+        // if (get_button_order(currentPlayer * 3 + 1))
+        // {
+        //     players[(encoders[currentPlayer] / 4 % 4 + currentPlayer + 1)].sipNeeded++;
+        //     sips--;
+        //     while(get_button_activation(currentPlayer * 3 + 1));
+        //    // clear_buttons();
+        // }
         ili9341_setCursor(100, 50);
         ili9341_putnbrln(sips, ILI9341_RED, 20, 0);
-        
-        if (get_button_activation(currentPlayer * 3 + 1))
-        {
-            players[(encoders[currentPlayer] / 4 % 4 + currentPlayer + 1)].sipNeeded++;
-            sips--;
-        }
-        while (get_button_activation(currentPlayer * 3 + 1));
-
         clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
         draw_line_between_players(led_buffer, currentPlayer + 1, (encoders[currentPlayer] / 4 % 4 + currentPlayer + 1) % 5 + 1, TRUE, 0x080000);
     }
