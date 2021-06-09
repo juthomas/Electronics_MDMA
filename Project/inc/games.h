@@ -29,20 +29,20 @@ typedef struct  s_game
     char            *rules;
     const uint8_t   *background;
 	const uint16_t  *backgroundPalette;
-    void            (*gameFunction)(uint8_t, uint8_t *);
+    void            (*gameFunction)(uint8_t, uint8_t *, uint8_t *);
 }               t_game;
 
-void lucky_luck(uint8_t currentPlayer, uint8_t *led_buffer);
-void high_score(uint8_t currentPlayer, uint8_t *led_buffer);
-void tic_tac(uint8_t currentPlayer, uint8_t *led_buffer);
-void the_liar(uint8_t currentPlayer, uint8_t *led_buffer);
-void tokyo_drift(uint8_t currentPlayer, uint8_t *led_buffer);
-void you_rather(uint8_t currentPlayer, uint8_t *led_buffer);
-void friend_roulette(uint8_t currentPlayer, uint8_t *led_buffer);
-void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer);
-void capitalism_vantura(uint8_t currentPlayer, uint8_t *led_buffer);
-void zero_zero(uint8_t currentPlayer, uint8_t *led_buffer);
-void red_button(uint8_t currentPlayer, uint8_t *led_buffer);
+void lucky_luck(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void high_score(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void tic_tac(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void the_liar(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void tokyo_drift(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void you_rather(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void friend_roulette(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void capitalism_vantura(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void zero_zero(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
+void red_button(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels);
 
 const t_game games[] = {
   [0] = {"Lucky", "Luck", "Press the green\nbutton to save\ncivilians and red\nto kill bandits.\nBe careful if you\nmake a mistake\nyou are JAILED.\nNo one can bypass\n\n     The LAW.\n", LuckyBG, LuckyBGPalette, &lucky_luck},
