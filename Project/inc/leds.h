@@ -92,6 +92,7 @@ void draw_interactions_with_screen(uint8_t *buffer, uint32_t max_ticks, uint32_t
 void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_increment, uint8_t animation, uint32_t rows_activation, uint32_t color1, uint32_t color2);
 void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color);
 void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t background_color);
+void draw_ammo_amount(uint8_t *buffer, uint8_t players, uint8_t ammo_amount, uint32_t color, uint32_t background_color);
 
 
 
