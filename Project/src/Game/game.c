@@ -249,7 +249,7 @@ void distribute_sip(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t sips)
         if (get_button_order(currentPlayer * 3 + 1))
         {
             _delay_ms(100);
-            players[(encoders[currentPlayer] / 4 % 4 + currentPlayer + 1)].sipNeeded++;
+            players[(encoders[currentPlayer] / 4 % 4 + currentPlayer + 1) % 5].sipNeeded++;
             _delay_ms(100);
             sips--;
             while (get_button_activation(currentPlayer * 3 + 1))
@@ -341,7 +341,7 @@ void high_score(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
     _delay_ms(100);
     led_send_data_PORTA(LEDS_REG, led_buffer, 62 * 5);
     _delay_ms(100);
-    uint32_t leftTime = (30000 - (millis - startTime)) / 1000;
+    uint32_t leftTime = (15000 - (millis - startTime)) / 1000;
     _delay_ms(100);
     while (millis - startTime < 15000)
     {
@@ -376,7 +376,7 @@ void high_score(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
             score++;
             left = 0;
         }
-        leftTime = (30000 - (millis - startTime)) / 1000;
+        leftTime = (15000 - (millis - startTime)) / 1000;
         pixels = (uint8_t[64 * 3]){};
         draw_numbers(pixels, score, 0x101010);
         led_send_data_PORTA(matTab[currentPlayer], pixels, 64);
@@ -606,8 +606,8 @@ void friend_roulette(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels
 void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
 {
     uint8_t player2;
-    uint8_t player1Sign = -1;
-    uint8_t player2Sign = -1;
+    int8_t player1Sign = -1;
+    int8_t player2Sign = -1;
 
     _delay_ms(100);
     led_matrix_send_progmem(MAT_ALL, SLEEP);
@@ -652,7 +652,7 @@ void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
     _delay_ms(100);
     led_matrix_send_progmem(matTab[currentPlayer] | matTab[player2], INTERROGATION);
     _delay_ms(100);
-    while ((!buttons_clicks_order[currentPlayer * 3 + 1]) || (!buttons_clicks_order[player2 * 3 + 1]) || player2Sign == -1 || player2Sign == -1)
+    while ((!buttons_clicks_order[currentPlayer * 3 + 1]) || (!buttons_clicks_order[player2 * 3 + 1]) || player1Sign == -1 || player2Sign == -1)
     {
     re_game:;
         _delay_ms(100);
@@ -667,6 +667,8 @@ void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
             led_matrix_send_progmem(matTab[currentPlayer], CHECK);
             _delay_ms(100);
             player1Sign = ((encoders[currentPlayer] + 4096) / 4) % 3;
+            _delay_ms(100);
+
         }
         else
         {
@@ -685,13 +687,21 @@ void rpc_ultimate(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
             led_matrix_send_progmem(matTab[player2], CHECK);
             _delay_ms(100);
             player2Sign = ((encoders[player2] + 4096) / 4) % 3;
+            _delay_ms(100);
+
         }
         else
         {
             _delay_ms(100);
             led_matrix_send_progmem(matTab[player2], matArt[((encoders[player2] + 4096) / 4) % 3]);
         }
+        _delay_ms(500);
+
     }
+    ili9341_setCursor(0,0);
+    ili9341_putnbrln(player1Sign, ILI9341_WHITE, 1, 1);
+    // ili9341_setCursor(0,0);
+    ili9341_putnbrln(player2Sign, ILI9341_WHITE, 1, 1);
     _delay_ms(20000);
     led_matrix_send_progmem(matTab[currentPlayer], matArt[player1Sign]);
     _delay_ms(100);
@@ -1163,8 +1173,10 @@ void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
     ili9341_print(games[index].name1, ILI9341_WHITE, 4, 0, 80, width - 40);
     ili9341_setCursor(70, 180);
     ili9341_print(games[index].name2, ILI9341_WHITE, 4, 0, 80, width - 40);
+    _delay_ms(10000);
     clear_buttons();
-    while ((!buttons_clicks_order[currentPlayer * 3]) && (!buttons_clicks_order[currentPlayer * 3 + 1]))
+    _delay_ms(5000);
+    while ((!get_button_activation(currentPlayer * 3)) && (!get_button_activation(currentPlayer * 3 + 1)))
         ;
     ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 40, 60, 50, 4);
     ili9341_setCursor(60, 60);
@@ -1203,6 +1215,10 @@ void start_game(uint8_t *led_buffer)
     //play_music();
     display_intro();
     display_menu();
+    // rpc_ultimate(1, led_buffer, pixels);
+    // distribute_sip(1, led_buffer, 3);
+    // endGame(pixels);
+
     while (totalDice < 666)
     {
         ili9341_draw_IMG(DemonFace2BG, DemonFace2BGPalette, 0, 0, 32, 24, 10);
