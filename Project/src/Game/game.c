@@ -1176,15 +1176,21 @@ void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
     ili9341_print(games[index].name1, ILI9341_WHITE, 4, 0, 80, width - 40);
     ili9341_setCursor(70, 180);
     ili9341_print(games[index].name2, ILI9341_WHITE, 4, 0, 80, width - 40);
-    _delay_ms(10000);
+    _delay_ms(13000);
     clear_buttons();
-    _delay_ms(5000);
+    _delay_ms(1000);
     while ((!get_button_activation(currentPlayer * 3)) && (!get_button_activation(currentPlayer * 3 + 1)))
         ;
     ili9341_draw_IMG(CadreBigBG, CadreBigBGPalette, 40, 40, 60, 50, 4);
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
-    _delay_ms(10000);
+    
+    _delay_ms(13000);
+    clear_buttons();
+    _delay_ms(1000);
+    while ((!get_button_activation(currentPlayer * 3)) && (!get_button_activation(currentPlayer * 3 + 1)))
+        ;
+
     ili9341_draw_IMG(games[index].background, games[index].backgroundPalette, 0, 0, 80, 60, 4);
     ili9341_draw_IMG(CadreSquareBG, CadreSquareBGPalette, 100, 60, 30, 30, 4);
     ili9341_setCursor(140, 90);
