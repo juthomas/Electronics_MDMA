@@ -203,6 +203,7 @@ void endGame(uint8_t *pixels)
 {
     int8_t totalSipNeeded = 0;
     uint8_t isActive[] = {0, 0, 0, 0, 0};
+    
     ili9341_draw_IMG(DrinkBG, DrinkBGPalette, 0, 0, 80, 60, 4);
     ili9341_draw_IMG(CadreBG, CadreBGPalette, 40, 120, 60, 30, 4);
     ili9341_setCursor(70, 165);
@@ -217,6 +218,8 @@ void endGame(uint8_t *pixels)
     clear_buttons();
     while (totalSipNeeded)
     {
+        // draw_cirle_pit(led_buffer, 500, 20, D_WAWES, LED, 0x080000, 0x080200);
+
         for (int8_t i = 0; i < 5; i++)
         {
             if (!(isActive[i]) && get_button_activation(i * 3 + 1) && players[i].sipNeeded)
@@ -276,8 +279,8 @@ void lucky_luck(uint8_t currentPlayer, uint8_t *led_buffer, uint8_t *pixels)
     uint8_t toFindArt = rand() % 49;
     uint8_t currentArt;
     uint8_t winner = 0;
-    ili9341_setCursor(0, 0);
-    ili9341_putnbr(toFindArt, ILI9341_WHITE, 1, 0);
+    // ili9341_setCursor(0, 0);
+    // ili9341_putnbr(toFindArt, ILI9341_WHITE, 1, 0);
     _delay_ms(100);
     led_matrix_send_progmem(MAT_ALL, matArt[toFindArt]);
     _delay_ms(100);
@@ -1212,12 +1215,12 @@ void start_game(uint8_t *led_buffer)
     led_matrix_fill_screen(led_buffer, 0x000000);
     draw_satanic_circle(led_buffer);
     ili9341_setRotation(3);
-    //play_music();
+    play_music();
     display_intro();
     display_menu();
-    // rpc_ultimate(1, led_buffer, pixels);
-    // distribute_sip(1, led_buffer, 3);
-    // endGame(pixels);
+
+
+
 
     while (totalDice < 666)
     {
@@ -1240,7 +1243,7 @@ void start_game(uint8_t *led_buffer)
         display_dice_result(0, dice_result_2 + 1);
         result = dice_result_2 + dice_result_1;
         totalDice += result;
-        _delay_ms(100);
+        _delay_ms(20000);
         led_matrix_send_progmem(matTab[currentPlayer], CROWN);
         _delay_ms(10000);
         ili9341_fillScreen(ILI9341_BLACK);
