@@ -15,6 +15,7 @@ typedef struct s_user
   uint8_t power;
 
 }              t_user;
+t_user user[5];
 
 void PCD_WriteRegister(unsigned char reg, unsigned char value)
 {
@@ -614,7 +615,7 @@ void PICC_scan(){
   else if(port == (volatile uint8_t *)261 && pinCs == PJ3)
     index = 4;
   else
-    return;
+    index = 0;
   while(block + nb_block >= 63)
   {
     if ((block + 1) % 4)
@@ -654,7 +655,6 @@ void PICC_scan(){
     }
     block--;
   }
-      PORTA |= (1 << 7);
 
     ili9341_println("USER ", ILI9341_WHITE, 5, 0);
     ili9341_print("Index : ", ILI9341_WHITE, 2, 0, 0, width/2);
@@ -751,7 +751,7 @@ void PICC_WriteData()
     if ((block + 1) % 4)
     {
       
-      status = MifareWrite(block, &yo[i], 16);
+      status = MifareWrite(block, &image[i], 16);
       if (status != STATUS_OK)
         return;
       i += 16;
@@ -811,6 +811,8 @@ int test_rfid()
       return 0;
     }
   }
+  PORTA |= (1 << 7);
+
   return 1;
 }
 
