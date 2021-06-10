@@ -94,6 +94,7 @@ void	draw_halo(uint8_t *buffer, uint8_t players, uint32_t color);
 void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t background_color);
 void draw_ammo_amount(uint8_t *buffer, uint8_t players, uint8_t ammo_amount, uint32_t color, uint32_t background_color);
 
+void draw_ammo_amount(uint8_t *buffer, uint8_t players, uint8_t ammo_amount, uint32_t color, uint32_t background_color);
 
 
 void draw_satanic_circle();

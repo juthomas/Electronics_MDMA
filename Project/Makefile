@@ -1,7 +1,7 @@
 FILENAME	= main
 PORT		= /dev/tty.usbmodem14401 #tty.usbserial-14410
 DEVICE		= atmega2560 #atmega328p #atmega2560 for atmega2560
-PROGRAMMER	= wiring #arduino #wiring for atmega2560
+PROGRAMMER	= arduino #wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc -Os -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
@@ -20,7 +20,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = inc
 
-INC_H = leds math matrix_progmem mdma pin_registers tone buttons millis encoders
+INC_H = leds math matrix_progmem mdma tone buttons millis encoders
 
 #defines of directories names
 BUTTONS_DIR = buttons
@@ -135,7 +135,7 @@ $(OBJ_DIRS):
 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES)
-	@$(CC) -c $< -o $@
+	@$(CC) -c -Os -fno-fat-lto-objects -ffunction-sections -fdata-sections -flto $< -o $@
 
 hex: $(FILENAME)
 
@@ -149,9 +149,9 @@ $(FILENAME): $(OBJ_DIRS) $(SRC) $(INCLUDES)
 	@echo "$(COLOR)Objects \033[100D\033[40C\0033[1;32m[Created]\0033[1;37m"
 
 	@if [ $(MUTE) = FALSE ];then\
-		$(COMPILE) -v -o $(FILENAME).bin $(OBJ);\
+		$(COMPILE) -v -Os -flto -Wl,--gc-sections -fuse-linker-plugin -o $(FILENAME).bin $(OBJ);\
 	else\
-		$(COMPILE) -o $(FILENAME).bin $(OBJ);\
+		$(COMPILE) -Os -flto -Wl,--gc-sections -fuse-linker-plugin -o $(FILENAME).bin $(OBJ);\
 	fi
 
 	@echo "$(COLOR)Binary \033[100D\033[40C\0033[1;32m[Created]\0033[1;37m"

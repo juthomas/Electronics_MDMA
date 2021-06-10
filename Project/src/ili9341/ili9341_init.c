@@ -4,6 +4,7 @@
 # endif
 #include "../../inc/ili9341.h"
 #include <avr/io.h>
+#include <util/delay.h>
 
 #define SPI_MODE_MASK 0x0C
 #define SPI_CLOCK_MASK 0x03
@@ -19,7 +20,7 @@
 ** //https://forums.adafruit.com/viewtopic.php?f=47&t=63229
 */
 
-void custom_delay(uint32_t milli);
+// void _delay_ms(uint32_t milli);
 
 static const uint8_t PROGMEM initcmd[] = {
 	0xEF, 3, 0x03, 0x80, 0x02,                                                              //Undocumented but necessary
@@ -144,7 +145,7 @@ void initSPI()
     // SPE indique qu'on veut le SPI, MSTR que 
     //SPCR = _BV(SPE) | _BV(MSTR) | 0 | (SPI_MODE3 & SPI_MODE_MASK) | ((clockDiv >> 1) & SPI_CLOCK_MASK);;
     SPCR = _BV(SPE) | _BV(MSTR) | (1 << SPR0);
-	SPSR = clockDiv & SPI_2XCLOCK_MASK;
+	SPSR = 1;
 	// ft_pin_mode(TFT_CS, FT_OUTPUT);
 	DDRB |= 1 << 0;
 	// ft_pin_mode(RFID_CS, FT_OUTPUT);
@@ -160,13 +161,13 @@ void initSPI()
 	DDRL |= 1 << 1;
 	// ft_digital_write(TFT_RST,FT_HIGH);
 	PORTL |= 1 << 1;
-	custom_delay(100);
+	_delay_ms(100);
 	// ft_digital_write(TFT_RST,FT_LOW);
 	PORTL &= !(1 << 1);
-	custom_delay(100);
+	_delay_ms(100);
 	// ft_digital_write(TFT_RST,FT_HIGH);
 	PORTL |= 1 << 1;
-	custom_delay(200);
+	_delay_ms(200);
 
 }
 
@@ -189,11 +190,11 @@ void initSPI()
 //     sei();
 //     *((volatile uint8_t *)266) |= (1 << 1);
 
-//     custom_delay(100);
+//     _delay_ms(100);
 //     *((volatile uint8_t *)267) &= ~(1 << 1);
-//     custom_delay(100);
+//     _delay_ms(100);
 //     *((volatile uint8_t *)267) |= (1 << 1);
-//     custom_delay(200);
+//     _delay_ms(200);
 // }
 
 //For vertical display it is 1 and 3.
@@ -246,6 +247,6 @@ void ili9341_begin()
 		sendCommand_init(cmd, addr, numArgs);
 		addr += numArgs;
 		if (x & 0x80)
-			custom_delay(150);
+			_delay_ms(150);
 	}
 }

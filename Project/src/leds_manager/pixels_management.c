@@ -2,8 +2,8 @@
 #include "../../inc/leds.h"
 #include "../../inc/math.h"
 # include <avr/pgmspace.h>
-# include <util/delay.h>
-		// _delay_ms()
+#include <util/delay.h>
+
 // #include "../../inc/matrix_progmem.h"
 
 # define TRUE 1
@@ -134,8 +134,9 @@ uint8_t *animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_index
 		pixels[pixels_indexes[i] * 3 + 1] = (color & 0xFF0000) >> 16;
 		pixels[pixels_indexes[i] * 3 + 2] = color & 0x0000FF;
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-		for (int32_t i = 0; i < 5000; i++)
-			;
+		// for (int32_t i = 0; i < 5000; i++)
+			// ;
+		_delay_ms(50);
 	}
 	return (pixels);
 }
@@ -225,7 +226,7 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	uint32_t undraw_index = 0;
 	uint16_t turns = 0;
 	uint16_t max_turns = 5;
-	uint32_t delay = 300000;
+	uint32_t delay = 3000;
 	uint32_t oldColors[pixels_indexes_size];
 	for (int i = 0; i < pixels_indexes_size; i++)
 	{
@@ -233,6 +234,7 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 	}
 
 	delay /= pixels_indexes_size;
+
 
 	for (int u = 0; u < 1000; u++)
 	{
@@ -249,8 +251,9 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 			pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 		}
 		led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-		for (int32_t z = 0; z < delay; z++)
-			;
+		// for (int32_t z = 0; z < delay; z++)
+		// 	;
+		_delay_ms(delay);
 		position++;
 		if (drawned_index <= pixels_indexes_size)
 		{
@@ -273,8 +276,10 @@ uint8_t *wawe_animate_arraw_of_pixels(uint16_t *pixels_indexes, uint16_t pixels_
 					pixels[pixels_indexes[i] * 3 + 2] = color_tmp & 0x0000FF;
 				}
 				led_send_data_PORTA(1 << PIN5, pixels, 62 * 5);
-				for (int32_t z = 0; z < delay; z++)
-					;
+				// for (int32_t z = 0; z < delay; z++)
+					// ;
+				_delay_ms(delay);
+
 				position++;
 				undraw_index++;
 			}
@@ -737,56 +742,56 @@ void draw_cirle_pit(uint8_t *buffer, uint32_t max_ticks, uint32_t ticks_incremen
 	}
 }
 
-void draw_satanic_circle(uint8_t *buffer)
-{
-	// uint8_t buffer[62 * 3 * 5];
-	uint8_t matrix_buffer[64 * 3];
-	// uint8_t color = 10;
-	uint32_t interactions_color = 0x100000;
-	clear_led_buffer(buffer, 62 * 3 * 5, 0x010101);
-	led_matrix_fill_screen(matrix_buffer, 0x000000);
-	// led_send_data(3, pixels, 64);
-	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, matrix_buffer, 64);
+// void draw_satanic_circle(uint8_t *buffer)
+// {
+// 	// uint8_t buffer[62 * 3 * 5];
+// 	uint8_t matrix_buffer[64 * 3];
+// 	// uint8_t color = 10;
+// 	uint32_t interactions_color = 0x100000;
+// 	clear_led_buffer(buffer, 62 * 3 * 5, 0x010101);
+// 	led_matrix_fill_screen(matrix_buffer, 0x000000);
+// 	// led_send_data(3, pixels, 64);
+// 	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5, matrix_buffer, 64);
 
 		
-		// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
-		// // for (int32_t i = 0; i < 100000; i++)
-		// // 	;
-		// 	for (int32_t i = 0; i < 100000; i++);
+// 		// led_send_data_PORTA(1 << PIN5, buffer, 62 * 5);
+// 		// // for (int32_t i = 0; i < 100000; i++)
+// 		// // 	;
+// 		// 	for (int32_t i = 0; i < 100000; i++);
 
-		// draw_line_between_players(buffer, 1, 3, TRUE, interactions_color);
-		// led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
-		// 		for (int32_t i = 0; i < 100000; i++);
+// 		// draw_line_between_players(buffer, 1, 3, TRUE, interactions_color);
+// 		// led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
+// 		// 		for (int32_t i = 0; i < 100000; i++);
 
-		// draw_line_between_players(buffer, 3, 5, TRUE, interactions_color);
-		// led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
+// 		// draw_line_between_players(buffer, 3, 5, TRUE, interactions_color);
+// 		// led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
 
-		// 		for (int32_t i = 0; i < 100000; i++);
+// 		// 		for (int32_t i = 0; i < 100000; i++);
 
-		// draw_line_between_players(buffer, 5, 2, TRUE, interactions_color);
-		// led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
+// 		// draw_line_between_players(buffer, 5, 2, TRUE, interactions_color);
+// 		// led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
 
-		// 		for (int32_t i = 0; i < 100000; i++);
+// 		// 		for (int32_t i = 0; i < 100000; i++);
 
-		// draw_line_between_players(buffer, 2, 4, TRUE, interactions_color);
-		// led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
-		// 		for (int32_t i = 0; i < 100000; i++);
+// 		// draw_line_between_players(buffer, 2, 4, TRUE, interactions_color);
+// 		// led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
+// 		// 		for (int32_t i = 0; i < 100000; i++);
 
-		// draw_line_between_players(buffer, 4, 1, TRUE, interactions_color);
-		// led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
-		// 		for (int32_t i = 0; i < 100000; i++);
-		draw_line_between_players(buffer, 1, 2, TRUE, interactions_color);
-		draw_line_between_players(buffer, 2, 3, TRUE, interactions_color);
-		draw_line_between_players(buffer, 3, 4, TRUE, interactions_color);
-		draw_line_between_players(buffer, 4, 5, TRUE, interactions_color);
-		draw_line_between_players(buffer, 5, 1, TRUE, interactions_color);
+// 		// draw_line_between_players(buffer, 4, 1, TRUE, interactions_color);
+// 		// led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
+// 		// 		for (int32_t i = 0; i < 100000; i++);
+// 		draw_line_between_players(buffer, 1, 2, TRUE, interactions_color);
+// 		draw_line_between_players(buffer, 2, 3, TRUE, interactions_color);
+// 		draw_line_between_players(buffer, 3, 4, TRUE, interactions_color);
+// 		draw_line_between_players(buffer, 4, 5, TRUE, interactions_color);
+// 		draw_line_between_players(buffer, 5, 1, TRUE, interactions_color);
 
-		// led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
-		// led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
-		// led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
-		// led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
-		// led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
-}
+// 		// led_matrix_send_progmem(MAT_1, SAT_SYMB_1);
+// 		// led_matrix_send_progmem(MAT_2, SAT_SYMB_2);
+// 		// led_matrix_send_progmem(MAT_3, SAT_SYMB_3);
+// 		// led_matrix_send_progmem(MAT_4, SAT_SYMB_4);
+// 		// led_matrix_send_progmem(MAT_5, SAT_SYMB_5);
+// }
 
 void draw_roulette()
 {
