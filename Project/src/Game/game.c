@@ -1176,7 +1176,7 @@ void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
     ili9341_print(games[index].name1, ILI9341_WHITE, 4, 0, 80, width - 40);
     ili9341_setCursor(70, 180);
     ili9341_print(games[index].name2, ILI9341_WHITE, 4, 0, 80, width - 40);
-    _delay_ms(13000);
+    _delay_ms(5000);
     clear_buttons();
     _delay_ms(1000);
     while ((!get_button_activation(currentPlayer * 3)) && (!get_button_activation(currentPlayer * 3 + 1)))
@@ -1185,7 +1185,7 @@ void display_intro_game(int8_t index, int8_t side, uint8_t currentPlayer)
     ili9341_setCursor(60, 60);
     ili9341_print(games[index].rules, ILI9341_WHITE, 2, 0, 60, width - 50);
     
-    _delay_ms(13000);
+    _delay_ms(5000);
     clear_buttons();
     _delay_ms(1000);
     while ((!get_button_activation(currentPlayer * 3)) && (!get_button_activation(currentPlayer * 3 + 1)))
