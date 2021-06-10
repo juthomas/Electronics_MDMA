@@ -97,7 +97,10 @@ unsigned char PCD_CommunicateWithPICC(unsigned char command,
     }
   }
   if (i == 0)
-    ft_digital_write(13, FT_HIGH);
+  {
+
+    // ft_digital_write(13, FT_HIGH);//DEPRECATED
+  }
 
   PCD_ClrRegisterBits(BitFramingReg, 0x80);
   status = STATUS_ERROR;

@@ -3,7 +3,7 @@
 #include "../../inc/math.h"
 # include <avr/pgmspace.h>
 # include <util/delay.h>
-		_delay_ms()
+		// _delay_ms()
 // #include "../../inc/matrix_progmem.h"
 
 # define TRUE 1
@@ -1449,7 +1449,7 @@ void draw_timer_state(uint8_t *pixels, uint16_t time, uint32_t color, uint32_t b
 	{
 		if (quarters_drawed == time / 6)
 		{
-			pong_animate_array_of_pixels(pixels_indexes, sizeof(pixels_array) / 2, map((time % 6), 0, 5, 100, 0), 1, pixels,color, background_color);
+			pong_animate_array_of_pixels(pixels_array, sizeof(pixels_array) / 2, map((time % 6), 0, 5, 100, 0), 1, pixels,color, background_color);
 		}
 		else
 		{

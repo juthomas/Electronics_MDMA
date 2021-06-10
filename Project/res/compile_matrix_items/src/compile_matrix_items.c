@@ -551,13 +551,12 @@ uint8_t *scissors = (uint8_t*)"\000\000\000\000\000\000\000\000\000\000\000\000\
 	"\000M\377\000M\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\377\000M\000\000\000\377\000M\000\000\000"
 	"\000\000\000\000\000\000\000\000\000\000\000\000\377\000M\377\000M\377\000M\000\000\000\000\000\000";
 
-uint8_t *rock = (uint8_t*)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\213\234\264"
-	"\213\234\264\213\234\264\213\234\264\000\000\000\000\000\000\000\000\000\213\234\264\301\314"
-	"\335\301\314\335\301\314\335\213\234\264Yi\210\000\000\000\000\000\000\213\234\264\213"
-	"\234\264\213\234\264\213\234\264\213\234\264Yi\210\000\000\000\000\000\000Yi\210Yi\210"
-	"Yi\210Yi\210Yi\210Yi\210\000\000\000\000\000\000:DgYi\210Yi\210Yi\210Yi\210:Dg\000\000\000"
-	"\000\000\000\000\000\000:Dg:Dg:Dg:Dg\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"
-	"\000\000\000\000\000\000";
+uint8_t *rock = (uint8_t*)  "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000|\225\270|\225"
+  "\270|\225\270|\225\270\000\000\000\000\000\000\000\000\000|\225\270\313\333\364\313\333\364"
+  "\313\333\364|\225\270\062Jx\000\000\000\000\000\000|\225\270|\225\270|\225\270|\225\270"
+  "|\225\270\062Jx\000\000\000\000\000\000\062Jx\062Jx\062Jx\062Jx\062Jx\062Jx\000\000\000\000\000\000\005\024"
+  "G\062Jx\062Jx\062Jx\062Jx\005\024G\000\000\000\000\000\000\000\000\000\005\024G\005\024G\005\024G\005\024G\000\000"
+  "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000";
 
 uint8_t *paper = (uint8_t*)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\011\003\000\000\000\000\000\000"
   "=\206!,a\030A\203)\000\000\000\000\000\000\000\000\000\000\000\000,a\030A\203),a\030A\203)\000\000\000\000\000"
@@ -718,18 +717,18 @@ void	print_usage()
 
 void	list_of_items(uint8_t luminosity, uint8_t red, uint8_t green, uint8_t blue, FILE* file)
 {
-	// print_colorized("SWORD", sword, luminosity, red, green, blue, file);
-	// print_colorized("PURSE", purse, luminosity, red, green, blue, file);
-	// print_colorized("BOW", bow, luminosity, red, green, blue, file);
-	// print_colorized("POTION", potion, luminosity, red, green, blue, file);
-	// print_colorized("COIN", coin, luminosity, red, green, blue, file);
-	// print_colorized("GEM", gem, luminosity, red, green, blue, file);
-	// print_colorized("MARIO", mario, luminosity, red, green, blue, file);
-	// print_colorized("GHOST", ghost, luminosity, red, green, blue, file);
-	// print_colorized("LINK", link, luminosity, red, green, blue, file);
-	// print_colorized("DONALD", donald, luminosity, red, green, blue, file);
-	// print_colorized("STEEVE", steeve, luminosity, red, green, blue, file);
-	// print_colorized("CREEPER", creeper, luminosity, red, green, blue, file);
+	print_colorized("SWORD", sword, luminosity, red, green, blue, file);
+	print_colorized("PURSE", purse, luminosity, red, green, blue, file);
+	print_colorized("BOW", bow, luminosity, red, green, blue, file);
+	print_colorized("POTION", potion, luminosity, red, green, blue, file);
+	print_colorized("COIN", coin, luminosity, red, green, blue, file);
+	print_colorized("GEM", gem, luminosity, red, green, blue, file);
+	print_colorized("MARIO", mario, luminosity, red, green, blue, file);
+	print_colorized("GHOST", ghost, luminosity, red, green, blue, file);
+	print_colorized("LINK", link, luminosity, red, green, blue, file);
+	print_colorized("DONALD", donald, luminosity, red, green, blue, file);
+	print_colorized("STEEVE", steeve, luminosity, red, green, blue, file);
+	print_colorized("CREEPER", creeper, luminosity, red, green, blue, file);
 	print_colorized("DICE_1", dice_1, luminosity, red, green, blue, file);
 	print_colorized("DICE_2", dice_2, luminosity, red, green, blue, file);
 	print_colorized("DICE_3", dice_3, luminosity, red, green, blue, file);

@@ -1,7 +1,7 @@
 FILENAME	= main
-PORT		= /dev/tty.usbserial-1440 #tty.usbserial-14410
+PORT		= /dev/tty.usbmodem14401 #tty.usbserial-14410
 DEVICE		= atmega2560 #atmega328p #atmega2560 for atmega2560
-PROGRAMMER	= arduino #arduino #wiring for atmega2560
+PROGRAMMER	= wiring #arduino #wiring for atmega2560
 BAUD		= 115200#57600 #115200 #can change for old bootloader (57600)
 F_CPU		= 1600000 #12Mhz on uno   16 Mhz quartz #2 Mhz Cpu Clock (Quartz / 8)
 COMPILE		= avr-gcc -Os -Wall -mmcu=$(DEVICE) -DF_CPU=${F_CPU}
@@ -24,7 +24,6 @@ INC_H = leds math matrix_progmem mdma pin_registers tone buttons millis encoders
 
 #defines of directories names
 BUTTONS_DIR = buttons
-PIN_REGISTER_DIR = pin_registers
 ILI9341_DIR = ili9341
 SERIAL_DIR = serial
 RFID_DIR = rfid
@@ -37,7 +36,6 @@ MATH_DIR = math
 #defines of files in directories
 # PIN_REGISTER_FT = pins_manipulation 
 BUTTONS_FT = buttons encoders
-PIN_REGISTER_FT = pins_manipulation 
 ILI9341_FT = ili9341_init ili9341_SPI ili9341_text ili9341_draw ili9341_draw_utilities #graphicTest
 
 LEDS_MANAGER_FT = low_level_led_addressing pixels_management
@@ -53,7 +51,6 @@ SRC_FT = main
 
 #defines of sources inputs (add lines if new srcs)
 SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
-		$(PIN_REGISTER_FT:%=$(SRC_DIR)/$(PIN_REGISTER_DIR)/%.c) \
 		$(BUTTONS_FT:%=$(SRC_DIR)/$(BUTTONS_DIR)/%.c) \
 		$(RFID_FT:%=$(SRC_DIR)/$(RFID_DIR)/%.c) \
 		$(ILI9341_FT:%=$(SRC_DIR)/$(ILI9341_DIR)/%.c) \
@@ -67,8 +64,7 @@ SRC =	$(SRC_FT:%=$(SRC_DIR)/%.c) \
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 #defines of objects output locations (add lines if new srcs)
-OBJ_DIRS =	$(PIN_REGISTER_DIR:%=$(OBJ_DIR)/%) \
-			$(BUTTONS_DIR:%=$(OBJ_DIR)/%) \
+OBJ_DIRS =	$(BUTTONS_DIR:%=$(OBJ_DIR)/%) \
 			$(RFID_DIR:%=$(OBJ_DIR)/%) \
 			$(ILI9341_DIR:%=$(OBJ_DIR)/%) \
 			$(MOZART_DIR:%=$(OBJ_DIR)/%) \
