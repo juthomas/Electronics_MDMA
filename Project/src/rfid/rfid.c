@@ -6,15 +6,21 @@
 unsigned char main_buf[9];
 unsigned char DefaultKey[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 unsigned char Uid[4] = {0xFF, 0xFF, 0xFF, 0xFF};
+typedef struct s_user
+{
+  uint8_t charac;
+  uint8_t life;
+  uint8_t mana;
+  uint8_t shield;
+  uint8_t power;
+
+}              t_user;
 
 void PCD_WriteRegister(unsigned char reg, unsigned char value)
 {
 
   SPCR = 0b1010000;
   SPSR = 0;
-  // Serial.print(*port);
-  // Serial.print(", ");
-  // Serial.println(pin);
   *port &= ~(1 << pinCs); // Select slave
   SPDR = reg;                        // MSB == 0 is for writing. LSB is not used in address. Datasheet section 8.1.2.3.
   while (!(SPSR & (1 << SPIF)))
@@ -315,19 +321,17 @@ unsigned char PcdAnticoll(unsigned char *main_buf)
 {
   unsigned char status;
 
-  //unsigned char buffer[9];					// The SELECT/ANTICOLLISION commands uses a 7 unsigned char standard frame + 2 unsigned chars CRC_A
   main_buf[0] = PICC_CMD_SEL_CL1;
 
   unsigned char rxAlign = 0;
   unsigned char txLastBits = 0;
-  unsigned char index = 2;    // Number of whole unsigned chars: SEL + NVB + UIDs
+  unsigned char index = 2;  
   main_buf[1] = (index << 4); // NVB - Number of Valid Bits
   unsigned char bufferUsed = index;
   // Store response in the unused part of buffer
   unsigned char responseLen = 7;
   status = PCD_CommunicateWithPICC(PCD_Transceive, main_buf, bufferUsed, &main_buf[index], &responseLen, &txLastBits, rxAlign);
 
-  //here maybe coll choose
   PCD_SetRegisterBits(CollReg, 0x80);
   return (status == STATUS_OK);
 }
@@ -590,11 +594,14 @@ void PcdDump()
 }
 
 void PICC_scan(){
-  int nb_block = 13;
+  int nb_block = 62;
   int block = 63;
   unsigned char status;
   unsigned char buffer[18];
   unsigned char byteCount = 18;
+  unsigned char img[32];
+  int i = 0;
+  
   uint8_t index;
   if(port == (volatile uint8_t *)267 && pinCs == PL2)
     index = 0;
@@ -608,19 +615,36 @@ void PICC_scan(){
     index = 4;
   else
     return;
-  while(block + nb_block != 63)
+  while(block + nb_block >= 63)
   {
     if ((block + 1) % 4)
     {
-      status = MifareRead(block, buffer, &byteCount);//&image[i], 16);
+      status = MifareRead(block, buffer, &byteCount);
       if (status != STATUS_OK)
         return;
       if(block == 62){
         user[index].charac = buffer[0];
+        if(user[index].charac == 1)
+          ili9341_fillScreen(ILI9341_RED);
+        else if (user[index].charac == 2)
+          ili9341_fillScreen(ILI9341_PURPLE);
+        else if (user[index].charac == 3)
+          ili9341_fillScreen(ILI9341_GREEN);
+        else if (user[index].charac == 4)
+          ili9341_fillScreen(ILI9341_YELLOW);
+        else if (user[index].charac == 5)
+          ili9341_fillScreen(ILI9341_BLUE);
         user[index].life = buffer[1];
+        user[index].mana = buffer[2];
+        user[index].shield = buffer[3];
         user[index].power = 1;
-
       }
+      else if (block == 61 || block == 60) {
+        for (int j = 0; j < 16; j++)
+            img[i * 16 + j] = buffer[j];
+        i++;
+      }
+
     }
     else
     {
@@ -630,22 +654,28 @@ void PICC_scan(){
     }
     block--;
   }
-  index = 0;
-  // Serial.println("SCAN MADE");
-  // while(index < 5)
-  // {
-  //   Serial.print("USER  ");
-  //   Serial.println(index);
-  //   Serial.print("Index : ");
-  //   Serial.println(user[index].charac);
-  //   Serial.print("Pts de vie: ");
-  //   Serial.println(user[index].life);
-  //   Serial.print("Has his power : ");
-  //   Serial.println(user[index].power == 0 ? "NON": "oui");
-  //   index++;
-  // }
+      PORTA |= (1 << 7);
 
-  
+    ili9341_println("USER ", ILI9341_WHITE, 5, 0);
+    ili9341_print("Index : ", ILI9341_WHITE, 2, 0, 0, width/2);
+    ili9341_putnbr(index, ILI9341_WHITE, 2, 0);
+    ili9341_print("\n", ILI9341_WHITE, 2, 0, 0, 0);
+    ili9341_print("Charac : ", ILI9341_WHITE, 2, 0, 0, width/2);
+    ili9341_putnbr(user[index].charac, ILI9341_WHITE, 2, 0);
+    ili9341_print("\n", ILI9341_WHITE, 2, 0, 0, 0);
+    ili9341_print("Pts de vie: ", ILI9341_WHITE, 2, 0, 0, width);
+    ili9341_putnbr(user[index].life, ILI9341_WHITE, 2, 0);
+    ili9341_print("\n", ILI9341_WHITE, 2, 0, 0, 0);
+    ili9341_print("Mana : ", ILI9341_WHITE, 2, 0, 0, width/2);
+    ili9341_putnbr(user[index].mana, ILI9341_WHITE, 2, 0);
+    ili9341_print("\n", ILI9341_WHITE, 2, 0, 0, 0);
+    ili9341_print("Shield : ", ILI9341_WHITE, 2, 0, 0, width/2);
+    ili9341_putnbr(user[index].shield, ILI9341_WHITE, 2, 0);
+    ili9341_print("\n", ILI9341_WHITE, 2, 0, 0, 0);
+    ili9341_print("Has his power : ", ILI9341_WHITE, 2, 0, 0, width);
+    ili9341_println(user[index].power == 0 ? "NON": "oui", ILI9341_WHITE, 2, 0);
+    custom_delay(200);
+    ili9341_setCursor(0, 0);
 }
 
 void PICC_Init(){
@@ -661,11 +691,9 @@ void PICC_Init(){
   block = 63;
   while(block > 0)
   {
-    // Serial.print(block);
-
     if ((block + 1) % 4)
     {
-      status = MifareWrite(block, nul, 16);//&image[i], 16);
+      status = MifareWrite(block, nul, 16);
       if (status != STATUS_OK)
         return;
       i += 16;
@@ -688,18 +716,17 @@ void PICC_WriteData()
   unsigned char image[192];
   unsigned char param[16];
   unsigned char nul[16];
-  
   int i;
   i = 0;
   while (i< 16){
     nul[i] = 0x00;
     param[i] = 0;
-    if (i == 0)
-      param[i] = 1;
-    if(i == 1)
-      param[i] = 8;
     i++;
   }
+  param[0] = 5;
+  param[1] = 8;
+  param[2] = 10;
+  param[3] = 56;
   i = 0;
   while(i <192)
   {
@@ -718,16 +745,13 @@ void PICC_WriteData()
   if (status != STATUS_OK)
     return;
   block--;
-  // Serial.println("wrote params");
   i = 1;
-  while (i < 192)
-  // while(block >= 0)
+  while (i < 600)
   {
-    // Serial.print(block);
-
     if ((block + 1) % 4)
     {
-      status = MifareWrite(block, &image[i], 16);
+      
+      status = MifareWrite(block, &yo[i], 16);
       if (status != STATUS_OK)
         return;
       i += 16;
@@ -741,8 +765,7 @@ void PICC_WriteData()
 
     block--;
   }
-  // Serial.println("\nWRITE MADE EHE");
-  ////ili9341_print("WRITE MADE EHE \n\n", //ili9341_WHITE, 1, 0);
+  ili9341_print("WRITE MADE EHE \n\n", ILI9341_WHITE, 1, 0, 10, 10);
 }
 
 int test_rfid()
@@ -751,26 +774,21 @@ int test_rfid()
   static uint8_t userIn[5] = {0, 0, 0, 0, 0};
   DDRA |= (1 << 7);
 
-  //init_rfid();
-  //ft_digital_write(13, FT_HIGH);
-  if (PcdRequest(main_buf) && userIn[index] == 0)
+  if (PcdRequest(main_buf))
   {
-    PORTA |= (1 << 77);
-    // Serial.println("in request");
+
     if (PcdAnticoll(main_buf))
     {
-      // Serial.println("coc");
       if (PcdSelect(main_buf))
       {
-        PORTA |= (1 << 7);
-
-        //ft_digital_write(13, FT_HIGH);
         //PICC_WriteData();
         PICC_scan();
         //PcdDump();
         userIn[index] = 1;
       }
     }
+    for (int w = 0; w < 9; w++)
+          main_buf[w] = 0;
   }
   if(index == 0)
     pinCs = PL2;
@@ -786,10 +804,13 @@ int test_rfid()
     port = (volatile uint8_t *)267;
   else
     port = (volatile uint8_t *)261;
-  index = index == 5 ? 0 : index + 1;
+  index = (index + 1) % 5;
   for(int j = 0; j < 5; j++)
-    if(userIn[j] == 0)
+  {
+    if(userIn[j] == 0){
       return 0;
+    }
+  }
   return 1;
 }
 
@@ -816,5 +837,4 @@ void initAllRfid() {
     pinRst = PJ2;
     pinCs = PJ3;
     init_rfid();
-  // put your setup code here, to run once:
 }

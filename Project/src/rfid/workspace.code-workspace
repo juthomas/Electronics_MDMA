@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"name": "arduino2560",
+			"path": "../../../../../Documents/PlatformIO/Projects/arduino2560"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"games.h": "c",
+			"string.h": "c"
+		}
+	}
+}

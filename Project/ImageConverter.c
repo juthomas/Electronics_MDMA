@@ -1,17 +1,18 @@
 /* GIMP RGBA C-Source image dump (TimerBG.c) */
 
 #include <stdio.h>
-#include "../Images/MDMA_Images/BG_C/Coin.h"
+#include "../Images/MDMA_Images/BG_C/test.h"
 
 int main()
 {
   unsigned short color_palette[16];
   int nb_color = 0;
-
   for (int i = 0; i < gimp_image.width * gimp_image.height; i++)
   {
+    printf("%d\n", i);
     for (int j = 0; j < nb_color; j++)
     {
+      printf("%d\n", j);
       if (((unsigned short *)gimp_image.pixel_data)[i] == color_palette[j])
       {
         (((unsigned short *)gimp_image.pixel_data)[i]) = j;
