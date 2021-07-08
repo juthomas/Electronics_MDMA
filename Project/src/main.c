@@ -13,7 +13,7 @@ void draw_buttons(uint8_t *led_buffer)
 {
 	uint32_t interactions_color = 0x090909;
 	// draw_satanic_circle();
-	clear_led_buffer(led_buffer, 62 * 3 * 5,0x090000);
+	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x090000);
 
 	if (buttons_clicks_order[15])
 	{
@@ -48,13 +48,16 @@ int main()
 	init_buttons();
 	init_encoders();
 	init_leds(led_buffer);
-	    clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
-    led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
+	clear_led_buffer(led_buffer, 62 * 3 * 5, 0x000000);
+	led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
 
 	initSPI();
-	
+
 	ili9341_begin();
-	ili9341_fillScreen(ILI9341_BLACK);
-	start_game(led_buffer);
+	while (1)
+	{
+		ili9341_fillScreen(ILI9341_BLACK);
+		start_game(led_buffer);
+	}
 	return (0);
 }
