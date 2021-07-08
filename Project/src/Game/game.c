@@ -1160,6 +1160,7 @@ void start_game(uint8_t *led_buffer)
     uint8_t dice_result_2;
     uint8_t *pixels = (uint8_t[64 * 3]){};
     uint8_t result = 0;
+    totalDice = 0;
     ili9341_fillScreen(ILI9341_BLACK);
     clear_led_buffer(led_buffer, 62 * 3 * 5, 0x010101);
     led_send_data_PORTA(MAT_1 | MAT_3 | MAT_4 | MAT_2 | MAT_5 | 1 << PIN5, led_buffer, 62 * 3 * 5);
@@ -1199,7 +1200,7 @@ void start_game(uint8_t *led_buffer)
             ili9341_putnbr(result + 2, ILI9341_BLACK, 20, 0);
         }
         laugthing_demon();
-        display_intro_game(result, (currentPlayer && currentPlayer < 3) ? 1 : 3, currentPlayer);
+        display_intro_game(result, 3, currentPlayer);
         (*((games[result]).gameFunction))(currentPlayer, led_buffer, pixels);
         endGame(pixels);
         currentPlayer = currentPlayer < 4 ? currentPlayer + 1 : 0;
