@@ -1166,10 +1166,8 @@ void start_game(uint8_t *led_buffer)
     led_matrix_fill_screen(led_buffer, 0x000000);
     draw_satanic_circle(led_buffer);
     ili9341_setRotation(3);
-    //display_intro();
-    //display_menu();
-    you_rather(0, led_buffer, pixels);
-    endGame(pixels);
+    display_intro();
+    display_menu();
     while (totalDice < 15)
     {
         ili9341_draw_IMG(DemonFace2BG, DemonFace2BGPalette, 0, 0, 32, 24, 10);
